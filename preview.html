@@ -586,18 +586,18 @@ function Hero() {
       {/* mobile: full-screen photo, headline over the sky */}
       {/* the photo's light backdrop melts into the page colour (darken blend), so only the house, its slab and the shadow remain */}
       <h1 ref={titleRef} className="rn-flips relative z-10 font-semibold text-petrol">
-        <span className="flex flex-col-reverse items-start gap-5 lg:block">
-          <FlipText text="קו אחד" className="block text-[clamp(50px,12.5vw,80px)] leading-[1] lg:absolute lg:right-[73px] lg:top-[51px] lg:text-[96px] lg:leading-[75px]" />
+        <span className="flex flex-col-reverse items-start gap-5 sm:flex-row sm:items-center sm:gap-[3vw] lg:block">
+          <FlipText text="קו אחד" className="block text-[clamp(50px,12.5vw,80px)] leading-[1] sm:text-[clamp(44px,9.5vw,80px)] lg:absolute lg:right-[73px] lg:top-[51px] lg:text-[96px] lg:leading-[75px]" />
           <span
             data-reveal="rule"
             aria-hidden="true"
-            className="block h-[2px] w-[46%] bg-petrol lg:absolute lg:left-[85px] lg:top-[117px] lg:mt-0 lg:h-[3px] lg:w-[772px] lg:flex-none"
+            className="block h-[2px] w-[46%] bg-petrol sm:mt-[1.4vw] sm:w-auto sm:flex-1 lg:absolute lg:left-[85px] lg:top-[117px] lg:mt-0 lg:h-[3px] lg:w-[772px] lg:flex-none"
             style={d(550)}
           />
         </span>
-        <FlipText text="מהיסוד" delay={120} className="mt-1 block text-[clamp(50px,12.5vw,80px)] leading-[1.02] lg:hidden" />
-        <FlipText text="עד הפנים" delay={240} className="block text-[clamp(50px,12.5vw,80px)] leading-[1.02] lg:hidden" />
-        <FlipText text="מהיסוד עד הפנים" delay={120} className="hidden lg:absolute lg:block lg:right-[324px] lg:top-[153px] lg:mt-0 lg:whitespace-nowrap lg:text-[96px] lg:leading-[75px]" />
+        <FlipText text="מהיסוד" delay={120} className="mt-1 block text-[clamp(50px,12.5vw,80px)] leading-[1.02] sm:hidden" />
+        <FlipText text="עד הפנים" delay={240} className="block text-[clamp(50px,12.5vw,80px)] leading-[1.02] sm:hidden" />
+        <FlipText text="מהיסוד עד הפנים" delay={120} className="mt-2 hidden whitespace-nowrap text-[clamp(44px,9.5vw,80px)] leading-[1.02] sm:block lg:absolute lg:right-[324px] lg:top-[153px] lg:mt-0 lg:whitespace-nowrap lg:text-[96px] lg:leading-[75px]" />
       </h1>
 
       {/* phones: the photo spans the full width right under the headline (never behind it) */}
