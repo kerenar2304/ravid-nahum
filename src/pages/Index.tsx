@@ -58,7 +58,7 @@ function Hero() {
   });
 
   return (
-    <section ref={heroRef} id="top" className="relative mx-auto flex overflow-hidden bg-stone lg:overflow-visible lg:bg-transparent min-h-[calc(100svh-64px)] flex-col px-6 pt-12 sm:px-8 lg:block lg:h-[720px] lg:min-h-0 lg:w-[1325px] lg:p-0">
+    <section ref={heroRef} id="top" className="relative mx-auto flex overflow-hidden bg-stone lg:overflow-visible lg:bg-transparent flex-col px-6 pt-12 sm:px-8 lg:block lg:h-[720px] lg:min-h-0 lg:w-[1325px] lg:p-0">
       {/* mobile: full-screen photo, headline over the sky */}
       {/* the photo's light backdrop melts into the page colour (darken blend), so only the house, its slab and the shadow remain */}
       <h1 ref={titleRef} className="rn-flips relative z-10 font-semibold text-petrol">
@@ -77,9 +77,9 @@ function Hero() {
       </h1>
 
       {/* phones: the photo spans the full width right under the headline (never behind it) */}
-      <img src="/assets/hero-mobile.webp" alt="" aria-hidden="true" fetchPriority="high" className="-mx-6 mt-1 block h-auto w-[calc(100%+3rem)] max-w-none mix-blend-darken sm:hidden" />
+      <img src="/assets/hero-mobile.webp" alt="" aria-hidden="true" fetchPriority="high" className="-mx-6 mt-1 block h-auto w-[calc(100%+3rem)] max-w-none mix-blend-darken sm:-mx-8 sm:w-[calc(100%+4rem)] lg:hidden" />
 
-      <div className="relative -mx-8 mt-auto hidden aspect-[1325/543] sm:block lg:absolute lg:inset-x-0 lg:top-[177px] lg:mx-0 lg:mt-0 lg:aspect-auto lg:h-[543px]">
+      <div className="relative -mx-8 mt-auto hidden aspect-[1325/543] lg:absolute lg:block lg:inset-x-0 lg:top-[177px] lg:mx-0 lg:mt-0 lg:aspect-auto lg:h-[543px]">
         <div ref={houseRef} className="absolute inset-0 will-change-transform">
           <img
             src="/assets/hero-house.webp"
@@ -112,7 +112,7 @@ function Pill({ src, alt, from = "right", delay, className }: { src: string; alt
 function Statement() {
   const word = "whitespace-nowrap text-[38px] font-light leading-[1.15] sm:text-[64px] lg:absolute lg:text-[90px] lg:leading-[75px]";
   return (
-    <section id="studio" aria-label="על המשרד" className="relative mx-auto mt-28 px-4 sm:px-8 lg:mt-[230px] lg:h-[319px] lg:w-[1325px] lg:px-0">
+    <section id="studio" aria-label="על המשרד" className="relative mx-auto mt-12 px-4 sm:px-8 lg:mt-[230px] lg:h-[319px] lg:w-[1325px] lg:px-0">
       <h2 className="flex flex-col gap-3 text-petrol sm:gap-4 lg:block">
         <span className="flex items-center gap-3 sm:gap-6 lg:contents">
           <span data-reveal="flip" className={cn(word, "lg:right-[178px] lg:top-[1px]")}><FlipText text="אדריכלות" /></span>
@@ -519,7 +519,7 @@ function CoveredLayer({ children }: { children: ReactNode }) {
     window.addEventListener("resize", fit);
     return () => { ro.disconnect(); window.removeEventListener("resize", fit); };
   }, []);
-  return <div ref={ref} className="sticky pb-[12vh]">{children}</div>;
+  return <div ref={ref} className="sticky pb-16 lg:pb-[12vh]">{children}</div>;
 }
 
 /* ------------------------------------------------- TERRA (arch wrapper) */
