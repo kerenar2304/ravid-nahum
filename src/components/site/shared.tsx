@@ -222,7 +222,7 @@ export function Header({ active = "home" }: { active?: string }) {
             </a>
 
             <nav aria-label="ניווט ראשי" className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 lg:block">
-              <ul className="flex items-center gap-[47px] px-[6px] text-[20px] leading-[22px] text-stone">
+              <ul className="t-4 flex items-center gap-[47px] px-[6px] leading-[22px] text-stone">
                 {NAV.map((n) => (
                   <li key={n.key}>
                     <a href={n.href} className="rn-link whitespace-nowrap" aria-current={active === n.key ? "page" : undefined}>
@@ -265,14 +265,14 @@ export function Header({ active = "home" }: { active?: string }) {
           )}
           aria-hidden={!open}
         >
-          <ul className="flex flex-col gap-4 text-[clamp(24px,6.5vw,32px)] font-light leading-none">
+          <ul className="t-3 flex flex-col gap-4 font-light leading-none">
             {NAV.map((n, i) => (
               <li key={n.key} style={{ transitionDelay: open ? `${150 + i * 70}ms` : "0ms" }} className={cn("transition-all duration-700", open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0")}>
                 <a href={n.href} onClick={() => setOpen(false)} tabIndex={open ? 0 : -1}>{n.label}</a>
               </li>
             ))}
           </ul>
-          <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 border-t border-stone/20 pt-5 text-[15px] opacity-80">
+          <div className="t-4 mt-7 flex flex-wrap gap-x-6 gap-y-2 border-t border-stone/20 pt-5 opacity-80">
             <a href={CONTACT.phoneHref} tabIndex={open ? 0 : -1}>{CONTACT.phone}</a>
             <a href={`mailto:${CONTACT.email}`} tabIndex={open ? 0 : -1}>{CONTACT.email}</a>
           </div>
@@ -294,7 +294,7 @@ export function Footer() {
         {/* brand, legal links, contact icons */}
         <div className="text-left">
           <img src="/assets/logo-footer-cream.svg" alt="Ravid Nahum — Architecture & Interiors" className="mr-auto h-auto w-[170px] sm:w-[240px] lg:w-[300px]" />
-          <ul className="mt-8 flex flex-col gap-3 text-[clamp(16px,4.10vw,27px)] lg:text-[17px]">
+          <ul className="t-4 mt-8 flex flex-col gap-3">
             <li><a className="underline decoration-stone/50 underline-offset-[5px] hover:decoration-stone" href={ROUTES.accessibility}>הצהרת נגישות</a></li>
             <li><a className="underline decoration-stone/50 underline-offset-[5px] hover:decoration-stone" href={ROUTES.privacy}>מדיניות פרטיות</a></li>
             <li><a className="underline decoration-stone/50 underline-offset-[5px] hover:decoration-stone" href={ROUTES.terms}>תקנון האתר</a></li>
@@ -310,7 +310,7 @@ export function Footer() {
 
         {/* site navigation */}
         <nav aria-label="ניווט תחתון" className="mt-[95px] sm:mt-[120px] lg:mt-[142px]">
-          <ul className="flex flex-col gap-3 text-[clamp(16px,4.10vw,27px)] lg:text-[17px]">
+          <ul className="t-4 flex flex-col gap-3">
             {NAV.map((n) => (
               <li key={n.key}><a className="rn-link" href={n.href}>{n.label}</a></li>
             ))}
@@ -320,7 +320,7 @@ export function Footer() {
 
       <div className="mx-auto mt-14 px-[6vw] pb-8 lg:mt-[72px] lg:w-[1325px] lg:px-[73px] lg:pb-[34px]">
         <div data-reveal="rule" className="h-[2px] w-full bg-stone" aria-hidden="true" />
-        <div className="mt-6 flex flex-col items-center gap-4 text-center text-[clamp(16px,4.10vw,27px)] lg:flex-row lg:items-center lg:justify-between lg:text-right lg:text-[17px]">
+        <div className="t-4 mt-6 flex flex-col items-center gap-4 text-center lg:flex-row lg:items-center lg:justify-between lg:text-right">
           <p>כל הזכויות שמורות © {new Date().getFullYear()} רביד נחום אדריכלות ועיצוב פנים</p>
           <a href="https://www.instagram.com/keren.arlihman" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 opacity-90 hover:opacity-100">
             <span>עיצוב ופיתוח האתר:</span>

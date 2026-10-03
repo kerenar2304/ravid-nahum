@@ -63,7 +63,7 @@ function Hero() {
       {/* the photo's light backdrop melts into the page colour (darken blend), so only the house, its slab and the shadow remain */}
       <h1 ref={titleRef} className="rn-flips relative z-10 font-semibold text-petrol">
         <span className="flex flex-col-reverse items-start gap-5 sm:flex-row sm:items-center sm:gap-[3vw] lg:block">
-          <FlipText text="קו אחד" className="block text-[clamp(50px,12.5vw,80px)] leading-[1] sm:text-[clamp(44px,9.5vw,80px)] lg:absolute lg:right-[73px] lg:top-[51px] lg:text-[96px] lg:leading-[75px]" />
+          <FlipText text="קו אחד" className="t-1 block leading-[1] lg:absolute lg:right-[73px] lg:top-[51px] lg:leading-[75px]" />
           <span
             data-reveal="rule"
             aria-hidden="true"
@@ -71,9 +71,9 @@ function Hero() {
             style={d(550)}
           />
         </span>
-        <FlipText text="מהיסוד" delay={120} className="mt-1 block text-[clamp(50px,12.5vw,80px)] leading-[1.02] sm:hidden" />
-        <FlipText text="עד הפנים" delay={240} className="block text-[clamp(50px,12.5vw,80px)] leading-[1.02] sm:hidden" />
-        <FlipText text="מהיסוד עד הפנים" delay={120} className="mt-2 hidden whitespace-nowrap text-[clamp(44px,9.5vw,80px)] leading-[1.02] sm:block lg:absolute lg:right-[324px] lg:top-[153px] lg:mt-0 lg:whitespace-nowrap lg:text-[96px] lg:leading-[75px]" />
+        <FlipText text="מהיסוד" delay={120} className="t-1 mt-1 block leading-[1.02] sm:hidden" />
+        <FlipText text="עד הפנים" delay={240} className="t-1 block leading-[1.02] sm:hidden" />
+        <FlipText text="מהיסוד עד הפנים" delay={120} className="t-1 mt-2 hidden whitespace-nowrap leading-[1.02] sm:block lg:absolute lg:right-[324px] lg:top-[153px] lg:mt-0 lg:whitespace-nowrap lg:leading-[75px]" />
       </h1>
 
       {/* phones: the photo spans the full width right under the headline (never behind it) */}
@@ -110,7 +110,7 @@ function Pill({ src, alt, from = "right", delay, className }: { src: string; alt
 }
 
 function Statement() {
-  const word = "whitespace-nowrap text-[clamp(34px,9.8vw,64px)] font-light leading-[1.15] lg:absolute lg:text-[90px] lg:leading-[75px]";
+  const word = "t-1 whitespace-nowrap font-light leading-[1.15] lg:absolute lg:leading-[75px]";
   return (
     <section id="studio" aria-label="על המשרד" className="relative mx-auto -mt-4 px-[5vw] lg:mt-[230px] lg:h-[319px] lg:w-[1325px] lg:px-0">
       <h2 className="flex flex-col gap-3 text-petrol sm:gap-4 lg:block">
@@ -130,7 +130,7 @@ function Statement() {
       <p
         data-reveal
         style={d(300)}
-        className="mt-8 text-center text-[clamp(17px,4.3vw,24px)] font-light leading-[1.6] text-petrol lg:absolute lg:left-[163.5px] lg:top-[276px] lg:mt-0 lg:w-[998px] lg:whitespace-nowrap lg:text-[26px] lg:leading-[43px]"
+        className="t-3 mt-8 text-center font-light leading-[1.6] text-petrol lg:absolute lg:left-[163.5px] lg:top-[276px] lg:mt-0 lg:w-[998px] lg:whitespace-nowrap lg:leading-[43px]"
       >
         כדי שכל חלל ייבנה בשפה אחת, בלי פער בין התוכנית לבין החיים שבתוכו.
       </p>
@@ -216,7 +216,7 @@ function Projects() {
   return (
     <section id="projects" aria-labelledby="projects-title" className="relative">
       <div className="relative flex flex-col pb-16 lg:block lg:h-[2445px] lg:pb-0">
-        <h2 id="projects-title" data-reveal="lines" className="pt-[30vw] text-center text-[clamp(40px,11vw,80px)] font-light leading-[1] text-stone lg:absolute lg:inset-x-0 lg:top-[300px] lg:pt-0 lg:text-[96px] lg:leading-[100px]">
+        <h2 id="projects-title" data-reveal="lines" className="t-1 pt-[30vw] text-center font-light leading-[1] text-stone lg:absolute lg:inset-x-0 lg:top-[300px] lg:pt-0 lg:leading-[100px]">
           <span className="rn-line" style={li(0)}><span>פרויקטים</span></span>
           <span className="rn-line" style={li(1)}><span>נבחרים</span></span>
         </h2>
@@ -233,7 +233,7 @@ function Projects() {
 
         <p
           data-reveal
-          className="order-last mt-16 px-[6vw] text-[clamp(26px,7vw,48px)] font-light leading-[1.2] text-stone lg:absolute lg:left-[calc(50%-576.5px)] lg:top-[1855px] lg:order-none lg:mt-0 lg:w-[602px] lg:px-0 lg:text-left lg:text-[48px] lg:leading-[48px]"
+          className="t-2 order-last mt-16 px-[6vw] font-light leading-[1.2] text-stone lg:absolute lg:left-[calc(50%-576.5px)] lg:top-[1855px] lg:order-none lg:mt-0 lg:w-[602px] lg:px-0 lg:text-left lg:leading-[48px]"
         >
           מהמגרש ועד ידית הדלת, כל החלטה בבית עוברת דרך אותו שולחן.
         </p>
@@ -388,7 +388,7 @@ function Stages() {
       <div ref={wrapRef} className="relative" style={{ height: `calc(100vh / var(--z) * ${1 + STAGES.length * 0.4})` }}>
         <div ref={stickRef} className="sticky top-0 flex flex-col justify-center overflow-hidden" style={{ height: "calc(100vh / var(--z))" }}>
           <div className="mx-auto w-full px-[6vw] lg:w-[1325px] lg:px-[99px]">
-            <h2 id="stages-title" data-reveal="flip" className="text-[clamp(36px,9.5vw,76px)] font-light leading-[1.05] lg:text-[76px] lg:leading-[80px]">
+            <h2 id="stages-title" data-reveal="flip" className="t-1 font-light leading-[1.05] lg:leading-[80px]">
               <FlipText text="ארבעה שלבים," className="block lg:inline" />{" "}
               <FlipText text="משרד אחד" delay={140} className="block lg:inline" />
             </h2>
@@ -403,11 +403,11 @@ function Stages() {
               >
                 <div className="flex flex-col px-6 pt-7 sm:w-[46%] sm:justify-between sm:px-[4.5vw] sm:py-[4.5vw] lg:w-[44%] lg:px-[56px] lg:py-[52px]">
                   <div>
-                    <span className="block font-['Num'] text-[clamp(64px,13vw,96px)] leading-[.85] text-terra lg:text-[110px]" dir="ltr" style={{ textAlign: "right" }}>0{st.n}</span>
-                    <h3 className="mt-4 text-[clamp(34px,6.5vw,50px)] font-normal leading-none lg:mt-8 lg:text-[58px]">{st.title}</h3>
-                    <p className="mt-3 max-w-[380px] text-[clamp(16px,2.6vw,21px)] leading-[1.65] text-petrol/80 lg:mt-5 lg:text-[20px]">{st.text}</p>
+                    <span className="t-1 block font-['Num'] leading-[.85] text-terra" dir="ltr" style={{ textAlign: "right" }}>0{st.n}</span>
+                    <h3 className="t-2 mt-4 font-normal leading-none lg:mt-8">{st.title}</h3>
+                    <p className="t-4 mt-3 max-w-[380px] leading-[1.65] text-petrol/80 lg:mt-5">{st.text}</p>
                   </div>
-                  <span className="hidden text-[14px] tracking-[.2em] text-petrol/50 sm:block">שלב {st.n} מתוך 4</span>
+                  <span className="t-4 hidden tracking-[.2em] text-petrol/50 sm:block">שלב {st.n} מתוך 4</span>
                 </div>
                 <div className="flex min-h-0 flex-1 items-start justify-end px-6 pb-6 pt-1 sm:items-center sm:justify-center sm:border-r sm:border-petrol/15 sm:p-[4vw] lg:p-[48px]">
                   <StageArt art={st.art} className="h-full max-h-full w-auto max-w-full sm:h-auto sm:w-full sm:max-w-[460px]" />
@@ -424,7 +424,7 @@ function Stages() {
 /* ------------------------------------------------------------ PARTNERS */
 function Year({ children }: { children: string }) {
   return (
-    <span className="mb-2 flex items-center gap-2 text-[clamp(14px,3.59vw,24px)] leading-none tracking-[.08em] text-stone/75 lg:mb-3 lg:text-[17px]">
+    <span className="t-4 mb-2 flex items-center gap-2 leading-none tracking-[.08em] text-stone/75 lg:mb-3">
       <span>מאז</span>
       <span dir="ltr" className="font-['Num'] tracking-[.06em]">{children}</span>
     </span>
@@ -483,18 +483,18 @@ function Partners() {
         <div className="relative flex flex-col gap-9 lg:contents">
           {/* Dafna — right side, text leans toward the centre */}
           <div data-reveal className="text-right lg:absolute lg:left-[941px] lg:top-[195px] lg:w-[321px]">
-            <p className="text-[clamp(32px,8.21vw,54px)] font-semibold leading-[1.1] lg:h-[56px] lg:text-[48px] lg:leading-[48px]">דפנה רביד</p>
-            <p className="mt-1 text-[clamp(19px,4.87vw,32px)] font-light leading-[1.35] lg:mt-0 lg:text-[36px] lg:leading-[48px]">אדריכלית,<br className="hidden lg:block" /> שותפה מייסדת</p>
-            <p data-reveal style={d(200)} className="mt-5 max-w-[340px] text-[clamp(17px,4.36vw,29px)] font-light leading-[1.7] lg:absolute lg:max-w-none lg:font-normal lg:top-[384px] lg:mt-0 lg:w-[321px] lg:text-[22px] lg:leading-[1.75]">
+            <p className="t-2 whitespace-nowrap font-semibold leading-[1.1] lg:h-[56px] lg:leading-[48px]">דפנה רביד</p>
+            <p className="t-3 mt-1 font-light leading-[1.35] lg:mt-0 lg:leading-[48px]">אדריכלית,<br className="hidden lg:block" /> שותפה מייסדת</p>
+            <p data-reveal style={d(200)} className="t-3 mt-5 max-w-[340px] font-light leading-[1.7] lg:absolute lg:max-w-none lg:font-normal lg:top-[384px] lg:mt-0 lg:w-[321px] lg:leading-[1.75]">
               <Year>2004</Year>
               <span className="block">יסדה את המשרד ומתכננת כל בית מבחוץ פנימה: מהמגרש, דרך הקירות, ועד החלון.</span>
             </p>
           </div>
           {/* Omer — left side */}
           <div data-reveal style={d(120)} className="border-t border-stone/30 pt-9 text-right lg:absolute lg:left-[63px] lg:top-[195px] lg:w-[323px] lg:border-0 lg:pt-0">
-            <p className="text-[clamp(32px,8.21vw,54px)] font-semibold leading-[1.1] lg:h-[56px] lg:text-[48px] lg:leading-[48px]">עומר נחום</p>
-            <p className="mt-1 text-[clamp(19px,4.87vw,32px)] font-light leading-[1.35] lg:mt-0 lg:text-[36px] lg:leading-[48px]">מעצב פנים,<br className="hidden lg:block" /> שותף</p>
-            <p data-reveal style={d(320)} className="mt-5 max-w-[340px] text-[clamp(17px,4.36vw,29px)] font-light leading-[1.7] lg:absolute lg:max-w-none lg:font-normal lg:right-0 lg:top-[384px] lg:mt-0 lg:w-[321px] lg:text-[22px] lg:leading-[1.75]">
+            <p className="t-2 whitespace-nowrap font-semibold leading-[1.1] lg:h-[56px] lg:leading-[48px]">עומר נחום</p>
+            <p className="t-3 mt-1 font-light leading-[1.35] lg:mt-0 lg:leading-[48px]">מעצב פנים,<br className="hidden lg:block" /> שותף</p>
+            <p data-reveal style={d(320)} className="t-3 mt-5 max-w-[340px] font-light leading-[1.7] lg:absolute lg:max-w-none lg:font-normal lg:right-0 lg:top-[384px] lg:mt-0 lg:w-[321px] lg:leading-[1.75]">
               <Year>2016</Year>
               <span className="block">שותף במשרד ומעצב כל בית מבפנים החוצה: מהחומרים, דרך התאורה, ועד הידית.</span>
             </p>
@@ -515,7 +515,7 @@ function Partners() {
         <div data-reveal style={d(150)} className="relative z-[2] hidden lg:block lg:absolute lg:left-[calc(50%-264.5px)] lg:top-[309px] lg:mt-0 lg:h-[660px] lg:w-[529px] lg:max-w-none">
           <img src="/assets/partners.webp" alt="דפנה רביד ועומר נחום, השותפים במשרד" loading="lazy" className="block h-full w-full -scale-x-100 object-cover" />
         </div>
-        <a href={ROUTES.about} className="rn-tab group relative z-10 order-last mx-auto mt-14 flex lg:order-none h-[clamp(64px,14vw,110px)] w-[94%] items-end justify-center gap-2 whitespace-nowrap rounded-t-[clamp(64px,14vw,110px)] bg-stone pb-[12px] text-[clamp(18px,4.62vw,31px)] text-petrol lg:absolute lg:bottom-0 lg:left-[calc(50%-320.5px)] lg:mt-0 lg:h-[80px] lg:w-[641px] lg:rounded-t-[80px] lg:pb-[8px] lg:text-[28px]">
+        <a href={ROUTES.about} className="t-3 rn-tab group relative z-10 order-last mx-auto mt-14 flex lg:order-none h-[clamp(64px,14vw,110px)] w-[94%] items-end justify-center gap-2 whitespace-nowrap rounded-t-[clamp(64px,14vw,110px)] bg-stone pb-[12px] text-petrol lg:absolute lg:bottom-0 lg:left-[calc(50%-320.5px)] lg:mt-0 lg:h-[80px] lg:w-[641px] lg:rounded-t-[80px] lg:pb-[8px]">
           <span className="rn-link">לקריאה נוספת על הסטודיו</span>
           <span className="block transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1"><ArrowIcon className="h-[1.2em] w-[1.2em] -rotate-45" /></span>
         </a>
@@ -627,13 +627,13 @@ function Contact() {
     e.preventDefault(); // TODO: connect to a form endpoint (e.g. Supabase / Resend) in Lovable
     setSent(true);
   };
-  const field = "rn-field block w-full border-0 border-b border-petrol/30 bg-transparent pb-3 pt-1 text-[19px] text-petrol placeholder:text-petrol/45 lg:text-[20px]";
+  const field = "rn-field block w-full border-0 border-b border-petrol/30 bg-transparent pb-3 pt-1 t-4 text-petrol placeholder:text-petrol/45";
 
   return (
     <section id="contact" aria-labelledby="contact-title" className="relative mx-auto mt-24 grid gap-12 px-[6vw] lg:mt-[170px] lg:w-[1133px] lg:grid-cols-2 lg:gap-[120px] lg:px-0">
       <div data-reveal className="contents lg:block">
-        <h2 id="contact-title" className="whitespace-nowrap text-center lg:text-right text-[clamp(28px,7.9vw,58px)] font-light leading-[1.05] text-petrol lg:whitespace-normal lg:text-[64px]">בואו נתחיל<br className="hidden lg:block" /> מקו אחד</h2>
-        <p className="order-last mt-0 text-[clamp(18px,4.62vw,31px)] lg:order-none lg:mt-6 leading-[1.6] text-petrol/75 lg:text-[20px]">
+        <h2 id="contact-title" className="t-2 whitespace-nowrap text-center lg:text-right font-light leading-[1.05] text-petrol lg:whitespace-normal">בואו נתחיל<br className="hidden lg:block" /> מקו אחד</h2>
+        <p className="t-4 order-last mt-0 lg:order-none lg:mt-6 leading-[1.6] text-petrol/75">
           <a href={CONTACT.phoneHref} className="rn-link">{CONTACT.phone}</a>
           <br />
           <a href={`mailto:${CONTACT.email}`} className="rn-link">{CONTACT.email}</a>
@@ -641,7 +641,7 @@ function Contact() {
       </div>
 
       {sent ? (
-        <p role="status" data-reveal className="self-end text-[clamp(26px,6.67vw,44px)] font-light text-petrol lg:text-[32px]">תודה, נחזור אליך בקרוב.</p>
+        <p role="status" data-reveal className="t-3 self-end font-light text-petrol">תודה, נחזור אליך בקרוב.</p>
       ) : (
         <form data-reveal style={d(120)} onSubmit={onSubmit} className="flex flex-col gap-8 lg:pt-3">
           <div>
@@ -657,11 +657,11 @@ function Contact() {
             <input id="c-msg" name="message" placeholder="על מה נדבר?" className={field} />
           </div>
           <div className="flex items-center justify-between gap-6">
-            <label className="flex items-center gap-2 text-[14px] text-petrol/65">
+            <label className="t-4 flex items-center gap-2 text-petrol/65">
               <input type="checkbox" name="consent" required className="h-4 w-4 accent-[#a56332]" />
               <span>מאשר/ת את <a href={ROUTES.privacy} className="underline underline-offset-4">מדיניות הפרטיות</a></span>
             </label>
-            <button type="submit" className="rn-send-link group flex items-center gap-3 text-[clamp(19px,4.87vw,32px)] text-petrol lg:text-[20px]">
+            <button type="submit" className="t-4 rn-send-link group flex items-center gap-3 text-petrol">
               <span className="rn-link">שליחה</span>
               <ArrowIcon className="h-[22px] w-[22px] -rotate-45 transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1" />
             </button>
