@@ -46,7 +46,6 @@ cat <<'TAIL'
   // preview-only: ?y=1234 jumps to a scroll position (used for screenshots)
   (function(){ var y = new URLSearchParams(location.search).get("y"); if (y) setTimeout(function(){ document.documentElement.style.scrollBehavior = "auto"; window.scrollTo(0, +y); }, 400); })();
 </script>
-<script src="dev-hero-panel.js"></script>
 </body>
 </html>
 TAIL
