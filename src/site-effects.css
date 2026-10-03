@@ -150,10 +150,13 @@
 .t-1 { font-size: 46px; line-height: 1.02; }   /* display: hero, section titles, statement, stage numbers */
 .t-2 { font-size: 30px; line-height: 1.08; }   /* heading: contact, stage titles, partner names, project lead */
 .t-3 { font-size: 19px; line-height: 1.55; }   /* lead: partner paragraphs and roles, statement sentence, button */
-.t-4 { font-size: 15px; line-height: 1.6; }    /* body: nav, form, descriptions, labels, footer */
+.t-4 { font-size: 14px; line-height: 1.6; }    /* body: nav, form, descriptions, labels, footer */
+.t-3s { font-size: 15px; line-height: 1.6; }   /* lead that steps down to body size on phones (partner texts) */
+/* headline lines that must never touch the screen edge between phone and desktop */
+@media (min-width: 640px) and (max-width: 1023px) { .t-1.rn-fit { font-size: min(68px, 8.4vw); } }
 @media (min-width: 640px) {
-  .t-1 { font-size: 68px; } .t-2 { font-size: 42px; } .t-3 { font-size: 21px; } .t-4 { font-size: 16px; }
+  .t-1 { font-size: 68px; } .t-2 { font-size: 42px; } .t-3 { font-size: 21px; } .t-4 { font-size: 16px; } .t-3s { font-size: 21px; }
 }
 @media (min-width: 1024px) {
-  .t-1 { font-size: 90px; } .t-2 { font-size: 56px; } .t-3 { font-size: 24px; } .t-4 { font-size: 17px; }
+  .t-1 { font-size: 90px; } .t-2 { font-size: 56px; } .t-3 { font-size: 24px; } .t-4 { font-size: 17px; } .t-3s { font-size: 24px; }
 }

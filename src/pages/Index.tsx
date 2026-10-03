@@ -63,7 +63,7 @@ function Hero() {
       {/* the photo's light backdrop melts into the page colour (darken blend), so only the house, its slab and the shadow remain */}
       <h1 ref={titleRef} className="rn-flips relative z-10 font-semibold text-petrol">
         <span className="flex flex-col-reverse items-start gap-5 sm:flex-row sm:items-center sm:gap-[3vw] lg:block">
-          <FlipText text="קו אחד" className="t-1 block leading-[1] lg:absolute lg:right-[73px] lg:top-[51px] lg:leading-[75px]" />
+          <FlipText text="קו אחד" className="t-1 rn-fit block leading-[1] lg:absolute lg:right-[73px] lg:top-[51px] lg:leading-[75px]" />
           <span
             data-reveal="rule"
             aria-hidden="true"
@@ -73,7 +73,7 @@ function Hero() {
         </span>
         <FlipText text="מהיסוד" delay={120} className="t-1 mt-1 block leading-[1.02] sm:hidden" />
         <FlipText text="עד הפנים" delay={240} className="t-1 block leading-[1.02] sm:hidden" />
-        <FlipText text="מהיסוד עד הפנים" delay={120} className="t-1 mt-2 hidden whitespace-nowrap leading-[1.02] sm:block lg:absolute lg:right-[324px] lg:top-[153px] lg:mt-0 lg:whitespace-nowrap lg:leading-[75px]" />
+        <FlipText text="מהיסוד עד הפנים" delay={120} className="t-1 rn-fit mt-2 hidden whitespace-nowrap leading-[1.02] sm:block lg:absolute lg:right-[324px] lg:top-[153px] lg:mt-0 lg:whitespace-nowrap lg:leading-[75px]" />
       </h1>
 
       {/* phones: the photo spans the full width right under the headline (never behind it) */}
@@ -152,8 +152,8 @@ const PROJECTS: Project[] = [
   },
   {
     slug: "zichron",
-    name: "בית אבן בזכרון יעקב",
-    meta: "שימור ותוספת · זכרון יעקב",
+    name: "בית אבן בזכרון יעקב",
+    meta: "שימור ותוספת · זכרון יעקב",
     text: "קירות אבן מקוריים, קשתות, ותוספת פלדה וזכוכית שנפתחת לנוף.",
     exterior: "/assets/project-zichron-exterior.jpg",
     interior: "/assets/project-zichron-interior.jpg",
@@ -182,15 +182,15 @@ function ProjectCard({ p, className, delay = 0 }: { p: Project; className?: stri
       <span className="rn-clip absolute inset-0 block overflow-hidden">
         <img src={p.interior} alt={`${p.name}, מבט מבפנים`} loading="lazy" className="rn-front rn-card-bg absolute inset-0 h-full w-full object-cover" />
         <span className="rn-card-panel absolute left-1/2 top-1/2 flex h-[88cqh] w-[min(60cqh,84cqw)] -translate-x-1/2 -translate-y-1/2 flex-col bg-stone px-[3.6cqh] pb-[3.4cqh] pt-[3cqh] text-petrol shadow-[0_18px_40px_rgba(4,42,43,.25)]">
-          <span className="flex items-baseline justify-between text-[max(12px,2.1cqh)] leading-none tracking-[.04em]">
+          <span className="flex items-baseline justify-between t-4 leading-none tracking-[.04em]">
             <span>{type}</span>
             <span>{place}</span>
           </span>
           <span className="relative mt-[2.6cqh] block flex-1 overflow-hidden rounded-t-full">
             <img src={p.exterior} alt={`${p.name}, מבט מבחוץ`} loading="lazy" className="rn-card-arch absolute inset-0 h-full w-full object-cover" />
           </span>
-          <span className="mt-[3cqh] block text-center text-[max(24px,5.4cqh)] font-light leading-[1.05]">{p.name}</span>
-          <span className="mx-auto mt-[1.6cqh] block max-w-[92%] text-center text-[max(13px,2.2cqh)] leading-[1.5] opacity-85">{p.text}</span>
+          <span className="mt-[3cqh] block text-center t-3 font-normal leading-[1.15]">{p.name}</span>
+          <span className="mx-auto mt-[1.6cqh] block max-w-[92%] text-center t-4 leading-[1.5] opacity-85">{p.text}</span>
         </span>
       </span>
     </a>
@@ -484,8 +484,8 @@ function Partners() {
           {/* Dafna — right side, text leans toward the centre */}
           <div data-reveal className="text-right lg:absolute lg:left-[941px] lg:top-[195px] lg:w-[321px]">
             <p className="t-2 whitespace-nowrap font-semibold leading-[1.1] lg:h-[56px] lg:leading-[48px]">דפנה רביד</p>
-            <p className="t-3 mt-1 font-light leading-[1.35] lg:mt-0 lg:leading-[48px]">אדריכלית,<br className="hidden lg:block" /> שותפה מייסדת</p>
-            <p data-reveal style={d(200)} className="t-3 mt-5 max-w-[340px] font-light leading-[1.7] lg:absolute lg:max-w-none lg:font-normal lg:top-[384px] lg:mt-0 lg:w-[321px] lg:leading-[1.75]">
+            <p className="t-3s mt-1 font-light leading-[1.35] lg:mt-0 lg:leading-[48px]">אדריכלית,<br className="hidden lg:block" /> שותפה מייסדת</p>
+            <p data-reveal style={d(200)} className="t-3s mt-4 font-light leading-[1.7] lg:absolute lg:font-normal lg:top-[384px] lg:mt-0 lg:w-[321px] lg:leading-[1.75]">
               <Year>2004</Year>
               <span className="block">יסדה את המשרד ומתכננת כל בית מבחוץ פנימה: מהמגרש, דרך הקירות, ועד החלון.</span>
             </p>
@@ -493,8 +493,8 @@ function Partners() {
           {/* Omer — left side */}
           <div data-reveal style={d(120)} className="border-t border-stone/30 pt-9 text-right lg:absolute lg:left-[63px] lg:top-[195px] lg:w-[323px] lg:border-0 lg:pt-0">
             <p className="t-2 whitespace-nowrap font-semibold leading-[1.1] lg:h-[56px] lg:leading-[48px]">עומר נחום</p>
-            <p className="t-3 mt-1 font-light leading-[1.35] lg:mt-0 lg:leading-[48px]">מעצב פנים,<br className="hidden lg:block" /> שותף</p>
-            <p data-reveal style={d(320)} className="t-3 mt-5 max-w-[340px] font-light leading-[1.7] lg:absolute lg:max-w-none lg:font-normal lg:right-0 lg:top-[384px] lg:mt-0 lg:w-[321px] lg:leading-[1.75]">
+            <p className="t-3s mt-1 font-light leading-[1.35] lg:mt-0 lg:leading-[48px]">מעצב פנים,<br className="hidden lg:block" /> שותף</p>
+            <p data-reveal style={d(320)} className="t-3s mt-4 font-light leading-[1.7] lg:absolute lg:font-normal lg:right-0 lg:top-[384px] lg:mt-0 lg:w-[321px] lg:leading-[1.75]">
               <Year>2016</Year>
               <span className="block">שותף במשרד ומעצב כל בית מבפנים החוצה: מהחומרים, דרך התאורה, ועד הידית.</span>
             </p>
