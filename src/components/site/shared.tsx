@@ -288,18 +288,18 @@ const FOOT_ICON = "flex h-[40px] w-[40px] items-center justify-center text-stone
 export function Footer() {
   return (
     <footer className="relative mt-20 overflow-hidden bg-petrol text-stone lg:mt-[144px]">
-      <div className="mx-auto flex flex-col gap-12 px-6 pt-14 lg:w-[1325px] lg:flex-row-reverse lg:items-start lg:justify-between lg:px-[73px] lg:pt-[72px]">
+      <div className="mx-auto flex flex-row-reverse items-start justify-between gap-6 px-6 pt-14 lg:w-[1325px] lg:px-[73px] lg:pt-[72px]">
         {/* brand, legal links, contact icons */}
-        <div className="lg:text-left">
-          <img src="/assets/logo-footer-cream.svg" alt="Ravid Nahum — Architecture & Interiors" className="h-auto w-[240px] lg:mr-auto lg:w-[300px]" />
+        <div className="text-left">
+          <img src="/assets/logo-footer-cream.svg" alt="Ravid Nahum — Architecture & Interiors" className="mr-auto h-auto w-[170px] sm:w-[240px] lg:w-[300px]" />
           <ul className="mt-8 flex flex-col gap-3 text-[16px] lg:text-[17px]">
             <li><a className="underline decoration-stone/50 underline-offset-[5px] hover:decoration-stone" href={ROUTES.accessibility}>הצהרת נגישות</a></li>
             <li><a className="underline decoration-stone/50 underline-offset-[5px] hover:decoration-stone" href={ROUTES.privacy}>מדיניות פרטיות</a></li>
             <li><a className="underline decoration-stone/50 underline-offset-[5px] hover:decoration-stone" href={ROUTES.terms}>תקנון האתר</a></li>
             <li><a className="underline decoration-stone/50 underline-offset-[5px] hover:decoration-stone" href={CONTACT.mapsHref} target="_blank" rel="noopener noreferrer">{CONTACT.address}</a></li>
           </ul>
-          <div className="mt-8 flex items-center gap-4 lg:flex-row-reverse">
-            <span data-reveal="rule" aria-hidden="true" className="rule-from-left block h-[2px] w-[110px] bg-stone lg:w-[128px]" style={{ ["--d" as string]: "200ms" }} />
+          <div className="mt-8 flex flex-row-reverse items-center gap-2 sm:gap-4">
+            <span data-reveal="rule" aria-hidden="true" className="rule-from-left block h-[2px] w-[40px] bg-stone sm:w-[110px] lg:w-[128px]" style={{ ["--d" as string]: "200ms" }} />
             <a className={FOOT_ICON} href={CONTACT.phoneHref} aria-label={`טלפון: ${CONTACT.phone}`}><LinePhone className="h-[27px] w-[27px]" /></a>
             <a className={FOOT_ICON} href={CONTACT.whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="וואטסאפ"><LineWhatsapp className="h-[27px] w-[27px]" /></a>
             <a className={FOOT_ICON} href={CONTACT.instagramHref} target="_blank" rel="noopener noreferrer" aria-label="אינסטגרם"><LineInstagram className="h-[27px] w-[27px]" /></a>
