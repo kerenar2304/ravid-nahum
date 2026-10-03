@@ -443,7 +443,7 @@ function Partners() {
     if (reducedMotion()) { path.style.strokeDashoffset = "0"; if (mPathRef.current) { mPathRef.current.style.strokeDasharray = "none"; mPathRef.current.style.strokeDashoffset = "0"; } return; }
     const { h } = viewport();
     const r = sec.getBoundingClientRect();
-    const p = clamp01((h * 0.75 - r.top) / (r.height * 0.85)); // draws along with the scroll through the section
+    const p = clamp01((h * 0.95 - r.top) / (r.height * 0.7)); // draws along with the scroll through the section
     path.style.strokeDashoffset = String(-(1 - p * p * (3 - 2 * p))); // grows from the top end downward
     // mobile S-curve: starts at the top line (right) and draws down to the bottom line (left)
     const mp = mPathRef.current;
