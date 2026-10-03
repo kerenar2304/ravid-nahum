@@ -63,7 +63,7 @@ function Hero() {
       {/* the photo's light backdrop melts into the page colour (darken blend), so only the house, its slab and the shadow remain */}
       <h1 ref={titleRef} className="rn-flips relative z-10 font-semibold text-petrol">
         <span className="flex flex-col-reverse items-start gap-5 lg:block">
-          <FlipText text="קו אחד" className="block text-[clamp(50px,12.5vw,112px)] leading-[1] lg:absolute lg:right-[73px] lg:top-[51px] lg:text-[96px] lg:leading-[75px]" />
+          <FlipText text="קו אחד" className="block text-[clamp(50px,12.5vw,80px)] leading-[1] lg:absolute lg:right-[73px] lg:top-[51px] lg:text-[96px] lg:leading-[75px]" />
           <span
             data-reveal="rule"
             aria-hidden="true"
@@ -71,13 +71,13 @@ function Hero() {
             style={d(550)}
           />
         </span>
-        <FlipText text="מהיסוד" delay={120} className="mt-1 block text-[clamp(50px,12.5vw,112px)] leading-[1.02] lg:hidden" />
-        <FlipText text="עד הפנים" delay={240} className="block text-[clamp(50px,12.5vw,112px)] leading-[1.02] lg:hidden" />
+        <FlipText text="מהיסוד" delay={120} className="mt-1 block text-[clamp(50px,12.5vw,80px)] leading-[1.02] lg:hidden" />
+        <FlipText text="עד הפנים" delay={240} className="block text-[clamp(50px,12.5vw,80px)] leading-[1.02] lg:hidden" />
         <FlipText text="מהיסוד עד הפנים" delay={120} className="hidden lg:absolute lg:block lg:right-[324px] lg:top-[153px] lg:mt-0 lg:whitespace-nowrap lg:text-[96px] lg:leading-[75px]" />
       </h1>
 
       {/* phones: the photo spans the full width right under the headline (never behind it) */}
-      <img src="/assets/hero-mobile.webp" alt="" aria-hidden="true" fetchPriority="high" className="-mx-[6vw] mt-1 block h-auto w-[calc(100%+12vw)] max-w-none mix-blend-darken sm:mx-auto sm:-mt-[2vh] sm:h-[min(68svh,120vw)] sm:w-auto lg:hidden" />
+      <img src="/assets/hero-mobile.webp" alt="" aria-hidden="true" fetchPriority="high" className="-mx-[6vw] mt-1 block h-auto w-[calc(100%+12vw)] max-w-none mix-blend-darken sm:mx-auto sm:-mt-[2vh] sm:h-[min(68svh,120vw)] sm:w-auto sm:[mask-image:linear-gradient(to_right,transparent,#000_14%,#000_86%,transparent)] lg:hidden" />
 
       <div className="relative -mx-[6vw] mt-auto hidden aspect-[1325/543] lg:absolute lg:block lg:inset-x-0 lg:top-[177px] lg:mx-0 lg:mt-0 lg:aspect-auto lg:h-[543px]">
         <div ref={houseRef} className="absolute inset-0 will-change-transform">
@@ -100,7 +100,7 @@ function Pill({ src, alt, from = "right", delay, className }: { src: string; alt
     <span
       data-reveal="pill"
       style={d(delay)}
-      className={cn("rn-pill relative block h-[clamp(26px,7.6vw,64px)] flex-1 lg:absolute lg:h-[63px] lg:flex-none", from === "left" && "pill-from-left", className)}
+      className={cn("rn-pill relative block h-[clamp(26px,7.6vw,50px)] flex-1 lg:absolute lg:h-[63px] lg:flex-none", from === "left" && "pill-from-left", className)}
     >
       <span className="rn-clip absolute inset-0 block overflow-hidden rounded-[200px]">
         <img src={src} alt={alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
@@ -110,7 +110,7 @@ function Pill({ src, alt, from = "right", delay, className }: { src: string; alt
 }
 
 function Statement() {
-  const word = "whitespace-nowrap text-[clamp(34px,9.8vw,84px)] font-light leading-[1.15] lg:absolute lg:text-[90px] lg:leading-[75px]";
+  const word = "whitespace-nowrap text-[clamp(34px,9.8vw,64px)] font-light leading-[1.15] lg:absolute lg:text-[90px] lg:leading-[75px]";
   return (
     <section id="studio" aria-label="על המשרד" className="relative mx-auto -mt-4 px-[5vw] lg:mt-[230px] lg:h-[319px] lg:w-[1325px] lg:px-0">
       <h2 className="flex flex-col gap-3 text-petrol sm:gap-4 lg:block">
@@ -216,7 +216,7 @@ function Projects() {
   return (
     <section id="projects" aria-labelledby="projects-title" className="relative">
       <div className="relative flex flex-col pb-16 lg:block lg:h-[2445px] lg:pb-0">
-        <h2 id="projects-title" data-reveal="lines" className="pt-[30vw] text-center text-[clamp(40px,11vw,100px)] font-light leading-[1] text-stone lg:absolute lg:inset-x-0 lg:top-[300px] lg:pt-0 lg:text-[96px] lg:leading-[100px]">
+        <h2 id="projects-title" data-reveal="lines" className="pt-[30vw] text-center text-[clamp(40px,11vw,80px)] font-light leading-[1] text-stone lg:absolute lg:inset-x-0 lg:top-[300px] lg:pt-0 lg:text-[96px] lg:leading-[100px]">
           <span className="rn-line" style={li(0)}><span>פרויקטים</span></span>
           <span className="rn-line" style={li(1)}><span>נבחרים</span></span>
         </h2>
