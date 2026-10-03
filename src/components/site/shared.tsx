@@ -260,23 +260,25 @@ export function Header({ active = "home" }: { active?: string }) {
         <div
           id="mobile-menu"
           className={cn(
-            "fixed inset-x-0 top-0 -z-10 h-[100dvh] bg-petrol px-6 pt-[110px] text-stone transition-[clip-path] duration-700 [transition-timing-function:var(--ease)] lg:hidden",
+            "absolute inset-x-0 top-full -z-10 -mt-[20px] rounded-b-[22px] bg-petrol px-[6vw] pb-7 pt-[44px] text-stone shadow-[0_18px_40px_rgba(4,42,43,.25)] transition-[clip-path] duration-500 [transition-timing-function:var(--ease)] lg:hidden",
             open ? "[clip-path:inset(0_0_0_0)]" : "pointer-events-none [clip-path:inset(0_0_100%_0)]",
           )}
           aria-hidden={!open}
         >
-          <ul className="flex flex-col gap-6 text-[40px] font-light leading-none">
+          <ul className="flex flex-col gap-4 text-[clamp(24px,6.5vw,32px)] font-light leading-none">
             {NAV.map((n, i) => (
               <li key={n.key} style={{ transitionDelay: open ? `${150 + i * 70}ms` : "0ms" }} className={cn("transition-all duration-700", open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0")}>
                 <a href={n.href} onClick={() => setOpen(false)} tabIndex={open ? 0 : -1}>{n.label}</a>
               </li>
             ))}
           </ul>
-          <div className="mt-12 flex flex-col gap-3 text-[18px] opacity-80">
+          <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 border-t border-stone/20 pt-5 text-[15px] opacity-80">
             <a href={CONTACT.phoneHref} tabIndex={open ? 0 : -1}>{CONTACT.phone}</a>
             <a href={`mailto:${CONTACT.email}`} tabIndex={open ? 0 : -1}>{CONTACT.email}</a>
           </div>
         </div>
+        {/* tap outside to close */}
+        {open && <button type="button" aria-label="סגירת תפריט" onClick={() => setOpen(false)} className="fixed inset-0 -z-20 cursor-default bg-petrol/25 backdrop-blur-[2px] lg:hidden" />}
       </header>
     </>
   );
@@ -288,7 +290,7 @@ const FOOT_ICON = "flex h-[40px] w-[40px] items-center justify-center text-stone
 export function Footer() {
   return (
     <footer className="relative mt-20 overflow-hidden bg-petrol text-stone lg:mt-[144px]">
-      <div className="mx-auto flex flex-row-reverse items-start justify-between gap-6 px-6 pt-14 lg:w-[1325px] lg:px-[73px] lg:pt-[72px]">
+      <div className="mx-auto flex flex-row-reverse items-start justify-between gap-6 px-[6vw] pt-14 lg:w-[1325px] lg:px-[73px] lg:pt-[72px]">
         {/* brand, legal links, contact icons */}
         <div className="text-left">
           <img src="/assets/logo-footer-cream.svg" alt="Ravid Nahum — Architecture & Interiors" className="mr-auto h-auto w-[170px] sm:w-[240px] lg:w-[300px]" />
@@ -316,7 +318,7 @@ export function Footer() {
         </nav>
       </div>
 
-      <div className="mx-auto mt-14 px-6 pb-8 lg:mt-[72px] lg:w-[1325px] lg:px-[73px] lg:pb-[34px]">
+      <div className="mx-auto mt-14 px-[6vw] pb-8 lg:mt-[72px] lg:w-[1325px] lg:px-[73px] lg:pb-[34px]">
         <div data-reveal="rule" className="h-[2px] w-full bg-stone" aria-hidden="true" />
         <div className="mt-6 flex flex-col items-center gap-4 text-center text-[16px] lg:flex-row lg:items-center lg:justify-between lg:text-right lg:text-[17px]">
           <p>כל הזכויות שמורות © {new Date().getFullYear()} רביד נחום אדריכלות ועיצוב פנים</p>

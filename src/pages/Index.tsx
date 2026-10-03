@@ -58,12 +58,12 @@ function Hero() {
   });
 
   return (
-    <section ref={heroRef} id="top" className="relative mx-auto flex overflow-hidden bg-stone lg:overflow-visible lg:bg-transparent flex-col px-6 pt-12 sm:px-8 lg:block lg:h-[720px] lg:min-h-0 lg:w-[1325px] lg:p-0">
+    <section ref={heroRef} id="top" className="relative mx-auto flex overflow-hidden bg-stone lg:overflow-visible lg:bg-transparent flex-col px-[6vw] pt-[clamp(40px,7vw,72px)] lg:block lg:h-[720px] lg:min-h-0 lg:w-[1325px] lg:p-0">
       {/* mobile: full-screen photo, headline over the sky */}
       {/* the photo's light backdrop melts into the page colour (darken blend), so only the house, its slab and the shadow remain */}
       <h1 ref={titleRef} className="rn-flips relative z-10 font-semibold text-petrol">
         <span className="flex flex-col-reverse items-start gap-5 lg:block">
-          <FlipText text="קו אחד" className="block text-[54px] leading-[1] sm:text-[76px] lg:absolute lg:right-[73px] lg:top-[51px] lg:text-[96px] lg:leading-[75px]" />
+          <FlipText text="קו אחד" className="block text-[clamp(50px,12.5vw,112px)] leading-[1] lg:absolute lg:right-[73px] lg:top-[51px] lg:text-[96px] lg:leading-[75px]" />
           <span
             data-reveal="rule"
             aria-hidden="true"
@@ -71,15 +71,15 @@ function Hero() {
             style={d(550)}
           />
         </span>
-        <FlipText text="מהיסוד" delay={120} className="mt-1 block text-[54px] leading-[1.02] sm:text-[76px] lg:hidden" />
-        <FlipText text="עד הפנים" delay={240} className="block text-[54px] leading-[1.02] sm:text-[76px] lg:hidden" />
+        <FlipText text="מהיסוד" delay={120} className="mt-1 block text-[clamp(50px,12.5vw,112px)] leading-[1.02] lg:hidden" />
+        <FlipText text="עד הפנים" delay={240} className="block text-[clamp(50px,12.5vw,112px)] leading-[1.02] lg:hidden" />
         <FlipText text="מהיסוד עד הפנים" delay={120} className="hidden lg:absolute lg:block lg:right-[324px] lg:top-[153px] lg:mt-0 lg:whitespace-nowrap lg:text-[96px] lg:leading-[75px]" />
       </h1>
 
       {/* phones: the photo spans the full width right under the headline (never behind it) */}
-      <img src="/assets/hero-mobile.webp" alt="" aria-hidden="true" fetchPriority="high" className="-mx-6 mt-1 block h-auto w-[calc(100%+3rem)] max-w-none mix-blend-darken sm:-mx-8 sm:w-[calc(100%+4rem)] lg:hidden" />
+      <img src="/assets/hero-mobile.webp" alt="" aria-hidden="true" fetchPriority="high" className="-mx-[6vw] mt-1 block h-auto w-[calc(100%+12vw)] max-w-none mix-blend-darken sm:mx-auto sm:-mt-[2vh] sm:h-[min(68svh,120vw)] sm:w-auto lg:hidden" />
 
-      <div className="relative -mx-8 mt-auto hidden aspect-[1325/543] lg:absolute lg:block lg:inset-x-0 lg:top-[177px] lg:mx-0 lg:mt-0 lg:aspect-auto lg:h-[543px]">
+      <div className="relative -mx-[6vw] mt-auto hidden aspect-[1325/543] lg:absolute lg:block lg:inset-x-0 lg:top-[177px] lg:mx-0 lg:mt-0 lg:aspect-auto lg:h-[543px]">
         <div ref={houseRef} className="absolute inset-0 will-change-transform">
           <img
             src="/assets/hero-house.webp"
@@ -100,7 +100,7 @@ function Pill({ src, alt, from = "right", delay, className }: { src: string; alt
     <span
       data-reveal="pill"
       style={d(delay)}
-      className={cn("rn-pill relative block h-[30px] flex-1 sm:h-[46px] lg:absolute lg:h-[63px] lg:flex-none", from === "left" && "pill-from-left", className)}
+      className={cn("rn-pill relative block h-[clamp(26px,7.6vw,64px)] flex-1 lg:absolute lg:h-[63px] lg:flex-none", from === "left" && "pill-from-left", className)}
     >
       <span className="rn-clip absolute inset-0 block overflow-hidden rounded-[200px]">
         <img src={src} alt={alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
@@ -110,9 +110,9 @@ function Pill({ src, alt, from = "right", delay, className }: { src: string; alt
 }
 
 function Statement() {
-  const word = "whitespace-nowrap text-[38px] font-light leading-[1.15] sm:text-[64px] lg:absolute lg:text-[90px] lg:leading-[75px]";
+  const word = "whitespace-nowrap text-[clamp(34px,9.8vw,84px)] font-light leading-[1.15] lg:absolute lg:text-[90px] lg:leading-[75px]";
   return (
-    <section id="studio" aria-label="על המשרד" className="relative mx-auto -mt-4 px-4 sm:px-8 lg:mt-[230px] lg:h-[319px] lg:w-[1325px] lg:px-0">
+    <section id="studio" aria-label="על המשרד" className="relative mx-auto -mt-4 px-[5vw] lg:mt-[230px] lg:h-[319px] lg:w-[1325px] lg:px-0">
       <h2 className="flex flex-col gap-3 text-petrol sm:gap-4 lg:block">
         <span className="flex items-center gap-3 sm:gap-6 lg:contents">
           <span data-reveal="flip" className={cn(word, "lg:right-[178px] lg:top-[1px]")}><FlipText text="אדריכלות" /></span>
@@ -130,7 +130,7 @@ function Statement() {
       <p
         data-reveal
         style={d(300)}
-        className="mt-8 text-center text-[18px] font-light leading-[1.6] text-petrol sm:text-[22px] lg:absolute lg:left-[163.5px] lg:top-[276px] lg:mt-0 lg:w-[998px] lg:whitespace-nowrap lg:text-[26px] lg:leading-[43px]"
+        className="mt-8 text-center text-[clamp(17px,4.3vw,24px)] font-light leading-[1.6] text-petrol lg:absolute lg:left-[163.5px] lg:top-[276px] lg:mt-0 lg:w-[998px] lg:whitespace-nowrap lg:text-[26px] lg:leading-[43px]"
       >
         כדי שכל חלל ייבנה בשפה אחת, בלי פער בין התוכנית לבין החיים שבתוכו.
       </p>
@@ -216,7 +216,7 @@ function Projects() {
   return (
     <section id="projects" aria-labelledby="projects-title" className="relative">
       <div className="relative flex flex-col pb-16 lg:block lg:h-[2445px] lg:pb-0">
-        <h2 id="projects-title" data-reveal="lines" className="pt-[30vw] text-center text-[44px] font-light leading-[1] text-stone sm:text-[68px] lg:absolute lg:inset-x-0 lg:top-[300px] lg:pt-0 lg:text-[96px] lg:leading-[100px]">
+        <h2 id="projects-title" data-reveal="lines" className="pt-[30vw] text-center text-[clamp(40px,11vw,100px)] font-light leading-[1] text-stone lg:absolute lg:inset-x-0 lg:top-[300px] lg:pt-0 lg:text-[96px] lg:leading-[100px]">
           <span className="rn-line" style={li(0)}><span>פרויקטים</span></span>
           <span className="rn-line" style={li(1)}><span>נבחרים</span></span>
         </h2>
@@ -224,21 +224,21 @@ function Projects() {
         <ScrollRule className="mt-16 h-[2px] w-[60%] lg:absolute lg:left-0 lg:top-[706px] lg:mt-0 lg:h-[3px] lg:w-[calc(50%-68.5px)]" />
         <ScrollRule from="right" className="hidden lg:absolute lg:right-0 lg:top-[1430px] lg:block lg:h-[3px] lg:w-[calc(50%-75.5px)]" />
 
-        <div className="mt-10 px-4 lg:contents lg:px-0">
+        <div className="mt-10 px-[4vw] lg:contents lg:px-0">
           <ProjectCard p={a} className="aspect-[4/5] w-full lg:absolute lg:right-0 lg:top-[706px] lg:aspect-auto lg:h-[456px] lg:w-[calc(50%-75.5px)]" />
         </div>
-        <div className="mt-4 px-4 lg:contents lg:px-0">
+        <div className="mt-4 px-[4vw] lg:contents lg:px-0">
           <ProjectCard p={b} delay={100} className="aspect-[4/5] w-full lg:absolute lg:left-0 lg:top-[1010px] lg:aspect-auto lg:h-[798px] lg:w-[calc(50%-68.5px)]" />
         </div>
 
         <p
           data-reveal
-          className="order-last mt-16 px-6 text-[28px] font-light leading-[1.2] text-stone sm:text-[40px] lg:absolute lg:left-[calc(50%-576.5px)] lg:top-[1855px] lg:order-none lg:mt-0 lg:w-[602px] lg:px-0 lg:text-left lg:text-[48px] lg:leading-[48px]"
+          className="order-last mt-16 px-[6vw] text-[clamp(26px,7vw,48px)] font-light leading-[1.2] text-stone lg:absolute lg:left-[calc(50%-576.5px)] lg:top-[1855px] lg:order-none lg:mt-0 lg:w-[602px] lg:px-0 lg:text-left lg:text-[48px] lg:leading-[48px]"
         >
           מהמגרש ועד ידית הדלת, כל החלטה בבית עוברת דרך אותו שולחן.
         </p>
 
-        <div className="mt-4 px-4 lg:contents lg:px-0">
+        <div className="mt-4 px-[4vw] lg:contents lg:px-0">
           <ProjectCard p={c} delay={100} className="aspect-[4/5] w-full lg:absolute lg:right-0 lg:top-[1703px] lg:aspect-auto lg:h-[645px] lg:w-[calc(50%-75.5px)]" />
         </div>
 
@@ -387,14 +387,14 @@ function Stages() {
     <section aria-labelledby="stages-title" className="relative pb-20 pt-24 text-stone lg:pb-[150px] lg:pt-[150px]">
       <div ref={wrapRef} className="relative" style={{ height: `calc(100vh / var(--z) * ${1 + STAGES.length * 0.4})` }}>
         <div ref={stickRef} className="sticky top-0 flex flex-col justify-center overflow-hidden" style={{ height: "calc(100vh / var(--z))" }}>
-          <div className="mx-auto w-full px-6 lg:w-[1325px] lg:px-[99px]">
-            <h2 id="stages-title" data-reveal="flip" className="text-[38px] font-light leading-[1.05] sm:text-[56px] lg:text-[76px] lg:leading-[80px]">
+          <div className="mx-auto w-full px-[6vw] lg:w-[1325px] lg:px-[99px]">
+            <h2 id="stages-title" data-reveal="flip" className="text-[clamp(36px,9.5vw,76px)] font-light leading-[1.05] lg:text-[76px] lg:leading-[80px]">
               <FlipText text="ארבעה שלבים," className="block lg:inline" />{" "}
               <FlipText text="משרד אחד" delay={140} className="block lg:inline" />
             </h2>
           </div>
 
-          <ol ref={deckRef} className="relative mx-6 mt-8 h-[min(62vh,560px)] lg:mx-auto lg:mt-[44px] lg:h-[min(58vh,520px)] lg:w-[1127px]">
+          <ol ref={deckRef} className="relative mx-[6vw] mt-8 h-[min(62vh,560px)] lg:mx-auto lg:mt-[44px] lg:h-[min(58vh,520px)] lg:w-[1127px]">
             {STAGES.map((st, i) => (
               <li
                 key={st.n}
@@ -630,9 +630,9 @@ function Contact() {
   const field = "rn-field block w-full border-0 border-b border-petrol/30 bg-transparent pb-3 pt-1 text-[19px] text-petrol placeholder:text-petrol/45 lg:text-[20px]";
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="relative mx-auto mt-24 grid gap-12 px-6 lg:mt-[170px] lg:w-[1133px] lg:grid-cols-2 lg:gap-[120px] lg:px-0">
+    <section id="contact" aria-labelledby="contact-title" className="relative mx-auto mt-24 grid gap-12 px-[6vw] lg:mt-[170px] lg:w-[1133px] lg:grid-cols-2 lg:gap-[120px] lg:px-0">
       <div data-reveal className="contents lg:block">
-        <h2 id="contact-title" className="whitespace-nowrap text-[31px] font-light leading-[1.05] text-petrol sm:text-[40px] lg:whitespace-normal lg:text-[64px]">בואו נתחיל<br className="hidden lg:block" /> מקו אחד</h2>
+        <h2 id="contact-title" className="whitespace-nowrap text-[clamp(28px,7.9vw,58px)] font-light leading-[1.05] text-petrol lg:whitespace-normal lg:text-[64px]">בואו נתחיל<br className="hidden lg:block" /> מקו אחד</h2>
         <p className="order-last mt-0 text-[18px] lg:order-none lg:mt-6 leading-[1.6] text-petrol/75 lg:text-[20px]">
           <a href={CONTACT.phoneHref} className="rn-link">{CONTACT.phone}</a>
           <br />
