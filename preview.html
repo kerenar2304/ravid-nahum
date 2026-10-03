@@ -597,10 +597,8 @@ function Hero() {
         <FlipText text="מהיסוד עד הפנים" delay={120} className="hidden lg:absolute lg:block lg:right-[324px] lg:top-[153px] lg:mt-0 lg:whitespace-nowrap lg:text-[96px] lg:leading-[75px]" />
       </h1>
 
-      {/* phones: the photo fills only the space left under the headline and shrinks to fit, never under the text */}
-      <div aria-hidden="true" className="relative -mx-6 mt-6 min-h-[260px] flex-1 sm:hidden">
-        <img src="public/assets/hero-mobile.webp" alt="" fetchPriority="high" className="absolute inset-0 h-full w-full object-contain object-bottom mix-blend-darken" />
-      </div>
+      {/* phones: the photo spans the full width right under the headline (never behind it) */}
+      <img src="public/assets/hero-mobile.webp" alt="" aria-hidden="true" fetchPriority="high" className="-mx-6 mt-4 block h-auto w-[calc(100%+3rem)] max-w-none mix-blend-darken sm:hidden" />
 
       <div className="relative -mx-8 mt-auto hidden aspect-[1325/543] sm:block lg:absolute lg:inset-x-0 lg:top-[177px] lg:mx-0 lg:mt-0 lg:aspect-auto lg:h-[543px]">
         <div ref={houseRef} className="absolute inset-0 will-change-transform">
