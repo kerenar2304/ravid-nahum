@@ -409,8 +409,8 @@ function Stages() {
                   </div>
                   <span className="hidden text-[14px] tracking-[.2em] text-petrol/50 lg:block">שלב {st.n} מתוך 4</span>
                 </div>
-                <div className="flex flex-1 items-center justify-center px-6 pb-6 lg:border-r lg:border-petrol/15 lg:p-[48px]">
-                  <StageArt art={st.art} className="h-auto max-h-full w-full max-w-[460px]" />
+                <div className="flex min-h-0 flex-1 items-center justify-center px-6 pb-6 pt-2 lg:border-r lg:border-petrol/15 lg:p-[48px]">
+                  <StageArt art={st.art} className="h-full max-h-full w-auto max-w-full lg:h-auto lg:w-full lg:max-w-[460px]" />
                 </div>
               </li>
             ))}
