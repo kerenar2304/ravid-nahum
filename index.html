@@ -180,6 +180,11 @@ body {
 @keyframes rn-sketch { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 .rn-stage-art { transition: transform 1.6s var(--ease); }
 @media (prefers-reduced-motion: reduce) { .rn-stage-art path { stroke-dashoffset: 0 !important; animation: none !important; } }
+
+/* hero house: fades up on load (does not depend on the viewport observer) */
+.rn-fade-up { animation: rn-fade-up 1.2s var(--ease) .45s both; }
+@keyframes rn-fade-up { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .rn-fade-up { animation: none; } }
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
@@ -577,7 +582,6 @@ function Hero() {
     <section ref={heroRef} id="top" className="relative mx-auto flex overflow-hidden bg-stone lg:overflow-visible lg:bg-transparent min-h-[calc(100svh-64px)] flex-col px-6 pt-12 sm:px-8 lg:block lg:h-[720px] lg:min-h-0 lg:w-[1325px] lg:p-0">
       {/* mobile: full-screen photo, headline over the sky */}
       {/* the photo's light backdrop melts into the page colour (darken blend), so only the house, its slab and the shadow remain */}
-      <img src="public/assets/hero-mobile.webp" alt="" aria-hidden="true" fetchPriority="high" className="absolute inset-0 h-full w-full translate-y-[9%] object-cover object-[50%_100%] mix-blend-darken lg:hidden" />
       <h1 ref={titleRef} className="rn-flips relative z-10 font-semibold text-petrol">
         <span className="flex flex-col-reverse items-start gap-5 lg:block">
           <FlipText text="קו אחד" className="block text-[54px] leading-[1] sm:text-[76px] lg:absolute lg:right-[73px] lg:top-[51px] lg:text-[96px] lg:leading-[75px]" />
@@ -593,15 +597,18 @@ function Hero() {
         <FlipText text="מהיסוד עד הפנים" delay={120} className="hidden lg:absolute lg:block lg:right-[324px] lg:top-[153px] lg:mt-0 lg:whitespace-nowrap lg:text-[96px] lg:leading-[75px]" />
       </h1>
 
-      <div className="relative -mx-6 mt-auto hidden h-[60svh] overflow-hidden sm:-mx-8 lg:absolute lg:block lg:inset-x-0 lg:top-[177px] lg:mx-0 lg:mt-0 lg:h-[543px] lg:overflow-visible">
+      {/* phones: the photo fills only the space left under the headline and shrinks to fit, never under the text */}
+      <div aria-hidden="true" className="relative -mx-6 mt-6 min-h-[260px] flex-1 sm:hidden">
+        <img src="public/assets/hero-mobile.webp" alt="" fetchPriority="high" className="absolute inset-0 h-full w-full object-contain object-bottom mix-blend-darken" />
+      </div>
+
+      <div className="relative -mx-8 mt-auto hidden aspect-[1325/543] sm:block lg:absolute lg:inset-x-0 lg:top-[177px] lg:mx-0 lg:mt-0 lg:aspect-auto lg:h-[543px]">
         <div ref={houseRef} className="absolute inset-0 will-change-transform">
           <img
-            data-reveal
-            style={d(450)}
             src="public/assets/hero-house.webp"
             alt="בית אבן ים־תיכוני בתכנון המשרד, עם עצי זית וברוש"
             fetchPriority="high"
-            className="absolute bottom-[-24%] left-[-148%] h-[150%] w-auto max-w-none select-none lg:bottom-auto lg:left-[3.49%] lg:top-[-35.82%] lg:h-[170.17%] lg:w-[92.98%]"
+            className="rn-fade-up absolute left-[3.49%] top-[-35.82%] h-[170.17%] w-[92.98%] max-w-none select-none"
             draggable={false}
           />
         </div>

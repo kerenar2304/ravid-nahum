@@ -138,3 +138,8 @@
 @keyframes rn-sketch { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 .rn-stage-art { transition: transform 1.6s var(--ease); }
 @media (prefers-reduced-motion: reduce) { .rn-stage-art path { stroke-dashoffset: 0 !important; animation: none !important; } }
+
+/* hero house: fades up on load (does not depend on the viewport observer) */
+.rn-fade-up { animation: rn-fade-up 1.2s var(--ease) .45s both; }
+@keyframes rn-fade-up { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .rn-fade-up { animation: none; } }
