@@ -956,16 +956,18 @@ function Year({ children }: { children: string }) {
 function Partners() {
   const secRef = useRef<HTMLElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
+  const mPathRef = useRef<SVGPathElement>(null);
 
   // the curve draws itself while the section scrolls through
   useScrollFrame(() => {
     const sec = secRef.current, path = pathRef.current;
     if (!sec || !path) return;
-    if (reducedMotion()) { path.style.strokeDashoffset = "0"; return; }
+    if (reducedMotion()) { path.style.strokeDashoffset = "0"; if (mPathRef.current) mPathRef.current.style.strokeDashoffset = "0"; return; }
     const { h } = viewport();
     const r = sec.getBoundingClientRect();
     const p = clamp01((h * 0.75 - r.top) / (r.height * 0.85)); // draws along with the scroll through the section
     path.style.strokeDashoffset = String(-(1 - p * p * (3 - 2 * p))); // grows from the top end downward
+    if (mPathRef.current) mPathRef.current.style.strokeDashoffset = path.style.strokeDashoffset;
     // leaves fade in as the section arrives
   });
 
@@ -978,7 +980,7 @@ function Partners() {
           preserveAspectRatio="none"
           fill="none"
           aria-hidden="true"
-          className="pointer-events-none absolute z-0 -left-[45%] top-[2%] block h-[34%] w-[190%] -scale-y-100 lg:bottom-auto lg:left-[-105px] lg:top-[-2px] lg:h-[1019px] lg:w-[1619px]"
+          className="pointer-events-none absolute z-0 hidden -scale-y-100 lg:left-[-105px] lg:top-[-2px] lg:block lg:h-[1019px] lg:w-[1619px]"
         >
           <path
             ref={pathRef}
@@ -1012,11 +1014,20 @@ function Partners() {
           </div>
         </div>
 
-        <span aria-hidden="true" className="order-first -mx-5 mb-12 block h-[2px] bg-stone lg:hidden" />
-        <div data-reveal style={d(150)} className="relative z-[2] order-first mx-auto w-[78%] max-w-[420px] lg:order-none lg:absolute lg:left-[calc(50%-264.5px)] lg:top-[309px] lg:mt-0 lg:h-[660px] lg:w-[529px] lg:max-w-none">
+        {/* mobile: photo between two edge-to-edge lines, the curve runs from the upper line down to the lower one */}
+        <div className="relative order-first -mx-5 mb-12 lg:hidden">
+          <span aria-hidden="true" className="block h-[2px] bg-stone" />
+          <div className="relative px-5 pt-10">
+            <svg viewBox="0 0 1619.92 1022" preserveAspectRatio="none" fill="none" aria-hidden="true" className="pointer-events-none absolute inset-x-0 -scale-y-100" style={{ top: "-3.8%", bottom: "-2.4%" }}>
+              <path ref={mPathRef} d="M0.530221 22.505C124.971 -24.518 431.353 -23.0299 661.358 359.106C948.864 836.776 1097.54 1125.16 1619.53 984.988" stroke="#E0E0CF" strokeWidth="7" pathLength={1} strokeDasharray="1" strokeDashoffset="1" />
+            </svg>
+            <img src="public/assets/partners.webp" alt="דפנה רביד ועומר נחום, השותפים במשרד" loading="lazy" className="relative mx-auto block w-[78%] max-w-[420px] -scale-x-100" />
+          </div>
+          <span aria-hidden="true" className="block h-[2px] bg-stone" />
+        </div>
+        <div data-reveal style={d(150)} className="relative z-[2] hidden lg:block lg:absolute lg:left-[calc(50%-264.5px)] lg:top-[309px] lg:mt-0 lg:h-[660px] lg:w-[529px] lg:max-w-none">
           <img src="public/assets/partners.webp" alt="דפנה רביד ועומר נחום, השותפים במשרד" loading="lazy" className="block h-full w-full -scale-x-100 object-cover" />
         </div>
-        <span aria-hidden="true" className="order-first -mx-5 mb-12 block h-[2px] bg-stone lg:hidden" />
         <a href={ROUTES.about} className="rn-tab group relative z-10 order-last mx-auto mt-14 flex lg:order-none h-[64px] w-[94%] items-end justify-center gap-2 whitespace-nowrap rounded-t-[64px] bg-stone pb-[12px] text-[18px] text-petrol lg:absolute lg:bottom-0 lg:left-[calc(50%-320.5px)] lg:mt-0 lg:h-[80px] lg:w-[641px] lg:rounded-t-[80px] lg:pb-[8px] lg:text-[28px]">
           <span className="rn-link">לקריאה נוספת על הסטודיו</span>
           <span className="block transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1"><ArrowIcon className="h-[26px] w-[26px] -rotate-45 lg:h-[32px] lg:w-[32px]" /></span>
