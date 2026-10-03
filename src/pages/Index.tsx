@@ -440,12 +440,21 @@ function Partners() {
   useScrollFrame(() => {
     const sec = secRef.current, path = pathRef.current;
     if (!sec || !path) return;
-    if (reducedMotion()) { path.style.strokeDashoffset = "0"; if (mPathRef.current) mPathRef.current.style.strokeDashoffset = "0"; return; }
+    if (reducedMotion()) { path.style.strokeDashoffset = "0"; if (mPathRef.current) { mPathRef.current.style.strokeDasharray = "none"; mPathRef.current.style.strokeDashoffset = "0"; } return; }
     const { h } = viewport();
     const r = sec.getBoundingClientRect();
     const p = clamp01((h * 0.75 - r.top) / (r.height * 0.85)); // draws along with the scroll through the section
     path.style.strokeDashoffset = String(-(1 - p * p * (3 - 2 * p))); // grows from the top end downward
-    if (mPathRef.current) mPathRef.current.style.strokeDashoffset = path.style.strokeDashoffset;
+    // mobile S-curve: starts at the top line (right) and draws down to the bottom line (left)
+    const mp = mPathRef.current;
+    if (mp && mp.ownerSVGElement) {
+      const svg = mp.ownerSVGElement, w = svg.clientWidth, h = svg.clientHeight; // drawn in real pixels so the stroke stays even
+      svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+      mp.setAttribute("d", `M${w} 1 C ${w * 0.62} 1, ${w * 0.56} ${h * 0.3}, ${w * 0.47} ${h * 0.56} S ${w * 0.26} ${h - 1}, 0 ${h - 1}`);
+      const L = mp.getTotalLength();
+      mp.style.strokeDasharray = `${L}`;
+      mp.style.strokeDashoffset = `${L * (1 - p * p * (3 - 2 * p))}`;
+    }
     // leaves fade in as the section arrives
   });
 
@@ -496,8 +505,8 @@ function Partners() {
         <div className="relative order-first -mx-5 mb-12 lg:hidden">
           <span aria-hidden="true" className="block h-[2px] bg-stone" />
           <div className="relative px-5 pt-10">
-            <svg viewBox="0 0 1619.92 1022" preserveAspectRatio="none" fill="none" aria-hidden="true" className="pointer-events-none absolute inset-x-0 -scale-y-100" style={{ top: "-3.8%", bottom: "-2.4%" }}>
-              <path ref={mPathRef} d="M0.530221 22.505C124.971 -24.518 431.353 -23.0299 661.358 359.106C948.864 836.776 1097.54 1125.16 1619.53 984.988" stroke="#E0E0CF" strokeWidth="7" pathLength={1} strokeDasharray="1" strokeDashoffset="1" />
+            <svg fill="none" aria-hidden="true" className="pointer-events-none absolute inset-x-0 -top-px -bottom-px h-[calc(100%+2px)] w-full">
+              <path ref={mPathRef} d="M1000 1 C 620 1, 560 300, 470 560 S 260 999, 0 999" stroke="#E0E0CF" strokeWidth="2" strokeDasharray="10000" strokeDashoffset="10000" />
             </svg>
             <img src="/assets/partners.webp" alt="דפנה רביד ועומר נחום, השותפים במשרד" loading="lazy" className="relative mx-auto block w-[78%] max-w-[420px] -scale-x-100" />
           </div>
