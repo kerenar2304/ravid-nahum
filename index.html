@@ -30,7 +30,8 @@ tailwind.config = { theme: { extend: {
   --z: 1;                 /* desktop fluid scale, set by useFluidScale() */
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-anchor: none; } /* pinned layers + scroll anchoring can trap upward scrolling */
+body { overflow-anchor: none; }
 body {
   margin: 0;
   background: #e0e0cf;
