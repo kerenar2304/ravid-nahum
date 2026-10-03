@@ -1040,7 +1040,7 @@ function CoveredLayer({ children }: { children: ReactNode }) {
     window.addEventListener("resize", fit);
     return () => { ro.disconnect(); window.removeEventListener("resize", fit); };
   }, []);
-  return <div ref={ref} className="sticky pb-16 lg:pb-[12vh]">{children}</div>;
+  return <div ref={ref} className="sticky pb-[30vh] lg:pb-[12vh]">{children}</div>;
 }
 
 /* ------------------------------------------------- TERRA (arch wrapper) */
