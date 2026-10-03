@@ -398,19 +398,19 @@ function Stages() {
             {STAGES.map((st, i) => (
               <li
                 key={st.n}
-                className="absolute inset-0 flex flex-col overflow-hidden rounded-[26px] bg-stone text-petrol shadow-[0_6px_20px_rgba(4,42,43,.07)] will-change-transform lg:flex-row lg:rounded-[34px]"
+                className="absolute inset-0 flex flex-col overflow-hidden rounded-[26px] bg-stone text-petrol shadow-[0_6px_20px_rgba(4,42,43,.07)] will-change-transform sm:flex-row lg:rounded-[34px]"
                 style={{ zIndex: i + 1, transform: i === 0 ? "none" : "translate3d(-115%,0,0)" }}
               >
-                <div className="flex flex-col px-6 pt-7 lg:w-[44%] lg:justify-between lg:px-[56px] lg:py-[52px]">
+                <div className="flex flex-col px-6 pt-7 sm:w-[46%] sm:justify-between sm:px-[4.5vw] sm:py-[4.5vw] lg:w-[44%] lg:px-[56px] lg:py-[52px]">
                   <div>
-                    <span className="block font-['Num'] text-[clamp(64px,16.41vw,109px)] leading-[.85] text-terra lg:text-[110px]" dir="ltr" style={{ textAlign: "right" }}>0{st.n}</span>
-                    <h3 className="mt-4 text-[clamp(34px,8.72vw,58px)] font-normal leading-none lg:mt-8 lg:text-[58px]">{st.title}</h3>
-                    <p className="mt-3 max-w-[380px] text-[clamp(16px,4.10vw,27px)] leading-[1.65] text-petrol/80 lg:mt-5 lg:text-[20px]">{st.text}</p>
+                    <span className="block font-['Num'] text-[clamp(64px,13vw,96px)] leading-[.85] text-terra lg:text-[110px]" dir="ltr" style={{ textAlign: "right" }}>0{st.n}</span>
+                    <h3 className="mt-4 text-[clamp(34px,6.5vw,50px)] font-normal leading-none lg:mt-8 lg:text-[58px]">{st.title}</h3>
+                    <p className="mt-3 max-w-[380px] text-[clamp(16px,2.6vw,21px)] leading-[1.65] text-petrol/80 lg:mt-5 lg:text-[20px]">{st.text}</p>
                   </div>
-                  <span className="hidden text-[14px] tracking-[.2em] text-petrol/50 lg:block">שלב {st.n} מתוך 4</span>
+                  <span className="hidden text-[14px] tracking-[.2em] text-petrol/50 sm:block">שלב {st.n} מתוך 4</span>
                 </div>
-                <div className="flex min-h-0 flex-1 items-center justify-center px-6 pb-6 pt-2 lg:border-r lg:border-petrol/15 lg:p-[48px]">
-                  <StageArt art={st.art} className="h-full max-h-full w-auto max-w-full lg:h-auto lg:w-full lg:max-w-[460px]" />
+                <div className="flex min-h-0 flex-1 items-center justify-center px-6 pb-6 pt-2 sm:border-r sm:border-petrol/15 sm:p-[4vw] lg:p-[48px]">
+                  <StageArt art={st.art} className="h-full max-h-full w-auto max-w-full sm:h-auto sm:w-full sm:max-w-[460px]" />
                 </div>
               </li>
             ))}
