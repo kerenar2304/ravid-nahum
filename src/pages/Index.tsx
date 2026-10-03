@@ -77,7 +77,7 @@ function Hero() {
       </h1>
 
       {/* phones: the photo spans the full width right under the headline (never behind it) */}
-      <img src="/assets/hero-mobile.webp" alt="" aria-hidden="true" fetchPriority="high" className="-mx-[6vw] mt-1 block h-auto w-[calc(100%+12vw)] max-w-none mix-blend-darken sm:h-[72svh] sm:object-cover sm:object-[50%_38%] lg:hidden" />
+      <img src="/assets/hero-mobile.webp" alt="" aria-hidden="true" fetchPriority="high" className="relative z-20 -mx-[6vw] mt-1 block h-auto w-[calc(100%+12vw)] max-w-none mix-blend-darken lg:hidden" />
 
       <div className="relative -mx-[6vw] mt-auto hidden aspect-[1325/543] lg:absolute lg:block lg:inset-x-0 lg:top-[177px] lg:mx-0 lg:mt-0 lg:aspect-auto lg:h-[543px]">
         <div ref={houseRef} className="absolute inset-0 will-change-transform">
