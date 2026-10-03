@@ -1,0 +1,1192 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>(function(){var r=document.documentElement,w=r.clientWidth||innerWidth,D=1325,z=w<1024?1:w<=D?w/D:Math.min(1.6,1+(w/D-1)*0.6);if(z!==1)r.style.zoom=z.toFixed(4);r.style.setProperty("--z",z.toFixed(4))})()</script>
+<title>רביד נחום | אדריכלות ועיצוב פנים</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { petrol: "hsl(var(--petrol) / <alpha-value>)", terra: "hsl(var(--terra) / <alpha-value>)", stone: "hsl(var(--stone) / <alpha-value>)" },
+  fontFamily: { arfilit: ['"Num"', '"Arfilit"', "system-ui", "sans-serif"] }
+} } };
+</script>
+<style>
+
+
+/* Ravid Nahum — brand fonts */
+@font-face { font-family: "Num"; src: url("public/fonts/montserrat-latin-400-normal.woff2") format("woff2"); unicode-range: U+0030-0039; font-display: swap; }
+@font-face { font-family: "Arfilit"; src: url("public/fonts/Arfilit-ExtraLight.otf") format("opentype"); font-weight: 200; font-display: swap; }
+@font-face { font-family: "Arfilit"; src: url("public/fonts/Arfilit-Light.otf") format("opentype"); font-weight: 300; font-display: swap; }
+@font-face { font-family: "Arfilit"; src: url("public/fonts/Arfilit-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Arfilit"; src: url("public/fonts/Arfilit-SemiBold.otf") format("opentype"); font-weight: 600; font-display: swap; }
+
+:root {
+  /* brand tokens (HSL) */
+  --petrol: 181 83% 9%;   /* #042a2b */
+  --terra: 26 54% 42%;    /* #a56332 */
+  --stone: 60 22% 84%;    /* #e0e0cf */
+  --z: 1;                 /* desktop fluid scale, set by useFluidScale() */
+}
+
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: #e0e0cf;
+  color: #042a2b;
+  font-family: "Num", "Arfilit", system-ui, sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+/* =========================================================
+   Ravid Nahum — effects layer (plain CSS, no libraries)
+   Triggered by useReveal(): adds .is-in to [data-reveal]
+   ========================================================= */
+
+:root { --ease: cubic-bezier(.22, .7, .12, 1); }
+
+/* ---- generic fade-up ---- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1s var(--ease), transform 1.1s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+[data-reveal].is-in { opacity: 1; transform: none; }
+
+/* ---- headline lines rising from a mask ---- */
+[data-reveal="lines"] { opacity: 1; transform: none; }
+.rn-line { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+.rn-line > span {
+  display: inline-block;
+  transform: translateY(108%);
+  transition: transform 1.15s var(--ease);
+  transition-delay: calc(var(--d, 0ms) + var(--i, 0) * 110ms);
+}
+[data-reveal="lines"].is-in .rn-line > span { transform: none; }
+
+/* ---- a rule that draws itself (RTL: grows from the right) ---- */
+[data-reveal="rule"] { opacity: 1; transform: scaleX(0); transform-origin: right center; transition: transform 1.4s var(--ease); transition-delay: var(--d, 0ms); }
+[data-reveal="rule"].rule-from-left { transform-origin: left center; }
+[data-reveal="rule"].is-in { transform: scaleX(1); }
+
+/* ---- image pills opening sideways ---- */
+[data-reveal="pill"] { opacity: 1; transform: none; }
+[data-reveal="pill"] .rn-clip { clip-path: inset(0 0 0 100% round 200px); transition: clip-path 1.3s var(--ease); transition-delay: var(--d, 0ms); }
+[data-reveal="pill"].pill-from-left .rn-clip { clip-path: inset(0 100% 0 0 round 200px); }
+[data-reveal="pill"].is-in .rn-clip { clip-path: inset(0 0 0 0 round 200px); }
+[data-reveal="pill"] img { transform: scale(1.18); transition: transform 1.8s var(--ease); transition-delay: var(--d, 0ms); }
+[data-reveal="pill"].is-in img { transform: scale(1); }
+.rn-pill:hover img { transform: scale(1.06); transition-duration: .9s; transition-delay: 0ms; }
+
+/* ---- project images unveiling top → bottom ---- */
+[data-reveal="unveil"] { opacity: 1; transform: none; }
+[data-reveal="unveil"] .rn-clip { clip-path: inset(0 0 100% 0); transition: clip-path 1.4s var(--ease); transition-delay: var(--d, 0ms); }
+[data-reveal="unveil"].is-in .rn-clip { clip-path: inset(0 0 0 0); }
+[data-reveal="unveil"] .rn-front { transform: scale(1.15); transition: transform 2s var(--ease); }
+[data-reveal="unveil"].is-in .rn-front { transform: scale(1); }
+
+/* ---- project card: interior backdrop, stone panel with an arched exterior window ---- */
+.rn-card { cursor: pointer; }
+.rn-card .rn-card-bg { transition: transform 1.6s var(--ease); }
+.rn-card .rn-card-panel { transition: transform .9s var(--ease), box-shadow .9s var(--ease); }
+.rn-card .rn-card-arch { transition: transform 1.4s var(--ease); }
+.rn-card:hover .rn-card-panel, .rn-card:focus-visible .rn-card-panel { transform: translate(-50%, calc(-50% - 8px)); box-shadow: 0 28px 60px rgba(4,42,43,.32); }
+.rn-card:hover .rn-card-arch, .rn-card:focus-visible .rn-card-arch { transform: scale(1.06); }
+.rn-card:hover .rn-card-bg { transform: scale(1.04); }
+
+/* ---- "all projects" circle ---- */
+.rn-circle { transition: transform .7s var(--ease), background-color .4s; }
+.rn-circle:hover { transform: scale(1.07); }
+.rn-ring { animation: rn-spin 18s linear infinite; }
+@keyframes rn-spin { to { transform: rotate(360deg); } }
+.rn-ring-arrow { transition: transform .6s var(--ease); }
+.rn-circle:hover .rn-ring-arrow { transform: translate(-6px, 6px); }
+@media (prefers-reduced-motion: reduce) { .rn-ring { animation: none; } }
+
+/* ---- nav links: underline opening from the right ---- */
+.rn-link { position: relative; }
+.rn-link::after {
+  content: ""; position: absolute; right: 0; bottom: -6px; height: 1px; width: 100%;
+  background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .5s var(--ease);
+}
+.rn-link:hover::after, .rn-link[aria-current="page"]::after { transform: scaleX(1); }
+
+/* ---- header: hides on scroll down, returns on scroll up ---- */
+.rn-header { transition: transform .6s var(--ease); }
+.rn-header.is-hidden { transform: translateY(-110%); }
+
+/* ---- phone buttons ---- */
+.rn-icon-btn { transition: transform .4s var(--ease), box-shadow .4s; }
+.rn-icon-btn:hover { transform: translateY(-2px); }
+
+/* ---- stage illustrations draw in when the panel opens ---- */
+.rn-stage svg path, .rn-stage svg circle, .rn-stage svg rect { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.6s var(--ease); }
+.rn-stage.is-active svg path, .rn-stage.is-active svg circle, .rn-stage.is-active svg rect { stroke-dashoffset: 0; }
+.rn-stage svg .d, .rn-stage svg .d * { stroke-dasharray: 4 4; stroke-dashoffset: 0; opacity: .55; }
+
+/* ---- form fields ---- */
+.rn-field { transition: border-color .4s; }
+.rn-field:focus { outline: none; border-color: #a56332; }
+.rn-submit { transition: background-color .4s, color .4s, transform .4s var(--ease); }
+.rn-submit:hover { background: transparent; color: #e0e0cf; }
+.rn-submit svg { transition: transform .5s var(--ease); }
+.rn-submit:hover svg { transform: translateX(-5px); }
+
+/* ---- focus ring for keyboard users ---- */
+:focus-visible { outline: 2px solid #a56332; outline-offset: 4px; }
+
+/* ---- reduced motion: everything visible, nothing moves ---- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  [data-reveal], [data-reveal] img, [data-reveal] .rn-clip, .rn-line > span, [data-reveal] .rn-front {
+    opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important;
+  }
+  .rn-stage svg * { stroke-dashoffset: 0 !important; transition: none !important; }
+}
+
+/* ---- hero headline: each letter turns fully on its vertical axis (shutter slats) ---- */
+.rn-flips { --shut: 0; }
+.rn-flip { display: inline-block; transform: scaleX(0); opacity: 0; animation: rn-flip-in .75s cubic-bezier(.3, .7, .2, 1) forwards; }
+.rn-flip > span {
+  display: inline-block;
+  transform: scaleX(calc(1 - clamp(0, var(--shut) * 1.6 - var(--i) / var(--n) * .6, 1)));
+  opacity: calc(1 - clamp(0, var(--shut) * 1.6 - var(--i) / var(--n) * .6, 1));
+}
+@keyframes rn-flip-in { 0% { transform: scaleX(0); opacity: 0; } 35% { opacity: .35; } 100% { transform: scaleX(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .rn-flip { animation: none; transform: none; opacity: 1; } .rn-flip > span { transform: none; opacity: 1; } }
+
+/* same letter unfold, triggered when the block scrolls into view */
+[data-reveal="flip"] { opacity: 1; transform: none; --shut: 0; }
+[data-reveal="flip"] .rn-flip { animation-play-state: paused; }
+[data-reveal="flip"].is-in .rn-flip { animation-play-state: running; }
+
+/* partners tab: lifts a little on hover to invite the click */
+.rn-tab { transition: transform .6s var(--ease); }
+
+/* ---- stages: adjoining cards, the hovered one widens and is sketched again ---- */
+.rn-stage-card { transition: flex-grow .6s cubic-bezier(.4, 0, .2, 1), opacity 1s var(--ease), transform 1.1s var(--ease); outline-offset: -6px; }
+@media (min-width: 1024px) {
+  .rn-stages:hover .rn-stage-card { flex-grow: .85; }
+  .rn-stages .rn-stage-card:hover, .rn-stages .rn-stage-card:focus-visible { flex-grow: 1.7; }
+}
+.rn-stage-art path:not(.d) { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.6s cubic-bezier(.45, 0, .25, 1) calc(var(--j, 0) * 60ms); }
+.rn-stage-card.is-in .rn-stage-art path:not(.d) { stroke-dashoffset: 0; }
+.rn-stage-art .d { stroke-dasharray: 4 4; opacity: 0; transition: opacity 1s ease calc(var(--j, 0) * 60ms); }
+.rn-stage-card.is-in .rn-stage-art .d { opacity: .55; }
+.rn-stage-card:hover .rn-stage-art path:not(.d), .rn-stage-card:focus-visible .rn-stage-art path:not(.d) { animation: rn-sketch 1.6s cubic-bezier(.45, 0, .25, 1) calc(.45s + var(--j, 0) * 60ms) both; }
+@keyframes rn-sketch { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.rn-stage-art { transition: transform 1.6s var(--ease); }
+@media (prefers-reduced-motion: reduce) { .rn-stage-art path { stroke-dashoffset: 0 !important; animation: none !important; } }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script id="src" type="text/plain">
+const { useState, useRef, useEffect, useLayoutEffect } = React;
+
+/* ---------------------------------------------------------------
+   Ravid Nahum — shared pieces: tokens, hooks, icons, header, footer
+   --------------------------------------------------------------- */
+
+const cn = (...a: (string | false | null | undefined)[]) => a.filter(Boolean).join(" ");
+
+const ROUTES = {
+  home: "/",
+  projects: "/#projects",
+  studio: "/#studio",
+  about: "/about",
+  contact: "/#contact",
+  accessibility: "/accessibility",
+  privacy: "/privacy",
+  terms: "/terms",
+};
+
+const CONTACT = {
+  phone: "050-0000000",
+  phoneHref: "tel:+972500000000",
+  whatsappHref: "https://wa.me/972500000000",
+  instagramHref: "https://www.instagram.com/",
+  email: "studio@ravid-nahum.co.il",
+  address: "רחוב הדוגמה 1, תל אביב",
+  mapsHref: "https://maps.google.com/?q=Tel+Aviv",
+};
+
+/* ---------- desktop fluid scale ----------
+   The Figma frame is 1325px wide. From 1024px up the whole page is zoomed so the
+   frame fills the screen; above 1325px growth is damped (60%) and capped at 1.6.
+   Below 1024px there is no zoom and the responsive (mobile/tablet) layout applies. */
+const DESIGN_W = 1325;
+function fluidZoom(w: number) {
+  if (w < 1024) return 1;
+  if (w <= DESIGN_W) return w / DESIGN_W;
+  return Math.min(1.6, 1 + (w / DESIGN_W - 1) * 0.6);
+}
+function useFluidScale() {
+  useLayoutEffect(() => {
+    const apply = () => {
+      const r = document.documentElement;
+      (r.style as CSSStyleDeclaration & { zoom: string }).zoom = ""; // measure without zoom, minus the scrollbar
+      const z = fluidZoom(r.clientWidth || window.innerWidth);
+      (r.style as CSSStyleDeclaration & { zoom: string }).zoom = z === 1 ? "" : z.toFixed(4);
+      r.style.setProperty("--z", z.toFixed(4));
+    };
+    apply();
+    window.addEventListener("resize", apply);
+    return () => window.removeEventListener("resize", apply);
+  }, []);
+}
+
+const reducedMotion = () =>
+  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* Viewport height in the same units getBoundingClientRect() reports (zoom-safe),
+   and the factor that turns those units into window scroll pixels. */
+let probe: HTMLDivElement | null = null;
+function viewport() {
+  if (!probe) {
+    probe = document.createElement("div");
+    probe.setAttribute("aria-hidden", "true");
+    probe.style.cssText = "position:fixed;top:0;left:0;width:0;height:100%;pointer-events:none;visibility:hidden";
+    document.body.appendChild(probe);
+  }
+  const h = probe.getBoundingClientRect().height || window.innerHeight;
+  return { h, toScroll: window.innerHeight / h };
+}
+
+/* Runs `cb` once per animation frame while the page scrolls or resizes. */
+function useScrollFrame(cb: () => void, deps: unknown[] = []) {
+  useEffect(() => {
+    let raf = 0;
+    const tick = () => { raf = 0; cb(); };
+    const req = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    tick();
+    window.addEventListener("scroll", req, { passive: true });
+    window.addEventListener("resize", req);
+    return () => {
+      window.removeEventListener("scroll", req);
+      window.removeEventListener("resize", req);
+      if (raf) cancelAnimationFrame(raf);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
+}
+
+/* Adds .is-in to every [data-reveal] element once it scrolls into view. */
+function useReveal() {
+  useEffect(() => {
+    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-in)"));
+    if (reducedMotion() || !("IntersectionObserver" in window)) {
+      els.forEach((el) => el.classList.add("is-in"));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
+      }),
+      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+}
+
+const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+
+/* ---------- icons ---------- */
+type IconProps = SVGProps<SVGSVGElement>;
+const PhoneIcon = (p: IconProps) => (
+  <svg viewBox="0 0 22 22" fill="currentColor" aria-hidden="true" {...p}>
+    <path d="M12.25 19.34C14.66 20.38 17.55 21 21 21V16L16 14.75 12.25 19.34ZM12.25 19.34C7.45 17.28 4.53 13.56 2.88 9.75M2.88 9.75C1.5 6.59 1 3.37 1 1H6L7.25 6 2.88 9.75Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+const WhatsappIcon = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...p}>
+    <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4a.5.5 0 0 0 0-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3Z" />
+  </svg>
+);
+const MailIcon = (p: IconProps) => (
+  <svg viewBox="0 0 29 23" fill="currentColor" aria-hidden="true" {...p}>
+    <path d="M26.1 5.75 14.5 12.94 2.9 5.75V2.88l11.6 7.19 11.6-7.19M26.1 0H2.9A2.89 2.89 0 0 0 0 2.88v17.24A2.9 2.9 0 0 0 2.9 23h23.2a2.9 2.9 0 0 0 2.9-2.88V2.88A2.9 2.9 0 0 0 26.1 0Z" />
+  </svg>
+);
+const PinIcon = (p: IconProps) => (
+  <svg viewBox="0 0 21 29" fill="currentColor" aria-hidden="true" {...p}>
+    <path d="M10.5 13.78a3.69 3.69 0 0 1-3.75-3.63 3.75 3.75 0 0 1 7.5 0 3.69 3.69 0 0 1-3.75 3.63ZM10.5 0A10.33 10.33 0 0 0 0 10.15C0 17.76 10.5 29 10.5 29S21 17.76 21 10.15A10.33 10.33 0 0 0 10.5 0Z" />
+  </svg>
+);
+const ArrowIcon = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...p}>
+    <path d="M20 12H4M10 6l-6 6 6 6" />
+  </svg>
+);
+/* light, unframed line icons: hairline strokes and square corners, in the logo's spirit */
+const line = { fill: "none", stroke: "currentColor", strokeWidth: 1.15, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+const LinePhone = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" {...line} {...p}>
+    <path d="M5 3h4l1.5 4.5-2.2 1.6a12 12 0 0 0 6.6 6.6l1.6-2.2L21 15v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2Z" />
+  </svg>
+);
+const LineInstagram = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" {...line} strokeLinejoin="miter" {...p}>
+    <path d="M3.5 3.5h17v17h-17Z" />
+    <circle cx="12" cy="12" r="4.2" />
+    <circle cx="17.2" cy="6.8" r=".5" fill="currentColor" stroke="none" />
+  </svg>
+);
+const LineWhatsapp = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" {...line} {...p}>
+    <path d="M12 3a9 9 0 1 1-4.3 16.9L3 21l1.2-4.5A9 9 0 0 1 12 3Z" />
+    <path d="M9 8.2h1.8l.8 2-1 .9a5 5 0 0 0 2.3 2.3l.9-1 2 .8V15A6.8 6.8 0 0 1 9 8.2Z" />
+  </svg>
+);
+const MenuIcon = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true" {...p}><path d="M3 7h18M3 12h18M3 17h18" /></svg>
+);
+const CloseIcon = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true" {...p}><path d="M5 5l14 14M19 5 5 19" /></svg>
+);
+
+/* ---------- header ---------- */
+const NAV = [
+  { label: "ראשי", href: ROUTES.home, key: "home" },
+  { label: "פרויקטים", href: ROUTES.projects, key: "projects" },
+  { label: "סטודיו", href: ROUTES.studio, key: "studio" },
+  { label: "צור קשר", href: ROUTES.contact, key: "contact" },
+];
+
+function IconButton({ href, label, children, external }: { href: string; label: string; children: ReactNode; external?: boolean }) {
+  return (
+    <a
+      href={href}
+      aria-label={label}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className="rn-icon-btn flex h-[40px] w-[40px] items-center justify-center text-stone hover:opacity-75"
+    >
+      {children}
+    </a>
+  );
+}
+
+function Header({ active = "home" }: { active?: string }) {
+  useFluidScale();
+  const [hidden, setHidden] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    let last = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y < 90) setHidden(false);          // always visible at the very top
+      else if (y > last + 3) setHidden(true); // scrolling down: gone
+      else if (y < last - 3) setHidden(false); // scrolling up: back
+      last = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  return (
+    <>
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:right-4 focus:top-4 focus:z-[60] focus:bg-stone focus:px-4 focus:py-2">
+        דילוג לתוכן
+      </a>
+      <header className={cn("rn-header sticky top-0 z-50", hidden && !open && "is-hidden")}>
+        <div className="relative mx-auto flex h-[64px] items-center justify-between rounded-b-[16px] bg-petrol px-4 lg:h-[91px] lg:rounded-b-[20px] lg:px-0">
+          <div className="relative flex w-full items-center justify-between lg:mx-auto lg:w-[1325px] lg:px-[73px]">
+            <a href={ROUTES.home} aria-label="רביד נחום — לדף הבית" className="block">
+              <img src="public/assets/logo-cream.svg" alt="Ravid Nahum" className="h-[36px] w-auto lg:h-[45.67px]" />
+            </a>
+
+            <nav aria-label="ניווט ראשי" className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 lg:block">
+              <ul className="flex items-center gap-[47px] px-[6px] text-[20px] leading-[22px] text-stone">
+                {NAV.map((n) => (
+                  <li key={n.key}>
+                    <a href={n.href} className="rn-link whitespace-nowrap" aria-current={active === n.key ? "page" : undefined}>
+                      {n.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <div className="flex items-center gap-[13px] lg:ml-[2px]">
+              <span className="hidden lg:contents">
+                <IconButton href={CONTACT.instagramHref} label="אינסטגרם" external><LineInstagram className="h-[29px] w-[29px]" /></IconButton>
+                <IconButton href={CONTACT.whatsappHref} label="וואטסאפ" external><LineWhatsapp className="h-[29px] w-[29px]" /></IconButton>
+                <IconButton href={CONTACT.phoneHref} label={`חייגו ${CONTACT.phone}`}><LinePhone className="h-[29px] w-[29px]" /></IconButton>
+              </span>
+              <span className="contents lg:hidden">
+                <IconButton href={CONTACT.phoneHref} label={`חייגו ${CONTACT.phone}`}><LinePhone className="h-[29px] w-[29px]" /></IconButton>
+                <button
+                  type="button"
+                  onClick={() => setOpen((o) => !o)}
+                  aria-expanded={open}
+                  aria-controls="mobile-menu"
+                  aria-label={open ? "סגירת תפריט" : "פתיחת תפריט"}
+                  className="flex h-[38px] w-[40px] items-center justify-center rounded-[5px] border border-stone/50 text-stone"
+                >
+                  {open ? <CloseIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* mobile menu */}
+        <div
+          id="mobile-menu"
+          className={cn(
+            "fixed inset-x-0 top-0 -z-10 h-[100dvh] bg-petrol px-6 pt-[110px] text-stone transition-[clip-path] duration-700 [transition-timing-function:var(--ease)] lg:hidden",
+            open ? "[clip-path:inset(0_0_0_0)]" : "pointer-events-none [clip-path:inset(0_0_100%_0)]",
+          )}
+          aria-hidden={!open}
+        >
+          <ul className="flex flex-col gap-6 text-[40px] font-light leading-none">
+            {NAV.map((n, i) => (
+              <li key={n.key} style={{ transitionDelay: open ? `${150 + i * 70}ms` : "0ms" }} className={cn("transition-all duration-700", open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0")}>
+                <a href={n.href} onClick={() => setOpen(false)} tabIndex={open ? 0 : -1}>{n.label}</a>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-12 flex flex-col gap-3 text-[18px] opacity-80">
+            <a href={CONTACT.phoneHref} tabIndex={open ? 0 : -1}>{CONTACT.phone}</a>
+            <a href={`mailto:${CONTACT.email}`} tabIndex={open ? 0 : -1}>{CONTACT.email}</a>
+          </div>
+        </div>
+      </header>
+    </>
+  );
+}
+
+/* ---------- footer ---------- */
+const FOOT_ICON = "flex h-[40px] w-[40px] items-center justify-center text-stone transition-opacity hover:opacity-70";
+
+function Footer() {
+  return (
+    <footer className="relative mt-20 overflow-hidden bg-petrol text-stone lg:mt-[144px]">
+      <div className="mx-auto flex flex-col gap-12 px-6 pt-14 lg:w-[1325px] lg:flex-row-reverse lg:items-start lg:justify-between lg:px-[73px] lg:pt-[72px]">
+        {/* brand, legal links, contact icons */}
+        <div className="lg:text-left">
+          <img src="public/assets/logo-footer-cream.svg" alt="Ravid Nahum — Architecture & Interiors" className="h-auto w-[240px] lg:mr-auto lg:w-[300px]" />
+          <ul className="mt-8 flex flex-col gap-3 text-[16px] lg:text-[17px]">
+            <li><a className="underline decoration-stone/50 underline-offset-[5px] hover:decoration-stone" href={ROUTES.accessibility}>הצהרת נגישות</a></li>
+            <li><a className="underline decoration-stone/50 underline-offset-[5px] hover:decoration-stone" href={ROUTES.privacy}>מדיניות פרטיות</a></li>
+            <li><a className="underline decoration-stone/50 underline-offset-[5px] hover:decoration-stone" href={ROUTES.terms}>תקנון האתר</a></li>
+            <li><a className="underline decoration-stone/50 underline-offset-[5px] hover:decoration-stone" href={CONTACT.mapsHref} target="_blank" rel="noopener noreferrer">{CONTACT.address}</a></li>
+          </ul>
+          <div className="mt-8 flex items-center gap-4 lg:flex-row-reverse">
+            <span data-reveal="rule" aria-hidden="true" className="rule-from-left block h-[2px] w-[110px] bg-stone lg:w-[128px]" style={{ ["--d" as string]: "200ms" }} />
+            <a className={FOOT_ICON} href={CONTACT.phoneHref} aria-label={`טלפון: ${CONTACT.phone}`}><LinePhone className="h-[27px] w-[27px]" /></a>
+            <a className={FOOT_ICON} href={CONTACT.whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="וואטסאפ"><LineWhatsapp className="h-[27px] w-[27px]" /></a>
+            <a className={FOOT_ICON} href={CONTACT.instagramHref} target="_blank" rel="noopener noreferrer" aria-label="אינסטגרם"><LineInstagram className="h-[27px] w-[27px]" /></a>
+                      </div>
+        </div>
+
+        {/* site navigation */}
+        <nav aria-label="ניווט תחתון">
+          <ul className="flex flex-col gap-3 text-[16px] lg:text-[17px]">
+            {NAV.map((n) => (
+              <li key={n.key}><a className="rn-link" href={n.href}>{n.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+
+      <div className="mx-auto mt-14 px-6 pb-8 lg:mt-[72px] lg:w-[1325px] lg:px-[73px] lg:pb-[34px]">
+        <div data-reveal="rule" className="h-[2px] w-full bg-stone" aria-hidden="true" />
+        <div className="mt-6 flex flex-col-reverse items-start gap-4 text-[16px] lg:flex-row lg:items-center lg:justify-between lg:text-[17px]">
+          <p>© {new Date().getFullYear()} רביד נחום אדריכלות ועיצוב פנים. כל הזכויות שמורות.</p>
+          <a href="https://www.instagram.com/keren.arlihman" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 opacity-90 hover:opacity-100">
+            <span>עיצוב ופיתוח האתר:</span>
+            <img src="public/assets/keren-logo.png" alt="Keren Arlihman — Graphic Designer" className="h-[34px] w-auto lg:h-[38px]" />
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ===============================================================
+   Ravid Nahum — Home
+   Desktop measurements follow the Figma frame (1325px wide).
+   Every block is mobile-first; `lg:` holds the exact Figma layout.
+   =============================================================== */
+
+const d = (ms: number) => ({ ["--d" as string]: `${ms}ms` }) as CSSProperties;
+const li = (i: number) => ({ ["--i" as string]: i }) as CSSProperties;
+
+/* ---------------------------------------------------------------- HERO */
+/* Letters turn on their vertical axis like shutter slats: in on load, out on scroll */
+function FlipText({ text, className, delay = 0 }: { text: string; className?: string; delay?: number }) {
+  const n = Array.from(text).length;
+  let i = 0;
+  // letters animate one by one, but each word stays unbroken so lines only wrap between words
+  return (
+    <span className={className} aria-label={text}>
+      {text.split(" ").map((word, w) => (
+        <span key={w}>
+          {w > 0 && " "}
+          <span className="inline-block whitespace-nowrap" aria-hidden="true">
+            {Array.from(word).map((ch) => {
+              const k = i++;
+              return (
+                <span key={k} className="rn-flip" style={{ animationDelay: `${delay + k * 45}ms`, ["--i" as string]: k, ["--n" as string]: n } as CSSProperties}>
+                  <span>{ch}</span>
+                </span>
+              );
+            })}
+          </span>
+        </span>
+      ))}
+    </span>
+  );
+}
+
+
+function Hero() {
+  const houseRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  // gentle parallax: the house drifts slower than the page
+  useScrollFrame(() => {
+    const el = houseRef.current, hero = heroRef.current;
+    if (!el || !hero || reducedMotion()) return;
+    const r = hero.getBoundingClientRect();
+    // the shutter closes again as the hero scrolls away
+    titleRef.current?.style.setProperty("--shut", String(clamp01(-r.top / (r.height * 0.55))));
+    if (r.bottom < 0) return;
+    el.style.transform = `translate3d(0, ${Math.max(0, -r.top) * 0.14}px, 0)`;
+  });
+
+  return (
+    <section ref={heroRef} id="top" className="relative mx-auto flex overflow-hidden bg-stone lg:overflow-visible lg:bg-transparent min-h-[calc(100svh-64px)] flex-col px-6 pt-12 sm:px-8 lg:block lg:h-[720px] lg:min-h-0 lg:w-[1325px] lg:p-0">
+      {/* mobile: full-screen photo, headline over the sky */}
+      {/* the photo's light backdrop melts into the page colour (darken blend), so only the house, its slab and the shadow remain */}
+      <img src="public/assets/hero-mobile.webp" alt="" aria-hidden="true" fetchPriority="high" className="absolute inset-0 h-full w-full translate-y-[9%] object-cover object-[50%_100%] mix-blend-darken lg:hidden" />
+      <h1 ref={titleRef} className="rn-flips relative z-10 font-semibold text-petrol">
+        <span className="flex flex-col-reverse items-start gap-5 lg:block">
+          <FlipText text="קו אחד" className="block text-[54px] leading-[1] sm:text-[76px] lg:absolute lg:right-[73px] lg:top-[51px] lg:text-[96px] lg:leading-[75px]" />
+          <span
+            data-reveal="rule"
+            aria-hidden="true"
+            className="block h-[2px] w-[46%] bg-petrol lg:absolute lg:left-[85px] lg:top-[117px] lg:mt-0 lg:h-[3px] lg:w-[772px] lg:flex-none"
+            style={d(550)}
+          />
+        </span>
+        <FlipText text="מהיסוד" delay={120} className="mt-1 block text-[54px] leading-[1.02] sm:text-[76px] lg:hidden" />
+        <FlipText text="עד הפנים" delay={240} className="block text-[54px] leading-[1.02] sm:text-[76px] lg:hidden" />
+        <FlipText text="מהיסוד עד הפנים" delay={120} className="hidden lg:absolute lg:block lg:right-[324px] lg:top-[153px] lg:mt-0 lg:whitespace-nowrap lg:text-[96px] lg:leading-[75px]" />
+      </h1>
+
+      <div className="relative -mx-6 mt-auto hidden h-[60svh] overflow-hidden sm:-mx-8 lg:absolute lg:block lg:inset-x-0 lg:top-[177px] lg:mx-0 lg:mt-0 lg:h-[543px] lg:overflow-visible">
+        <div ref={houseRef} className="absolute inset-0 will-change-transform">
+          <img
+            data-reveal
+            style={d(450)}
+            src="public/assets/hero-house.webp"
+            alt="בית אבן ים־תיכוני בתכנון המשרד, עם עצי זית וברוש"
+            fetchPriority="high"
+            className="absolute bottom-[-24%] left-[-148%] h-[150%] w-auto max-w-none select-none lg:bottom-auto lg:left-[3.49%] lg:top-[-35.82%] lg:h-[170.17%] lg:w-[92.98%]"
+            draggable={false}
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ----------------------------------------------------------- STATEMENT */
+function Pill({ src, alt, from = "right", delay, className }: { src: string; alt: string; from?: "left" | "right"; delay: number; className?: string }) {
+  return (
+    <span
+      data-reveal="pill"
+      style={d(delay)}
+      className={cn("rn-pill relative block h-[30px] flex-1 sm:h-[46px] lg:absolute lg:h-[63px] lg:flex-none", from === "left" && "pill-from-left", className)}
+    >
+      <span className="rn-clip absolute inset-0 block overflow-hidden rounded-[200px]">
+        <img src={src} alt={alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+      </span>
+    </span>
+  );
+}
+
+function Statement() {
+  const word = "whitespace-nowrap text-[38px] font-light leading-[1.15] sm:text-[64px] lg:absolute lg:text-[90px] lg:leading-[75px]";
+  return (
+    <section id="studio" aria-label="על המשרד" className="relative mx-auto mt-28 px-4 sm:px-8 lg:mt-[230px] lg:h-[319px] lg:w-[1325px] lg:px-0">
+      <h2 className="flex flex-col gap-3 text-petrol sm:gap-4 lg:block">
+        <span className="flex items-center gap-3 sm:gap-6 lg:contents">
+          <span data-reveal="flip" className={cn(word, "lg:right-[178px] lg:top-[1px]")}><FlipText text="אדריכלות" /></span>
+          <Pill src="public/assets/pill-architecture.jpg" alt="" delay={200} className="lg:left-[177px] lg:top-0 lg:w-[456px]" />
+        </span>
+        <span className="flex items-center gap-3 sm:gap-6 lg:contents">
+          <Pill src="public/assets/pill-interior.jpg" alt="" from="left" delay={320} className="lg:left-[738px] lg:top-[88px] lg:w-[416px]" />
+          <span data-reveal="flip" className={cn(word, "lg:right-[627px] lg:top-[89px]")}><FlipText text="ועיצוב פנים" delay={180} /></span>
+        </span>
+        <span className="flex items-center gap-3 sm:gap-6 lg:contents">
+          <span data-reveal="flip" className={cn(word, "lg:right-[172px] lg:top-[176px]")}><FlipText text="מאותו שולחן" delay={360} /></span>
+          <Pill src="public/assets/pill-table.jpg" alt="" delay={440} className="lg:left-[171px] lg:top-[176px] lg:w-[341px]" />
+        </span>
+      </h2>
+      <p
+        data-reveal
+        style={d(300)}
+        className="mt-8 text-center text-[18px] font-light leading-[1.6] text-petrol sm:text-[22px] lg:absolute lg:left-[163.5px] lg:top-[276px] lg:mt-0 lg:w-[998px] lg:whitespace-nowrap lg:text-[26px] lg:leading-[43px]"
+      >
+        כדי שכל חלל ייבנה בשפה אחת, בלי פער בין התוכנית לבין החיים שבתוכו.
+      </p>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------ PROJECTS */
+type Project = { slug: string; name: string; meta: string; text: string; exterior: string; interior: string };
+
+const PROJECTS: Project[] = [
+  {
+    slug: "moshav",
+    name: "בית במושב",
+    meta: "בית פרטי · השרון",
+    text: "קומה אחת סביב בריכה, וכל חדר נפתח אל הגינה.",
+    exterior: "public/assets/project-moshav-exterior.jpg",
+    interior: "public/assets/project-moshav-interior.jpg",
+  },
+  {
+    slug: "zichron",
+    name: "בית אבן בזכרון יעקב",
+    meta: "שימור ותוספת · זכרון יעקב",
+    text: "קירות אבן מקוריים, קשתות, ותוספת פלדה וזכוכית שנפתחת לנוף.",
+    exterior: "public/assets/project-zichron-exterior.jpg",
+    interior: "public/assets/project-zichron-interior.jpg",
+  },
+  {
+    slug: "herzliya",
+    name: "פנטהאוז בהרצליה פיתוח",
+    meta: "דירת גג · הרצליה פיתוח",
+    text: "קומה אחרונה מול הים, עם מרפסת שמתנהגת כמו עוד חדר בבית.",
+    exterior: "public/assets/project-herzliya-exterior.jpg",
+    interior: "public/assets/project-herzliya-interior.jpg",
+  },
+];
+
+/* Interior photo fills the card; a stone "poster" panel sits on it with an arched window onto the exterior. */
+function ProjectCard({ p, className, delay = 0 }: { p: Project; className?: string; delay?: number }) {
+  const [type, place] = p.meta.split(" · ");
+  return (
+    <a
+      href={ROUTES.projects}
+      data-reveal="unveil"
+      style={d(delay)}
+      aria-label={`${p.name} — ${p.meta}`}
+      className={cn("rn-card group relative block [container-type:size]", className)}
+    >
+      <span className="rn-clip absolute inset-0 block overflow-hidden">
+        <img src={p.interior} alt={`${p.name}, מבט מבפנים`} loading="lazy" className="rn-front rn-card-bg absolute inset-0 h-full w-full object-cover" />
+        <span className="rn-card-panel absolute left-1/2 top-1/2 flex h-[88cqh] w-[min(60cqh,84cqw)] -translate-x-1/2 -translate-y-1/2 flex-col bg-stone px-[3.6cqh] pb-[3.4cqh] pt-[3cqh] text-petrol shadow-[0_18px_40px_rgba(4,42,43,.25)]">
+          <span className="flex items-baseline justify-between text-[max(12px,2.1cqh)] leading-none tracking-[.04em]">
+            <span>{type}</span>
+            <span>{place}</span>
+          </span>
+          <span className="relative mt-[2.6cqh] block flex-1 overflow-hidden rounded-t-full">
+            <img src={p.exterior} alt={`${p.name}, מבט מבחוץ`} loading="lazy" className="rn-card-arch absolute inset-0 h-full w-full object-cover" />
+          </span>
+          <span className="mt-[3cqh] block text-center text-[max(24px,5.4cqh)] font-light leading-[1.05]">{p.name}</span>
+          <span className="mx-auto mt-[1.6cqh] block max-w-[92%] text-center text-[max(13px,2.2cqh)] leading-[1.5] opacity-85">{p.text}</span>
+        </span>
+      </span>
+    </a>
+  );
+}
+
+/* A rule drawn by the scroll itself, from its own edge, as soon as it enters the screen */
+function ScrollRule({ className, from = "left" }: { className: string; from?: "left" | "right" }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  useScrollFrame(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (reducedMotion()) { el.style.transform = "none"; return; }
+    const { h } = viewport();
+    const top = el.getBoundingClientRect().top;
+    el.style.transform = `scaleX(${easeOut(clamp01((h * 1.05 - top) / (h * 0.75)))})`;
+  });
+  return <span ref={ref} aria-hidden="true" className={cn("block scale-x-0 bg-stone will-change-transform", from === "left" ? "origin-left" : "origin-right", className)} />;
+}
+
+function Projects() {
+  const [a, b, c] = PROJECTS;
+  return (
+    <section id="projects" aria-labelledby="projects-title" className="relative">
+      <div className="relative flex flex-col pb-16 lg:block lg:h-[2445px] lg:pb-0">
+        <h2 id="projects-title" data-reveal="lines" className="pt-[30vw] text-center text-[44px] font-light leading-[1] text-stone sm:text-[68px] lg:absolute lg:inset-x-0 lg:top-[300px] lg:pt-0 lg:text-[96px] lg:leading-[100px]">
+          <span className="rn-line" style={li(0)}><span>פרויקטים</span></span>
+          <span className="rn-line" style={li(1)}><span>נבחרים</span></span>
+        </h2>
+
+        <ScrollRule className="mt-16 h-[2px] w-[60%] lg:absolute lg:left-0 lg:top-[706px] lg:mt-0 lg:h-[3px] lg:w-[calc(50%-68.5px)]" />
+        <ScrollRule from="right" className="hidden lg:absolute lg:right-0 lg:top-[1430px] lg:block lg:h-[3px] lg:w-[calc(50%-75.5px)]" />
+
+        <div className="mt-10 px-4 lg:contents lg:px-0">
+          <ProjectCard p={a} className="aspect-[4/5] w-full lg:absolute lg:right-0 lg:top-[706px] lg:aspect-auto lg:h-[456px] lg:w-[calc(50%-75.5px)]" />
+        </div>
+        <div className="mt-4 px-4 lg:contents lg:px-0">
+          <ProjectCard p={b} delay={100} className="aspect-[4/5] w-full lg:absolute lg:left-0 lg:top-[1010px] lg:aspect-auto lg:h-[798px] lg:w-[calc(50%-68.5px)]" />
+        </div>
+
+        <p
+          data-reveal
+          className="order-last mt-16 px-6 text-[28px] font-light leading-[1.2] text-stone sm:text-[40px] lg:absolute lg:left-[calc(50%-576.5px)] lg:top-[1855px] lg:order-none lg:mt-0 lg:w-[602px] lg:px-0 lg:text-left lg:text-[48px] lg:leading-[48px]"
+        >
+          מהמגרש ועד ידית הדלת, כל החלטה בבית עוברת דרך אותו שולחן.
+        </p>
+
+        <div className="mt-4 px-4 lg:contents lg:px-0">
+          <ProjectCard p={c} delay={100} className="aspect-[4/5] w-full lg:absolute lg:right-0 lg:top-[1703px] lg:aspect-auto lg:h-[645px] lg:w-[calc(50%-75.5px)]" />
+        </div>
+
+        <a
+          href={ROUTES.projects}
+          data-reveal
+          style={d(200)}
+          aria-label="לכל הפרויקטים" className="rn-circle relative order-last mx-6 mt-8 flex h-[132px] w-[132px] items-center justify-center rounded-full bg-stone text-petrol lg:absolute lg:left-[calc(50%-576.5px)] lg:top-[2191px] lg:order-none lg:mx-0 lg:mt-0 lg:h-[157px] lg:w-[157px]"
+        >
+          <svg viewBox="0 0 160 160" aria-hidden="true" className="rn-ring absolute inset-0 h-full w-full">
+            <path id="ring-path" d="M 20 80 A 60 60 0 1 1 140 80 A 60 60 0 1 1 20 80" fill="none" />
+            <text fill="currentColor" fontSize="14" direction="rtl" letterSpacing="1">
+              <textPath href="#ring-path" startOffset="50%" textAnchor="middle" textLength="360" lengthAdjust="spacing">לכל הפרויקטים · לכל הפרויקטים ·</textPath>
+            </text>
+          </svg>
+          <span className="rn-ring-arrow relative block"><ArrowIcon className="h-[54px] w-[54px] -rotate-45 lg:h-[62px] lg:w-[62px]" strokeWidth={1.1} /></span>
+        </a>
+      </div>
+      <div className="h-[3px] w-full bg-stone" aria-hidden="true" />
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------- STAGES */
+type Stroke = { d: string; k?: "t" | "d"; tf?: string };
+const HOUSE: Stroke[] = [
+  { d: "M0 150 H250" }, { d: "M40 150 V80 H210 V150" }, { d: "M110 80 V45 H210 V80" }, { d: "M30 80 H220" },
+  { d: "M100 45 H220" }, { d: "M55 150 V95 H100 V150" }, { d: "M150 150 V95 H195 V150" },
+];
+const STAGES: { n: number; title: string; text: string; art: Stroke[] }[] = [
+  {
+    n: 1, title: "תכנון", text: "סקיצה, מדידות ותוכנית: איפה נכנס האור ואיך זורמים החללים.",
+    art: [
+      { d: "M0 150 H250" },
+      { d: "M40 150 V80 H210 V150", k: "d" }, { d: "M110 80 V45 H210 V80", k: "d" }, { d: "M30 80 H220", k: "d" }, { d: "M100 45 H220", k: "d" },
+      { d: "M40 22 H210 M40 17 V27 M210 17 V27", k: "t" }, { d: "M232 45 V150 M227 45 H237 M227 150 H237", k: "t" },
+    ],
+  },
+  {
+    n: 2, title: "היתר", text: "סט תוכניות מלא, הגשה וליווי מול הוועדה עד לקבלת ההיתר.",
+    art: [
+      { d: "M4 4 H246 V166 H4 Z" },
+      ...HOUSE.map((s) => ({ ...s, tf: "translate(25 10) scale(.8)" })),
+      { d: "M178 132 H246 M178 132 V166 M184 144 H238 M184 154 H222" },
+      { d: "M23 36 a17 17 0 1 0 34 0 a17 17 0 1 0 -34 0", k: "t" }, { d: "M28 36 a12 12 0 1 0 24 0 a12 12 0 1 0 -24 0", k: "t" },
+      { d: "M34 36 L39 41 L47 31", k: "t" },
+    ],
+  },
+  {
+    n: 3, title: "עיצוב פנים", text: "חומרים, תאורה, נגרות וריהוט, בשפה של הבית.",
+    art: [
+      ...HOUSE,
+      { d: "M60 150 V138 H95 V150 M60 138 V132 H95 V138", k: "t" }, { d: "M172 95 V108 M166 114 A6 6 0 0 1 178 114 Z", k: "t" },
+      { d: "M157 150 V141 H188 V150", k: "t" }, { d: "M125 58 H195 V75 H125 Z", k: "t" },
+    ],
+  },
+  {
+    n: 4, title: "פיקוח", text: "ליווי באתר מול הקבלנים לאורך הבנייה, עד מסירת המפתח.",
+    art: [
+      ...HOUSE,
+      { d: "M118 150 V100 H134 V150" }, { d: "M18 150 V118" }, { d: "M4 118 a14 12 0 1 0 28 0 a14 12 0 1 0 -28 0" },
+      { d: "M150 150 V28 M172 150 V28 M194 150 V28 M216 150 V28", k: "t" }, { d: "M146 115 H220 M146 80 H220 M146 45 H220", k: "t" },
+      { d: "M150 115 L172 80 M194 80 L216 45", k: "t" },
+    ],
+  },
+];
+
+function StageArt({ art, className }: { art: Stroke[]; className?: string }) {
+  return (
+    <svg viewBox="0 0 250 170" fill="none" aria-hidden="true" className={className}>
+      {art.map((s, i) => (
+        <path
+          key={i}
+          d={s.d}
+          transform={s.tf}
+          className={s.k === "d" ? "d" : undefined}
+          pathLength={s.k === "d" ? undefined : 1}
+          stroke={s.k === "t" ? "#a56332" : "currentColor"}
+          strokeWidth={s.k === "t" ? 1.8 : 1.3}
+          style={{ ["--j" as string]: i } as CSSProperties}
+        />
+      ))}
+    </svg>
+  );
+}
+
+/* One stage at a time. The section pins; each new card slides in from the side and covers the
+   previous one, which settles back. Once a card is in place its drawing is sketched by the scroll. */
+function Stages() {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const stickRef = useRef<HTMLDivElement>(null);
+  const deckRef = useRef<HTMLOListElement>(null);
+
+  useEffect(() => {
+    const wrap = wrapRef.current, stick = stickRef.current, deck = deckRef.current;
+    if (!wrap || !stick || !deck) return;
+    const cards = Array.from(deck.children) as HTMLElement[];
+    const N = cards.length;
+    const paths = cards.map((c) => Array.from(c.querySelectorAll<SVGPathElement>("svg path")));
+    // drawings are sketched in time (not scrubbed) as soon as their card arrives
+    paths.forEach((list) => list.forEach((p, j) => {
+      const delay = `${j * 70}ms`;
+      if (p.classList.contains("d")) { p.style.opacity = "0"; p.style.transition = `opacity .9s ease ${delay}`; }
+      else { p.style.strokeDasharray = "1"; p.style.strokeDashoffset = "1"; p.style.transition = `stroke-dashoffset 1.5s cubic-bezier(.45,0,.25,1) ${delay}`; }
+    }));
+    const drawn = cards.map(() => false);
+    const setDrawn = (i: number, on: boolean) => {
+      if (drawn[i] === on) return;
+      drawn[i] = on;
+      paths[i].forEach((p) => {
+        if (p.classList.contains("d")) p.style.opacity = on ? "0.6" : "0";
+        else p.style.strokeDashoffset = on ? "0" : "1";
+      });
+    };
+    let cur = 0, target = 0, raf = 0, entered = false;
+
+    const paint = () => {
+      const q = cur * N; // 0..N, one unit of scroll per stage
+      cards.forEach((card, i) => {
+        const local = q - i; // <0 not yet, 0..1 this stage, >1 covered
+        const enter = i === 0 ? 1 : clamp01(local / 0.5);
+        const e = enter < 0.5 ? 4 * enter ** 3 : 1 - Math.pow(-2 * enter + 2, 3) / 2; // ease in-out
+        const covered = clamp01((local - 1) / 0.5);
+        card.style.transform = `translate3d(${(e - 1) * 112}%, 0, 0) scale(${1 - covered * 0.03})`;
+        setDrawn(i, reducedMotion() || (i === 0 ? entered : local > 0.42));
+      });
+    };
+    const loop = () => {
+      cur += (target - cur) * (reducedMotion() ? 1 : 0.085);
+      paint();
+      raf = Math.abs(target - cur) > 0.0004 ? requestAnimationFrame(loop) : 0;
+    };
+    const read = () => {
+      const w = wrap.getBoundingClientRect(), s = stick.getBoundingClientRect();
+      target = clamp01((s.top - w.top) / (w.height - s.height || 1)) * ((N - 0.05) / N);
+      entered = w.top < viewport().h * 0.3;
+      if (!raf) raf = requestAnimationFrame(loop);
+    };
+    read(); paint();
+    window.addEventListener("scroll", read, { passive: true });
+    window.addEventListener("resize", read);
+    return () => { window.removeEventListener("scroll", read); window.removeEventListener("resize", read); cancelAnimationFrame(raf); };
+  }, []);
+
+  return (
+    <section aria-labelledby="stages-title" className="relative pb-20 pt-24 text-stone lg:pb-[150px] lg:pt-[150px]">
+      <div ref={wrapRef} className="relative" style={{ height: `calc(100vh / var(--z) * ${1 + STAGES.length * 0.4})` }}>
+        <div ref={stickRef} className="sticky top-0 flex flex-col justify-center overflow-hidden" style={{ height: "calc(100vh / var(--z))" }}>
+          <div className="mx-auto w-full px-6 lg:w-[1325px] lg:px-[99px]">
+            <h2 id="stages-title" data-reveal="flip" className="text-[38px] font-light leading-[1.05] sm:text-[56px] lg:text-[76px] lg:leading-[80px]">
+              <FlipText text="ארבעה שלבים, משרד אחד" className="block" />
+            </h2>
+          </div>
+
+          <ol ref={deckRef} className="relative mx-6 mt-8 h-[min(62vh,560px)] lg:mx-auto lg:mt-[44px] lg:h-[min(58vh,520px)] lg:w-[1127px]">
+            {STAGES.map((st, i) => (
+              <li
+                key={st.n}
+                className="absolute inset-0 flex flex-col overflow-hidden rounded-[26px] bg-stone text-petrol shadow-[0_6px_20px_rgba(4,42,43,.07)] will-change-transform lg:flex-row lg:rounded-[34px]"
+                style={{ zIndex: i + 1, transform: i === 0 ? "none" : "translate3d(-115%,0,0)" }}
+              >
+                <div className="flex flex-col px-6 pt-7 lg:w-[44%] lg:justify-between lg:px-[56px] lg:py-[52px]">
+                  <div>
+                    <span className="block font-['Num'] text-[64px] leading-[.85] text-terra lg:text-[110px]" dir="ltr" style={{ textAlign: "right" }}>0{st.n}</span>
+                    <h3 className="mt-4 text-[34px] font-normal leading-none lg:mt-8 lg:text-[58px]">{st.title}</h3>
+                    <p className="mt-3 max-w-[380px] text-[16px] leading-[1.65] text-petrol/80 lg:mt-5 lg:text-[20px]">{st.text}</p>
+                  </div>
+                  <span className="hidden text-[14px] tracking-[.2em] text-petrol/50 lg:block">שלב {st.n} מתוך 4</span>
+                </div>
+                <div className="flex flex-1 items-center justify-center px-6 pb-6 lg:border-r lg:border-petrol/15 lg:p-[48px]">
+                  <StageArt art={st.art} className="h-auto max-h-full w-full max-w-[460px]" />
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------ PARTNERS */
+function Year({ children }: { children: string }) {
+  return (
+    <span className="mb-2 flex items-center gap-2 text-[14px] leading-none tracking-[.08em] text-stone/75 lg:mb-3 lg:text-[17px]">
+      <span>מאז</span>
+      <span dir="ltr" className="font-['Num'] tracking-[.06em]">{children}</span>
+    </span>
+  );
+}
+
+function Partners() {
+  const secRef = useRef<HTMLElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+
+  // the curve draws itself while the section scrolls through
+  useScrollFrame(() => {
+    const sec = secRef.current, path = pathRef.current;
+    if (!sec || !path) return;
+    if (reducedMotion()) { path.style.strokeDashoffset = "0"; return; }
+    const { h } = viewport();
+    const r = sec.getBoundingClientRect();
+    const p = clamp01((h * 0.75 - r.top) / (r.height * 0.85)); // draws along with the scroll through the section
+    path.style.strokeDashoffset = String(-(1 - p * p * (3 - 2 * p))); // grows from the top end downward
+    // leaves fade in as the section arrives
+  });
+
+  return (
+    <section ref={secRef} aria-labelledby="partners-title" className="relative overflow-x-clip text-stone lg:h-[1017px]">
+      <h2 id="partners-title" className="sr-only">השותפים</h2>
+      <div className="relative mx-auto px-5 pt-14 lg:h-full lg:w-[1325px] lg:p-0">
+        <svg
+          viewBox="0 0 1619.92 1022"
+          preserveAspectRatio="none"
+          fill="none"
+          aria-hidden="true"
+          className="pointer-events-none absolute hidden lg:left-[-105px] lg:top-[-2px] lg:block lg:h-[1019px] lg:w-[1619px] lg:-scale-y-100"
+        >
+          <path
+            ref={pathRef}
+            d="M0.530221 22.505C124.971 -24.518 431.353 -23.0299 661.358 359.106C948.864 836.776 1097.54 1125.16 1619.53 984.988"
+            stroke="#E0E0CF"
+            strokeWidth="3"
+            pathLength={1}
+            strokeDasharray="1"
+            strokeDashoffset="1"
+          />
+        </svg>
+
+        <div className="grid grid-cols-2 gap-x-5 lg:contents">
+          {/* Dafna — right side, text leans toward the centre */}
+          <div data-reveal className="text-right lg:absolute lg:left-[941px] lg:top-[195px] lg:w-[321px]">
+            <p className="text-[26px] font-semibold leading-[1.1] sm:text-[36px] lg:h-[56px] lg:text-[48px] lg:leading-[48px]">דפנה רביד</p>
+            <p className="mt-1 text-[18px] font-light leading-[1.35] sm:text-[26px] lg:mt-0 lg:text-[36px] lg:leading-[48px]">אדריכלית,<br />שותפה מייסדת</p>
+            <p data-reveal style={d(200)} className="mt-4 text-[15px] font-normal leading-[1.8] sm:text-[18px] lg:absolute lg:top-[384px] lg:mt-0 lg:w-[321px] lg:text-[22px] lg:leading-[1.75]">
+              <Year>2004</Year>
+              <span className="block">יסדה את המשרד ומתכננת כל בית מבחוץ פנימה: מהמגרש, דרך הקירות, ועד החלון.</span>
+            </p>
+          </div>
+          {/* Omer — left side */}
+          <div data-reveal style={d(120)} className="text-right lg:absolute lg:left-[63px] lg:top-[195px] lg:w-[323px]">
+            <p className="text-[26px] font-semibold leading-[1.1] sm:text-[36px] lg:h-[56px] lg:text-[48px] lg:leading-[48px]">עומר נחום</p>
+            <p className="mt-1 text-[18px] font-light leading-[1.35] sm:text-[26px] lg:mt-0 lg:text-[36px] lg:leading-[48px]">מעצב פנים,<br />שותף</p>
+            <p data-reveal style={d(320)} className="mt-4 text-[15px] font-normal leading-[1.8] sm:text-[18px] lg:absolute lg:right-0 lg:top-[384px] lg:mt-0 lg:w-[321px] lg:text-[22px] lg:leading-[1.75]">
+              <Year>2016</Year>
+              <span className="block">שותף במשרד ומעצב כל בית מבפנים החוצה: מהחומרים, דרך התאורה, ועד הידית.</span>
+            </p>
+          </div>
+        </div>
+
+        <div data-reveal style={d(150)} className="relative mx-auto mt-8 w-[78%] max-w-[420px] lg:absolute lg:left-[calc(50%-264.5px)] lg:top-[309px] lg:mt-0 lg:h-[660px] lg:w-[529px] lg:max-w-none">
+          <img src="public/assets/partners.webp" alt="דפנה רביד ועומר נחום, השותפים במשרד" loading="lazy" className="block h-full w-full -scale-x-100 object-cover" />
+        </div>
+        <a href={ROUTES.about} className="rn-tab group relative z-10 mx-auto -mt-[24px] flex h-[64px] w-[86%] items-end justify-center gap-3 rounded-t-[64px] bg-stone pb-[10px] text-[21px] text-petrol lg:absolute lg:bottom-0 lg:left-[calc(50%-320.5px)] lg:mt-0 lg:h-[80px] lg:w-[641px] lg:rounded-t-[80px] lg:pb-[8px] lg:text-[28px]">
+          <span className="rn-link">לקריאה נוספת על הסטודיו</span>
+          <span className="block transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1"><ArrowIcon className="h-[26px] w-[26px] -rotate-45 lg:h-[32px] lg:w-[32px]" /></span>
+        </a>
+      </div>
+    </section>
+  );
+}
+
+/* The opening layers stay put once their bottom reaches the screen edge,
+   so the terracotta arch rises over them and covers them. */
+function CoveredLayer({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const fit = () => {
+      const z = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--z")) || 1;
+      el.style.top = `${Math.min(0, window.innerHeight / z - el.offsetHeight)}px`;
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(el);
+    window.addEventListener("resize", fit);
+    return () => { ro.disconnect(); window.removeEventListener("resize", fit); };
+  }, []);
+  return <div ref={ref} className="sticky pb-[12vh]">{children}</div>;
+}
+
+/* ------------------------------------------------- TERRA (arch wrapper) */
+const ARCH_TEXT = "בתים שנבנו בשפה אחת · מבחוץ פנימה · ומבפנים החוצה";
+
+function TerraArch() {
+  const ref = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const textRef = useRef<SVGTextElement>(null);
+
+  // The arch rises as a narrow dome and opens to full width; the curved line of text
+  // rides its rim, growing and spreading out as it opens. Eased with a soft follow.
+  useEffect(() => {
+    const el = ref.current, svg = svgRef.current, path = pathRef.current, text = textRef.current;
+    if (!el || !svg || !path || !text) return;
+    let cur = -1, target = 0, raf = 0;
+
+    const paint = () => {
+      const W = el.offsetWidth;
+      const p = easeOut(cur);
+      const x = (1 - p) * W * 0.32;
+      const r = (W - 2 * x) / 2;
+      el.style.clipPath = `inset(0px ${x}px 0px ${x}px round ${r}px ${r}px 0px 0px)`;
+
+      // text circle sits just inside the rim
+      const cx = W / 2, cy = r, rr = r * 0.9;
+      const a = (16 * Math.PI) / 180;
+      const x1 = cx - rr * Math.cos(a), x2 = cx + rr * Math.cos(a), y = cy - rr * Math.sin(a);
+      svg.setAttribute("viewBox", `0 0 ${W} ${r}`);
+      svg.style.height = `${r}px`;
+      path.setAttribute("d", `M ${x1} ${y} A ${rr} ${rr} 0 0 1 ${x2} ${y}`);
+      const fs = 13 + p * (W >= 1000 ? 13 : 5);
+      text.style.fontSize = `${fs}px`;
+      text.style.letterSpacing = `${0.05 + p * 0.5}em`;
+      text.style.opacity = String(clamp01(p * 1.6));
+    };
+    const loop = () => {
+      cur += (target - cur) * (reducedMotion() ? 1 : 0.09);
+      paint();
+      raf = Math.abs(target - cur) > 0.0005 ? requestAnimationFrame(loop) : 0;
+    };
+    const read = () => {
+      const { h } = viewport();
+      const top = el.getBoundingClientRect().top;
+      target = reducedMotion() ? 1 : clamp01((h - top) / (h * 0.9));
+      if (cur < 0) cur = target;
+      if (!raf) raf = requestAnimationFrame(loop);
+    };
+    read();
+    window.addEventListener("scroll", read, { passive: true });
+    window.addEventListener("resize", read);
+    return () => { window.removeEventListener("scroll", read); window.removeEventListener("resize", read); cancelAnimationFrame(raf); };
+  }, []);
+
+  return (
+    <div ref={ref} className="relative z-10 mt-[45vh] bg-terra lg:mt-[calc(153px+38vh/var(--z))]" style={{ clipPath: "inset(0 round 50vw 50vw 0 0)" }}>
+      <svg ref={svgRef} aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 w-full overflow-visible">
+        <path ref={pathRef} id="arch-text-path" fill="none" />
+        <text ref={textRef} fill="#e0e0cf" className="font-light" direction="rtl">
+          <textPath href="#arch-text-path" startOffset="50%" textAnchor="middle">{ARCH_TEXT}</textPath>
+        </text>
+      </svg>
+      <Projects />
+      <Stages />
+      <Partners />
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------- CONTACT */
+/* Clean and minimal: a heading on one side, three underlined fields and a quiet send on the other. */
+function Contact() {
+  const [sent, setSent] = useState(false);
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // TODO: connect to a form endpoint (e.g. Supabase / Resend) in Lovable
+    setSent(true);
+  };
+  const field = "rn-field block w-full border-0 border-b border-petrol/30 bg-transparent pb-3 pt-1 text-[19px] text-petrol placeholder:text-petrol/45 lg:text-[20px]";
+
+  return (
+    <section id="contact" aria-labelledby="contact-title" className="relative mx-auto mt-24 grid gap-12 px-6 lg:mt-[170px] lg:w-[1133px] lg:grid-cols-2 lg:gap-[120px] lg:px-0">
+      <div data-reveal>
+        <h2 id="contact-title" className="text-[40px] font-light leading-[1.05] text-petrol lg:text-[64px]">בואו נתחיל<br />מקו אחד</h2>
+        <p className="mt-6 text-[18px] leading-[1.6] text-petrol/75 lg:text-[20px]">
+          <a href={CONTACT.phoneHref} className="rn-link">{CONTACT.phone}</a>
+          <br />
+          <a href={`mailto:${CONTACT.email}`} className="rn-link">{CONTACT.email}</a>
+        </p>
+      </div>
+
+      {sent ? (
+        <p role="status" data-reveal className="self-end text-[26px] font-light text-petrol lg:text-[32px]">תודה, נחזור אליך בקרוב.</p>
+      ) : (
+        <form data-reveal style={d(120)} onSubmit={onSubmit} className="flex flex-col gap-8 lg:pt-3">
+          <div>
+            <label className="sr-only" htmlFor="c-name">שם</label>
+            <input id="c-name" name="name" required autoComplete="name" placeholder="שם" className={field} />
+          </div>
+          <div>
+            <label className="sr-only" htmlFor="c-phone">טלפון</label>
+            <input id="c-phone" name="phone" type="tel" dir="rtl" required autoComplete="tel" inputMode="tel" placeholder="טלפון" className={cn(field, "text-right")} />
+          </div>
+          <div>
+            <label className="sr-only" htmlFor="c-msg">על מה נדבר?</label>
+            <input id="c-msg" name="message" placeholder="על מה נדבר?" className={field} />
+          </div>
+          <div className="flex items-center justify-between gap-6">
+            <label className="flex items-center gap-2 text-[14px] text-petrol/65">
+              <input type="checkbox" name="consent" required className="h-4 w-4 accent-[#a56332]" />
+              <span>מאשר/ת את <a href={ROUTES.privacy} className="underline underline-offset-4">מדיניות הפרטיות</a></span>
+            </label>
+            <button type="submit" className="rn-send-link group flex items-center gap-3 text-[19px] text-petrol lg:text-[20px]">
+              <span className="rn-link">שליחה</span>
+              <ArrowIcon className="h-[22px] w-[22px] -rotate-45 transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1" />
+            </button>
+          </div>
+        </form>
+      )}
+    </section>
+  );
+}
+
+/* ---------------------------------------------------------------- PAGE */
+function Index() {
+  useReveal();
+  return (
+    <div dir="rtl" lang="he" className="min-h-screen bg-stone font-arfilit text-petrol">
+      <Header active="home" />
+      <main id="main">
+        <div>
+          <CoveredLayer>
+            <Hero />
+            <Statement />
+          </CoveredLayer>
+          <TerraArch />
+        </div>
+        <Contact />
+      </main>
+      <Footer />
+    </div>
+  );
+}
+</script>
+<script>
+  const code = Babel.transform(document.getElementById("src").textContent, {
+    filename: "Index.tsx",
+    presets: [["typescript", { isTSX: true, allExtensions: true }], "react"],
+  }).code;
+  new Function("React", "ReactDOM", code + '\nReactDOM.createRoot(document.getElementById("root")).render(React.createElement(Index));')(React, ReactDOM);
+  // preview-only: ?y=1234 jumps to a scroll position (used for screenshots)
+  (function(){ var y = new URLSearchParams(location.search).get("y"); if (y) setTimeout(function(){ document.documentElement.style.scrollBehavior = "auto"; window.scrollTo(0, +y); }, 400); })();
+</script>
+</body>
+</html>

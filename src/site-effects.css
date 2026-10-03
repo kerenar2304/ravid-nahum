@@ -1,0 +1,140 @@
+/* =========================================================
+   Ravid Nahum — effects layer (plain CSS, no libraries)
+   Triggered by useReveal(): adds .is-in to [data-reveal]
+   ========================================================= */
+
+:root { --ease: cubic-bezier(.22, .7, .12, 1); }
+
+/* ---- generic fade-up ---- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1s var(--ease), transform 1.1s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+[data-reveal].is-in { opacity: 1; transform: none; }
+
+/* ---- headline lines rising from a mask ---- */
+[data-reveal="lines"] { opacity: 1; transform: none; }
+.rn-line { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+.rn-line > span {
+  display: inline-block;
+  transform: translateY(108%);
+  transition: transform 1.15s var(--ease);
+  transition-delay: calc(var(--d, 0ms) + var(--i, 0) * 110ms);
+}
+[data-reveal="lines"].is-in .rn-line > span { transform: none; }
+
+/* ---- a rule that draws itself (RTL: grows from the right) ---- */
+[data-reveal="rule"] { opacity: 1; transform: scaleX(0); transform-origin: right center; transition: transform 1.4s var(--ease); transition-delay: var(--d, 0ms); }
+[data-reveal="rule"].rule-from-left { transform-origin: left center; }
+[data-reveal="rule"].is-in { transform: scaleX(1); }
+
+/* ---- image pills opening sideways ---- */
+[data-reveal="pill"] { opacity: 1; transform: none; }
+[data-reveal="pill"] .rn-clip { clip-path: inset(0 0 0 100% round 200px); transition: clip-path 1.3s var(--ease); transition-delay: var(--d, 0ms); }
+[data-reveal="pill"].pill-from-left .rn-clip { clip-path: inset(0 100% 0 0 round 200px); }
+[data-reveal="pill"].is-in .rn-clip { clip-path: inset(0 0 0 0 round 200px); }
+[data-reveal="pill"] img { transform: scale(1.18); transition: transform 1.8s var(--ease); transition-delay: var(--d, 0ms); }
+[data-reveal="pill"].is-in img { transform: scale(1); }
+.rn-pill:hover img { transform: scale(1.06); transition-duration: .9s; transition-delay: 0ms; }
+
+/* ---- project images unveiling top → bottom ---- */
+[data-reveal="unveil"] { opacity: 1; transform: none; }
+[data-reveal="unveil"] .rn-clip { clip-path: inset(0 0 100% 0); transition: clip-path 1.4s var(--ease); transition-delay: var(--d, 0ms); }
+[data-reveal="unveil"].is-in .rn-clip { clip-path: inset(0 0 0 0); }
+[data-reveal="unveil"] .rn-front { transform: scale(1.15); transition: transform 2s var(--ease); }
+[data-reveal="unveil"].is-in .rn-front { transform: scale(1); }
+
+/* ---- project card: interior backdrop, stone panel with an arched exterior window ---- */
+.rn-card { cursor: pointer; }
+.rn-card .rn-card-bg { transition: transform 1.6s var(--ease); }
+.rn-card .rn-card-panel { transition: transform .9s var(--ease), box-shadow .9s var(--ease); }
+.rn-card .rn-card-arch { transition: transform 1.4s var(--ease); }
+.rn-card:hover .rn-card-panel, .rn-card:focus-visible .rn-card-panel { transform: translate(-50%, calc(-50% - 8px)); box-shadow: 0 28px 60px rgba(4,42,43,.32); }
+.rn-card:hover .rn-card-arch, .rn-card:focus-visible .rn-card-arch { transform: scale(1.06); }
+.rn-card:hover .rn-card-bg { transform: scale(1.04); }
+
+/* ---- "all projects" circle ---- */
+.rn-circle { transition: transform .7s var(--ease), background-color .4s; }
+.rn-circle:hover { transform: scale(1.07); }
+.rn-ring { animation: rn-spin 18s linear infinite; }
+@keyframes rn-spin { to { transform: rotate(360deg); } }
+.rn-ring-arrow { transition: transform .6s var(--ease); }
+.rn-circle:hover .rn-ring-arrow { transform: translate(-6px, 6px); }
+@media (prefers-reduced-motion: reduce) { .rn-ring { animation: none; } }
+
+/* ---- nav links: underline opening from the right ---- */
+.rn-link { position: relative; }
+.rn-link::after {
+  content: ""; position: absolute; right: 0; bottom: -6px; height: 1px; width: 100%;
+  background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .5s var(--ease);
+}
+.rn-link:hover::after, .rn-link[aria-current="page"]::after { transform: scaleX(1); }
+
+/* ---- header: hides on scroll down, returns on scroll up ---- */
+.rn-header { transition: transform .6s var(--ease); }
+.rn-header.is-hidden { transform: translateY(-110%); }
+
+/* ---- phone buttons ---- */
+.rn-icon-btn { transition: transform .4s var(--ease), box-shadow .4s; }
+.rn-icon-btn:hover { transform: translateY(-2px); }
+
+/* ---- stage illustrations draw in when the panel opens ---- */
+.rn-stage svg path, .rn-stage svg circle, .rn-stage svg rect { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.6s var(--ease); }
+.rn-stage.is-active svg path, .rn-stage.is-active svg circle, .rn-stage.is-active svg rect { stroke-dashoffset: 0; }
+.rn-stage svg .d, .rn-stage svg .d * { stroke-dasharray: 4 4; stroke-dashoffset: 0; opacity: .55; }
+
+/* ---- form fields ---- */
+.rn-field { transition: border-color .4s; }
+.rn-field:focus { outline: none; border-color: #a56332; }
+.rn-submit { transition: background-color .4s, color .4s, transform .4s var(--ease); }
+.rn-submit:hover { background: transparent; color: #e0e0cf; }
+.rn-submit svg { transition: transform .5s var(--ease); }
+.rn-submit:hover svg { transform: translateX(-5px); }
+
+/* ---- focus ring for keyboard users ---- */
+:focus-visible { outline: 2px solid #a56332; outline-offset: 4px; }
+
+/* ---- reduced motion: everything visible, nothing moves ---- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  [data-reveal], [data-reveal] img, [data-reveal] .rn-clip, .rn-line > span, [data-reveal] .rn-front {
+    opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important;
+  }
+  .rn-stage svg * { stroke-dashoffset: 0 !important; transition: none !important; }
+}
+
+/* ---- hero headline: each letter turns fully on its vertical axis (shutter slats) ---- */
+.rn-flips { --shut: 0; }
+.rn-flip { display: inline-block; transform: scaleX(0); opacity: 0; animation: rn-flip-in .75s cubic-bezier(.3, .7, .2, 1) forwards; }
+.rn-flip > span {
+  display: inline-block;
+  transform: scaleX(calc(1 - clamp(0, var(--shut) * 1.6 - var(--i) / var(--n) * .6, 1)));
+  opacity: calc(1 - clamp(0, var(--shut) * 1.6 - var(--i) / var(--n) * .6, 1));
+}
+@keyframes rn-flip-in { 0% { transform: scaleX(0); opacity: 0; } 35% { opacity: .35; } 100% { transform: scaleX(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .rn-flip { animation: none; transform: none; opacity: 1; } .rn-flip > span { transform: none; opacity: 1; } }
+
+/* same letter unfold, triggered when the block scrolls into view */
+[data-reveal="flip"] { opacity: 1; transform: none; --shut: 0; }
+[data-reveal="flip"] .rn-flip { animation-play-state: paused; }
+[data-reveal="flip"].is-in .rn-flip { animation-play-state: running; }
+
+/* partners tab: lifts a little on hover to invite the click */
+.rn-tab { transition: transform .6s var(--ease); }
+
+/* ---- stages: adjoining cards, the hovered one widens and is sketched again ---- */
+.rn-stage-card { transition: flex-grow .6s cubic-bezier(.4, 0, .2, 1), opacity 1s var(--ease), transform 1.1s var(--ease); outline-offset: -6px; }
+@media (min-width: 1024px) {
+  .rn-stages:hover .rn-stage-card { flex-grow: .85; }
+  .rn-stages .rn-stage-card:hover, .rn-stages .rn-stage-card:focus-visible { flex-grow: 1.7; }
+}
+.rn-stage-art path:not(.d) { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.6s cubic-bezier(.45, 0, .25, 1) calc(var(--j, 0) * 60ms); }
+.rn-stage-card.is-in .rn-stage-art path:not(.d) { stroke-dashoffset: 0; }
+.rn-stage-art .d { stroke-dasharray: 4 4; opacity: 0; transition: opacity 1s ease calc(var(--j, 0) * 60ms); }
+.rn-stage-card.is-in .rn-stage-art .d { opacity: .55; }
+.rn-stage-card:hover .rn-stage-art path:not(.d), .rn-stage-card:focus-visible .rn-stage-art path:not(.d) { animation: rn-sketch 1.6s cubic-bezier(.45, 0, .25, 1) calc(.45s + var(--j, 0) * 60ms) both; }
+@keyframes rn-sketch { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.rn-stage-art { transition: transform 1.6s var(--ease); }
+@media (prefers-reduced-motion: reduce) { .rn-stage-art path { stroke-dashoffset: 0 !important; animation: none !important; } }

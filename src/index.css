@@ -1,0 +1,31 @@
+@import "./site-effects.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ravid Nahum — brand fonts */
+@font-face { font-family: "Num"; src: url("/fonts/montserrat-latin-400-normal.woff2") format("woff2"); unicode-range: U+0030-0039; font-display: swap; }
+@font-face { font-family: "Arfilit"; src: url("/fonts/Arfilit-ExtraLight.otf") format("opentype"); font-weight: 200; font-display: swap; }
+@font-face { font-family: "Arfilit"; src: url("/fonts/Arfilit-Light.otf") format("opentype"); font-weight: 300; font-display: swap; }
+@font-face { font-family: "Arfilit"; src: url("/fonts/Arfilit-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Arfilit"; src: url("/fonts/Arfilit-SemiBold.otf") format("opentype"); font-weight: 600; font-display: swap; }
+
+:root {
+  /* brand tokens (HSL) */
+  --petrol: 181 83% 9%;   /* #042a2b */
+  --terra: 26 54% 42%;    /* #a56332 */
+  --stone: 60 22% 84%;    /* #e0e0cf */
+  --z: 1;                 /* desktop fluid scale, set by useFluidScale() */
+}
+
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: #e0e0cf;
+  color: #042a2b;
+  font-family: "Num", "Arfilit", system-ui, sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
