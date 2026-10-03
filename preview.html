@@ -1045,6 +1045,7 @@ function CoveredLayer({ children }: { children: ReactNode }) {
 
 /* ------------------------------------------------- TERRA (arch wrapper) */
 const ARCH_TEXT = "בתים שנבנו בשפה אחת · מבחוץ פנימה · ומבפנים החוצה";
+const ARCH_TEXT_SHORT = "מבחוץ פנימה · ומבפנים החוצה";
 
 function TerraArch() {
   const ref = useRef<HTMLDivElement>(null);
@@ -1077,6 +1078,12 @@ function TerraArch() {
       text.style.fontSize = `${fs}px`;
       text.style.letterSpacing = `${0.05 + p * 0.5}em`;
       text.style.opacity = String(clamp01(p * 1.6));
+      // never longer than the rim: shorter phrase on narrow screens, then shrink to fit
+      const tp = text.firstElementChild as SVGTextPathElement | null;
+      const phrase = W < 640 ? ARCH_TEXT_SHORT : ARCH_TEXT;
+      if (tp && tp.textContent !== phrase) tp.textContent = phrase;
+      const room = path.getTotalLength() * 0.92, used = text.getComputedTextLength();
+      if (used > room && used > 0) text.style.fontSize = `${fs * room / used}px`;
     };
     const loop = () => {
       cur += (target - cur) * (reducedMotion() ? 1 : 0.09);
