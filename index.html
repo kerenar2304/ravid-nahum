@@ -965,13 +965,13 @@ function Partners() {
   return (
     <section ref={secRef} aria-labelledby="partners-title" className="relative overflow-x-clip text-stone lg:h-[1017px]">
       <h2 id="partners-title" className="sr-only">השותפים</h2>
-      <div className="relative mx-auto px-5 pt-14 lg:h-full lg:w-[1325px] lg:p-0">
+      <div className="relative mx-auto flex flex-col px-5 pt-14 lg:block lg:h-full lg:w-[1325px] lg:p-0">
         <svg
           viewBox="0 0 1619.92 1022"
           preserveAspectRatio="none"
           fill="none"
           aria-hidden="true"
-          className="pointer-events-none absolute hidden lg:left-[-105px] lg:top-[-2px] lg:block lg:h-[1019px] lg:w-[1619px] lg:-scale-y-100"
+          className="pointer-events-none absolute z-0 -left-[45%] top-[2%] block h-[34%] w-[190%] -scale-y-100 lg:bottom-auto lg:left-[-105px] lg:top-[-2px] lg:h-[1019px] lg:w-[1619px]"
         >
           <path
             ref={pathRef}
@@ -984,31 +984,32 @@ function Partners() {
           />
         </svg>
 
-        <div className="grid grid-cols-2 gap-x-5 lg:contents">
+        <div className="relative flex flex-col gap-9 lg:contents">
           {/* Dafna — right side, text leans toward the centre */}
           <div data-reveal className="text-right lg:absolute lg:left-[941px] lg:top-[195px] lg:w-[321px]">
-            <p className="text-[26px] font-semibold leading-[1.1] sm:text-[36px] lg:h-[56px] lg:text-[48px] lg:leading-[48px]">דפנה רביד</p>
-            <p className="mt-1 text-[18px] font-light leading-[1.35] sm:text-[26px] lg:mt-0 lg:text-[36px] lg:leading-[48px]">אדריכלית,<br />שותפה מייסדת</p>
-            <p data-reveal style={d(200)} className="mt-4 text-[15px] font-normal leading-[1.8] sm:text-[18px] lg:absolute lg:top-[384px] lg:mt-0 lg:w-[321px] lg:text-[22px] lg:leading-[1.75]">
+            <p className="text-[32px] font-semibold leading-[1.1] sm:text-[38px] lg:h-[56px] lg:text-[48px] lg:leading-[48px]">דפנה רביד</p>
+            <p className="mt-1 text-[19px] font-light leading-[1.35] sm:text-[24px] lg:mt-0 lg:text-[36px] lg:leading-[48px]">אדריכלית,<br className="hidden lg:block" /> שותפה מייסדת</p>
+            <p data-reveal style={d(200)} className="mt-5 max-w-[340px] text-[17px] font-light leading-[1.7] sm:text-[19px] lg:absolute lg:max-w-none lg:font-normal lg:top-[384px] lg:mt-0 lg:w-[321px] lg:text-[22px] lg:leading-[1.75]">
               <Year>2004</Year>
               <span className="block">יסדה את המשרד ומתכננת כל בית מבחוץ פנימה: מהמגרש, דרך הקירות, ועד החלון.</span>
             </p>
           </div>
           {/* Omer — left side */}
-          <div data-reveal style={d(120)} className="text-right lg:absolute lg:left-[63px] lg:top-[195px] lg:w-[323px]">
-            <p className="text-[26px] font-semibold leading-[1.1] sm:text-[36px] lg:h-[56px] lg:text-[48px] lg:leading-[48px]">עומר נחום</p>
-            <p className="mt-1 text-[18px] font-light leading-[1.35] sm:text-[26px] lg:mt-0 lg:text-[36px] lg:leading-[48px]">מעצב פנים,<br />שותף</p>
-            <p data-reveal style={d(320)} className="mt-4 text-[15px] font-normal leading-[1.8] sm:text-[18px] lg:absolute lg:right-0 lg:top-[384px] lg:mt-0 lg:w-[321px] lg:text-[22px] lg:leading-[1.75]">
+          <div data-reveal style={d(120)} className="border-t border-stone/30 pt-9 text-right lg:absolute lg:left-[63px] lg:top-[195px] lg:w-[323px] lg:border-0 lg:pt-0">
+            <p className="text-[32px] font-semibold leading-[1.1] sm:text-[38px] lg:h-[56px] lg:text-[48px] lg:leading-[48px]">עומר נחום</p>
+            <p className="mt-1 text-[19px] font-light leading-[1.35] sm:text-[24px] lg:mt-0 lg:text-[36px] lg:leading-[48px]">מעצב פנים,<br className="hidden lg:block" /> שותף</p>
+            <p data-reveal style={d(320)} className="mt-5 max-w-[340px] text-[17px] font-light leading-[1.7] sm:text-[19px] lg:absolute lg:max-w-none lg:font-normal lg:right-0 lg:top-[384px] lg:mt-0 lg:w-[321px] lg:text-[22px] lg:leading-[1.75]">
               <Year>2016</Year>
               <span className="block">שותף במשרד ומעצב כל בית מבפנים החוצה: מהחומרים, דרך התאורה, ועד הידית.</span>
             </p>
           </div>
         </div>
 
-        <div data-reveal style={d(150)} className="relative mx-auto mt-8 w-[78%] max-w-[420px] lg:absolute lg:left-[calc(50%-264.5px)] lg:top-[309px] lg:mt-0 lg:h-[660px] lg:w-[529px] lg:max-w-none">
+        <div data-reveal style={d(150)} className="relative z-[2] order-first mx-auto w-[78%] max-w-[420px] lg:order-none lg:absolute lg:left-[calc(50%-264.5px)] lg:top-[309px] lg:mt-0 lg:h-[660px] lg:w-[529px] lg:max-w-none">
           <img src="public/assets/partners.webp" alt="דפנה רביד ועומר נחום, השותפים במשרד" loading="lazy" className="block h-full w-full -scale-x-100 object-cover" />
         </div>
-        <a href={ROUTES.about} className="rn-tab group relative z-10 mx-auto -mt-[24px] flex h-[64px] w-[86%] items-end justify-center gap-3 rounded-t-[64px] bg-stone pb-[10px] text-[21px] text-petrol lg:absolute lg:bottom-0 lg:left-[calc(50%-320.5px)] lg:mt-0 lg:h-[80px] lg:w-[641px] lg:rounded-t-[80px] lg:pb-[8px] lg:text-[28px]">
+        <span aria-hidden="true" className="order-first mb-12 block h-[2px] w-full bg-stone lg:hidden" />
+        <a href={ROUTES.about} className="rn-tab group relative z-10 order-last mx-auto mt-14 flex lg:order-none h-[64px] w-[94%] items-end justify-center gap-2 whitespace-nowrap rounded-t-[64px] bg-stone pb-[12px] text-[18px] text-petrol lg:absolute lg:bottom-0 lg:left-[calc(50%-320.5px)] lg:mt-0 lg:h-[80px] lg:w-[641px] lg:rounded-t-[80px] lg:pb-[8px] lg:text-[28px]">
           <span className="rn-link">לקריאה נוספת על הסטודיו</span>
           <span className="block transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1"><ArrowIcon className="h-[26px] w-[26px] -rotate-45 lg:h-[32px] lg:w-[32px]" /></span>
         </a>
