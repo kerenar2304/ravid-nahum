@@ -318,7 +318,7 @@ export function Footer() {
 
       <div className="mx-auto mt-14 px-6 pb-8 lg:mt-[72px] lg:w-[1325px] lg:px-[73px] lg:pb-[34px]">
         <div data-reveal="rule" className="h-[2px] w-full bg-stone" aria-hidden="true" />
-        <div className="mt-6 flex flex-col-reverse items-start gap-4 text-[16px] lg:flex-row lg:items-center lg:justify-between lg:text-[17px]">
+        <div className="mt-6 flex flex-col items-start gap-4 text-[16px] lg:flex-row lg:items-center lg:justify-between lg:text-[17px]">
           <p>© {new Date().getFullYear()} רביד נחום אדריכלות ועיצוב פנים. כל הזכויות שמורות.</p>
           <a href="https://www.instagram.com/keren.arlihman" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 opacity-90 hover:opacity-100">
             <span>עיצוב ופיתוח האתר:</span>

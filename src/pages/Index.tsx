@@ -246,7 +246,7 @@ function Projects() {
           href={ROUTES.projects}
           data-reveal
           style={d(200)}
-          aria-label="לכל הפרויקטים" className="rn-circle relative order-last mx-6 mt-8 flex h-[132px] w-[132px] items-center justify-center rounded-full bg-stone text-petrol lg:absolute lg:left-[calc(50%-576.5px)] lg:top-[2191px] lg:order-none lg:mx-0 lg:mt-0 lg:h-[157px] lg:w-[157px]"
+          aria-label="לכל הפרויקטים" className="rn-circle relative order-last mx-6 mt-8 flex self-end lg:self-auto h-[132px] w-[132px] items-center justify-center rounded-full bg-stone text-petrol lg:absolute lg:left-[calc(50%-576.5px)] lg:top-[2191px] lg:order-none lg:mx-0 lg:mt-0 lg:h-[157px] lg:w-[157px]"
         >
           <svg viewBox="0 0 160 160" aria-hidden="true" className="rn-ring absolute inset-0 h-full w-full">
             <path id="ring-path" d="M 20 80 A 60 60 0 1 1 140 80 A 60 60 0 1 1 20 80" fill="none" />
@@ -359,7 +359,7 @@ function Stages() {
       const q = cur * N; // 0..N, one unit of scroll per stage
       cards.forEach((card, i) => {
         const local = q - i; // <0 not yet, 0..1 this stage, >1 covered
-        const enter = i === 0 ? 1 : clamp01(local / 0.5);
+        const enter = i === 0 ? 1 : clamp01(local / 0.75);
         const e = enter < 0.5 ? 4 * enter ** 3 : 1 - Math.pow(-2 * enter + 2, 3) / 2; // ease in-out
         const covered = clamp01((local - 1) / 0.5);
         card.style.transform = `translate3d(${(e - 1) * 112}%, 0, 0) scale(${1 - covered * 0.03})`;
@@ -367,7 +367,7 @@ function Stages() {
       });
     };
     const loop = () => {
-      cur += (target - cur) * (reducedMotion() ? 1 : 0.085);
+      cur += (target - cur) * (reducedMotion() ? 1 : 0.06);
       paint();
       raf = Math.abs(target - cur) > 0.0004 ? requestAnimationFrame(loop) : 0;
     };
@@ -389,7 +389,8 @@ function Stages() {
         <div ref={stickRef} className="sticky top-0 flex flex-col justify-center overflow-hidden" style={{ height: "calc(100vh / var(--z))" }}>
           <div className="mx-auto w-full px-6 lg:w-[1325px] lg:px-[99px]">
             <h2 id="stages-title" data-reveal="flip" className="text-[38px] font-light leading-[1.05] sm:text-[56px] lg:text-[76px] lg:leading-[80px]">
-              <FlipText text="ארבעה שלבים, משרד אחד" className="block" />
+              <FlipText text="ארבעה שלבים," className="block lg:inline" />{" "}
+              <FlipText text="משרד אחד" delay={140} className="block lg:inline" />
             </h2>
           </div>
 
@@ -489,10 +490,11 @@ function Partners() {
           </div>
         </div>
 
+        <span aria-hidden="true" className="order-first -mx-5 mb-12 block h-[2px] bg-stone lg:hidden" />
         <div data-reveal style={d(150)} className="relative z-[2] order-first mx-auto w-[78%] max-w-[420px] lg:order-none lg:absolute lg:left-[calc(50%-264.5px)] lg:top-[309px] lg:mt-0 lg:h-[660px] lg:w-[529px] lg:max-w-none">
           <img src="/assets/partners.webp" alt="דפנה רביד ועומר נחום, השותפים במשרד" loading="lazy" className="block h-full w-full -scale-x-100 object-cover" />
         </div>
-        <span aria-hidden="true" className="order-first mb-12 block h-[2px] w-full bg-stone lg:hidden" />
+        <span aria-hidden="true" className="order-first -mx-5 mb-12 block h-[2px] bg-stone lg:hidden" />
         <a href={ROUTES.about} className="rn-tab group relative z-10 order-last mx-auto mt-14 flex lg:order-none h-[64px] w-[94%] items-end justify-center gap-2 whitespace-nowrap rounded-t-[64px] bg-stone pb-[12px] text-[18px] text-petrol lg:absolute lg:bottom-0 lg:left-[calc(50%-320.5px)] lg:mt-0 lg:h-[80px] lg:w-[641px] lg:rounded-t-[80px] lg:pb-[8px] lg:text-[28px]">
           <span className="rn-link">לקריאה נוספת על הסטודיו</span>
           <span className="block transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1"><ArrowIcon className="h-[26px] w-[26px] -rotate-45 lg:h-[32px] lg:w-[32px]" /></span>
@@ -609,9 +611,9 @@ function Contact() {
 
   return (
     <section id="contact" aria-labelledby="contact-title" className="relative mx-auto mt-24 grid gap-12 px-6 lg:mt-[170px] lg:w-[1133px] lg:grid-cols-2 lg:gap-[120px] lg:px-0">
-      <div data-reveal>
-        <h2 id="contact-title" className="text-[40px] font-light leading-[1.05] text-petrol lg:text-[64px]">בואו נתחיל<br />מקו אחד</h2>
-        <p className="mt-6 text-[18px] leading-[1.6] text-petrol/75 lg:text-[20px]">
+      <div data-reveal className="contents lg:block">
+        <h2 id="contact-title" className="whitespace-nowrap text-[31px] font-light leading-[1.05] text-petrol sm:text-[40px] lg:whitespace-normal lg:text-[64px]">בואו נתחיל<br className="hidden lg:block" /> מקו אחד</h2>
+        <p className="order-last mt-0 text-[18px] lg:order-none lg:mt-6 leading-[1.6] text-petrol/75 lg:text-[20px]">
           <a href={CONTACT.phoneHref} className="rn-link">{CONTACT.phone}</a>
           <br />
           <a href={`mailto:${CONTACT.email}`} className="rn-link">{CONTACT.email}</a>
