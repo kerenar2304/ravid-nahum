@@ -632,7 +632,7 @@ function Contact() {
   return (
     <section id="contact" aria-labelledby="contact-title" className="relative mx-auto mt-24 grid gap-12 px-[6vw] lg:mt-[170px] lg:w-[1133px] lg:grid-cols-2 lg:gap-[120px] lg:px-0">
       <div data-reveal className="contents lg:block">
-        <h2 id="contact-title" className="whitespace-nowrap text-[clamp(28px,7.9vw,58px)] font-light leading-[1.05] text-petrol lg:whitespace-normal lg:text-[64px]">בואו נתחיל<br className="hidden lg:block" /> מקו אחד</h2>
+        <h2 id="contact-title" className="whitespace-nowrap text-center lg:text-right text-[clamp(28px,7.9vw,58px)] font-light leading-[1.05] text-petrol lg:whitespace-normal lg:text-[64px]">בואו נתחיל<br className="hidden lg:block" /> מקו אחד</h2>
         <p className="order-last mt-0 text-[clamp(18px,4.62vw,31px)] lg:order-none lg:mt-6 leading-[1.6] text-petrol/75 lg:text-[20px]">
           <a href={CONTACT.phoneHref} className="rn-link">{CONTACT.phone}</a>
           <br />
