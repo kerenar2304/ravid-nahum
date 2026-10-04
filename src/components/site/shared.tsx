@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode, type SVGProps } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode, type SVGProps } from "react";
 
 /* ---------------------------------------------------------------
    Ravid Nahum — shared pieces: tokens, hooks, icons, header, footer
@@ -8,7 +8,7 @@ export const cn = (...a: (string | false | null | undefined)[]) => a.filter(Bool
 
 export const ROUTES = {
   home: "/",
-  projects: "/#projects",
+  projects: "/projects",
   studio: "/#studio",
   about: "/about",
   contact: "/#contact",
@@ -88,7 +88,7 @@ export function useScrollFrame(cb: () => void, deps: unknown[] = []) {
 }
 
 /* Adds .is-in to every [data-reveal] element once it scrolls into view. */
-export function useReveal() {
+export function useReveal(deps: unknown[] = []) {
   useEffect(() => {
     const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-in)"));
     if (reducedMotion() || !("IntersectionObserver" in window)) {
@@ -103,7 +103,7 @@ export function useReveal() {
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, []);
+  }, deps); // eslint-disable-line react-hooks/exhaustive-deps
 }
 
 export const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
@@ -366,5 +366,32 @@ export function Loader() {
         onError={() => setState("leaving")}
       />
     </div>
+  );
+}
+
+/* ---------- animated headline text ---------- */
+/* Letters turn on their vertical axis like shutter slats: in on load, out on scroll */
+export function FlipText({ text, className, delay = 0 }: { text: string; className?: string; delay?: number }) {
+  const n = Array.from(text).length;
+  let i = 0;
+  // letters animate one by one, but each word stays unbroken so lines only wrap between words
+  return (
+    <span className={className} aria-label={text}>
+      {text.split(" ").map((word, w) => (
+        <span key={w}>
+          {w > 0 && " "}
+          <span className="inline-block whitespace-nowrap" aria-hidden="true">
+            {Array.from(word).map((ch) => {
+              const k = i++;
+              return (
+                <span key={k} className="rn-flip" style={{ animationDelay: `${delay + k * 45}ms`, ["--i" as string]: k, ["--n" as string]: n } as CSSProperties}>
+                  <span>{ch}</span>
+                </span>
+              );
+            })}
+          </span>
+        </span>
+      ))}
+    </span>
   );
 }

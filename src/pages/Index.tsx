@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState, type ReactNode, type CSSProperties, type FormEvent, type MouseEvent } from "react";
 import {
-  ArrowIcon, CONTACT, Footer, Header, Loader, MailIcon, PhoneIcon, PinIcon, ROUTES,
+  ArrowIcon, CONTACT, FlipText, Footer, Header, Loader, MailIcon, PhoneIcon, PinIcon, ROUTES,
   clamp01, cn, easeOut, reducedMotion, useReveal, useScrollFrame, viewport,
 } from "@/components/site/shared";
+import { PROJECTS, ProjectCard } from "@/components/site/projects-data";
 
 /* ===============================================================
    Ravid Nahum — Home
@@ -14,31 +15,6 @@ const d = (ms: number) => ({ ["--d" as string]: `${ms}ms` }) as CSSProperties;
 const li = (i: number) => ({ ["--i" as string]: i }) as CSSProperties;
 
 /* ---------------------------------------------------------------- HERO */
-/* Letters turn on their vertical axis like shutter slats: in on load, out on scroll */
-function FlipText({ text, className, delay = 0 }: { text: string; className?: string; delay?: number }) {
-  const n = Array.from(text).length;
-  let i = 0;
-  // letters animate one by one, but each word stays unbroken so lines only wrap between words
-  return (
-    <span className={className} aria-label={text}>
-      {text.split(" ").map((word, w) => (
-        <span key={w}>
-          {w > 0 && " "}
-          <span className="inline-block whitespace-nowrap" aria-hidden="true">
-            {Array.from(word).map((ch) => {
-              const k = i++;
-              return (
-                <span key={k} className="rn-flip" style={{ animationDelay: `${delay + k * 45}ms`, ["--i" as string]: k, ["--n" as string]: n } as CSSProperties}>
-                  <span>{ch}</span>
-                </span>
-              );
-            })}
-          </span>
-        </span>
-      ))}
-    </span>
-  );
-}
 
 
 function Hero() {
@@ -139,63 +115,6 @@ function Statement() {
 }
 
 /* ------------------------------------------------------------ PROJECTS */
-type Project = { slug: string; name: string; meta: string; text: string; exterior: string; interior: string };
-
-const PROJECTS: Project[] = [
-  {
-    slug: "moshav",
-    name: "בית במושב",
-    meta: "בית פרטי · השרון",
-    text: "קומה אחת סביב בריכה, וכל חדר נפתח אל הגינה.",
-    exterior: "/assets/project-moshav-exterior.jpg",
-    interior: "/assets/project-moshav-interior.jpg",
-  },
-  {
-    slug: "zichron",
-    name: "בית אבן בזכרון יעקב",
-    meta: "שימור ותוספת · זכרון יעקב",
-    text: "קירות אבן מקוריים, קשתות, ותוספת פלדה וזכוכית שנפתחת לנוף.",
-    exterior: "/assets/project-zichron-exterior.jpg",
-    interior: "/assets/project-zichron-interior.jpg",
-  },
-  {
-    slug: "herzliya",
-    name: "פנטהאוז בהרצליה פיתוח",
-    meta: "דירת גג · הרצליה פיתוח",
-    text: "קומה אחרונה מול הים, עם מרפסת שמתנהגת כמו עוד חדר בבית.",
-    exterior: "/assets/project-herzliya-exterior.jpg",
-    interior: "/assets/project-herzliya-interior.jpg",
-  },
-];
-
-/* Interior photo fills the card; a stone "poster" panel sits on it with an arched window onto the exterior. */
-function ProjectCard({ p, className, delay = 0 }: { p: Project; className?: string; delay?: number }) {
-  const [type, place] = p.meta.split(" · ");
-  return (
-    <a
-      href={ROUTES.projects}
-      data-reveal="unveil"
-      style={d(delay)}
-      aria-label={`${p.name} — ${p.meta}`}
-      className={cn("rn-card group relative block [container-type:size]", className)}
-    >
-      <span className="rn-clip absolute inset-0 block overflow-hidden">
-        <img src={p.interior} alt={`${p.name}, מבט מבפנים`} loading="lazy" className="rn-front rn-card-bg absolute inset-0 h-full w-full object-cover" />
-        <span className="rn-card-panel absolute left-1/2 top-1/2 flex h-[88cqh] w-[min(60cqh,84cqw)] -translate-x-1/2 -translate-y-1/2 flex-col bg-stone px-[3.6cqh] pb-[3.4cqh] pt-[3cqh] text-petrol shadow-[0_18px_40px_rgba(4,42,43,.25)]">
-          <span className="flex items-baseline justify-between t-4 leading-none tracking-[.04em]">
-            <span>{type}</span>
-            <span>{place}</span>
-          </span>
-          <span className="relative mt-[2.6cqh] block flex-1 overflow-hidden rounded-t-full">
-            <img src={p.exterior} alt={`${p.name}, מבט מבחוץ`} loading="lazy" className="rn-card-arch absolute inset-0 h-full w-full object-cover" />
-          </span>
-          <span className="mt-[3cqh] block text-center t-3 font-normal leading-[1.15]">{p.name}</span>
-          <span className="mx-auto mt-[1.6cqh] block max-w-[92%] text-center t-4 leading-[1.5] opacity-85">{p.text}</span>
-        </span>
-      </span>
-    </a>
-  );
-}
 
 /* A rule drawn by the scroll itself, from its own edge, as soon as it enters the screen */
 function ScrollRule({ className, from = "left" }: { className: string; from?: "left" | "right" }) {

@@ -163,3 +163,8 @@
 
 /* while the loader plays, hold the hero's entrance animations so they start as it lifts */
 .is-loading .rn-flip, .is-loading .rn-fade-up { animation-play-state: paused; }
+
+/* projects page: cards rise in one after another after each filter change */
+.rn-grid-in { animation: rn-grid-in .9s var(--ease) both; }
+@keyframes rn-grid-in { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .rn-grid-in { animation: none; } }

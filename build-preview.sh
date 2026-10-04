@@ -1,6 +1,21 @@
 #!/usr/bin/env bash
-# Builds preview.html from the real sources (same code → identical render), no Node needed.
+# Builds the static previews from the real sources (same code → identical render), no Node needed.
+#   preview.html / index.html → Index      projects.html → ProjectsPage
 cd "$(dirname "$0")"
+
+bundle() {
+  # all modules in one scope: imports dropped, exports unwrapped, routes mapped to the static files
+  cat src/components/site/shared.tsx src/components/site/projects-data.tsx src/pages/Index.tsx src/pages/Projects.tsx |
+    perl -0pe 's/^import[^;]*;\n//mg; s/^export default function (\w+)/function $1/mg; s/^export //mg' |
+    sed -e 's#"/assets/#"public/assets/#g' \
+        -e 's#projects: "/projects"#projects: "projects.html"#' \
+        -e 's#home: "/"#home: "./"#' \
+        -e 's#: "/\#\([a-z]*\)"#: "./\#\1"#g'
+}
+
+build() {
+OUT=$1
+ROOT=$2
 {
 cat <<'HEAD'
 <!doctype html>
@@ -8,7 +23,9 @@ cat <<'HEAD'
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<script>(function(){if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("is-loading")})()</script>
+HEAD
+[ "$ROOT" = "Index" ] && echo '<script>(function(){if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("is-loading")})()</script>'
+cat <<'HEAD'
 <script>(function(){var r=document.documentElement,w=r.clientWidth||innerWidth,D=1325,z=w<1024?1:w<=D?w/D:Math.min(1.6,1+(w/D-1)*0.6);if(z!==1)r.style.zoom=z.toFixed(4);r.style.setProperty("--z",z.toFixed(4))})()</script>
 <title>רביד נחום | אדריכלות ועיצוב פנים</title>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -33,24 +50,26 @@ cat <<'HEAD2'
 <script id="src" type="text/plain">
 const { useState, useRef, useEffect, useLayoutEffect } = React;
 HEAD2
-cat src/components/site/shared.tsx src/pages/Index.tsx |
-  perl -0pe 's/^import[^;]*;\n//mg; s/^export (default )?//mg' |
-  sed -e 's#"/assets/#"public/assets/#g'
+bundle
+echo '</script>'
+echo "<script>window.__ROOT__ = \"$ROOT\";</script>"
 cat <<'TAIL'
-</script>
 <script>
   const code = Babel.transform(document.getElementById("src").textContent, {
-    filename: "Index.tsx",
+    filename: "Site.tsx",
     presets: [["typescript", { isTSX: true, allExtensions: true }], "react"],
   }).code;
-  new Function("React", "ReactDOM", code + '\nReactDOM.createRoot(document.getElementById("root")).render(React.createElement(Index));')(React, ReactDOM);
+  new Function("React", "ReactDOM", code + '\nReactDOM.createRoot(document.getElementById("root")).render(React.createElement(' + window.__ROOT__ + '));')(React, ReactDOM);
   // preview-only: ?y=1234 jumps to a scroll position (used for screenshots)
   (function(){ var y = new URLSearchParams(location.search).get("y"); if (y) setTimeout(function(){ document.documentElement.style.scrollBehavior = "auto"; window.scrollTo(0, +y); }, 400); })();
 </script>
-<script src="dev-hero-panel.js"></script>
 </body>
 </html>
 TAIL
-} > preview.html
-echo "built preview.html"
+} > "$OUT"
+echo "built $OUT"
+}
+
+build preview.html Index
+build projects.html ProjectsPage
 cp preview.html index.html   # GitHub Pages entry point

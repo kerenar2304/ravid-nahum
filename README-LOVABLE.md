@@ -1,6 +1,8 @@
 # רביד נחום — חבילת Lovable
 
 ## מה יש כאן
+- `src/pages/Projects.tsx` — עמוד הפרויקטים (נתיב `/projects`): קשת, סינון לפי סוג, גריד כרטיסים
+- `src/components/site/projects-data.tsx` — נתוני הפרויקטים וכרטיס הפרויקט, משותפים לדף הבית ולעמוד הפרויקטים
 - `src/pages/Index.tsx` — דף הבית (React + Tailwind)
 - `src/components/site/shared.tsx` — הדר, פוטר, אייקונים, פרטי קשר (`CONTACT`), נתיבים (`ROUTES`) ו-hooks לאפקטים
 - `src/index.css` — פונטי Arfilit (+ Montserrat לספרות) וטוקני הצבע: `--petrol` #042a2b, `--terra` #a56332, `--stone` #e0e0cf
