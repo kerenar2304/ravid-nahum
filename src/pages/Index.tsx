@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode, type CSSProperties, type FormEvent, type MouseEvent } from "react";
 import {
-  ArrowIcon, CONTACT, Footer, Header, MailIcon, PhoneIcon, PinIcon, ROUTES,
+  ArrowIcon, CONTACT, Footer, Header, Loader, MailIcon, PhoneIcon, PinIcon, ROUTES,
   clamp01, cn, easeOut, reducedMotion, useReveal, useScrollFrame, viewport,
 } from "@/components/site/shared";
 
@@ -677,6 +677,7 @@ export default function Index() {
   useReveal();
   return (
     <div dir="rtl" lang="he" className="min-h-screen bg-stone font-arfilit text-petrol">
+      <Loader />
       <Header active="home" />
       <main id="main">
         <div>

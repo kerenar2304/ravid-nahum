@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>(function(){if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("is-loading")})()</script>
 <script>(function(){var r=document.documentElement,w=r.clientWidth||innerWidth,D=1325,z=w<1024?1:w<=D?w/D:Math.min(1.6,1+(w/D-1)*0.6);if(z!==1)r.style.zoom=z.toFixed(4);r.style.setProperty("--z",z.toFixed(4))})()</script>
 <title>רביד נחום | אדריכלות ועיצוב פנים</title>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -203,6 +204,9 @@ body {
 @media (min-width: 1024px) {
   .t-1 { font-size: 90px; } .t-2 { font-size: 56px; } .t-3 { font-size: 24px; } .t-4 { font-size: 17px; } .t-3s { font-size: 24px; }
 }
+
+/* while the loader plays, hold the hero's entrance animations so they start as it lifts */
+.is-loading .rn-flip, .is-loading .rn-fade-up { animation-play-state: paused; }
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
@@ -542,6 +546,43 @@ function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+/* ---------- loader: the logo-mark tetris plays once, then fades away ---------- */
+function Loader() {
+  const [state, setState] = useState<"on" | "leaving" | "off">(() => (reducedMotion() ? "off" : "on"));
+  useEffect(() => {
+    if (state === "off") { document.documentElement.classList.remove("is-loading"); return; }
+    document.documentElement.classList.add("is-loading");
+    document.documentElement.style.overflow = "hidden";
+    const fallback = window.setTimeout(() => setState("leaving"), 4500); // never block the site
+    return () => window.clearTimeout(fallback);
+  }, [state]);
+  useEffect(() => {
+    if (state !== "leaving") return;
+    document.documentElement.classList.remove("is-loading"); // hero animations start as the curtain lifts
+    document.documentElement.style.overflow = "";
+    const t = window.setTimeout(() => setState("off"), 700);
+    return () => window.clearTimeout(t);
+  }, [state]);
+  if (state === "off") return null;
+  return (
+    <div
+      aria-hidden="true"
+      className={cn("fixed inset-0 z-[100] bg-[#0c2e2e] transition-opacity duration-700", state === "leaving" && "pointer-events-none opacity-0")}
+    >
+      <video
+        className="h-full w-full object-cover"
+        src="public/assets/loader.mp4"
+        muted
+        playsInline
+        autoPlay
+        preload="auto"
+        onEnded={() => setState("leaving")}
+        onError={() => setState("leaving")}
+      />
+    </div>
   );
 }
 
@@ -1218,6 +1259,7 @@ function Index() {
   useReveal();
   return (
     <div dir="rtl" lang="he" className="min-h-screen bg-stone font-arfilit text-petrol">
+      <Loader />
       <Header active="home" />
       <main id="main">
         <div>

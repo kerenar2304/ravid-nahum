@@ -160,3 +160,6 @@
 @media (min-width: 1024px) {
   .t-1 { font-size: 90px; } .t-2 { font-size: 56px; } .t-3 { font-size: 24px; } .t-4 { font-size: 17px; } .t-3s { font-size: 24px; }
 }
+
+/* while the loader plays, hold the hero's entrance animations so they start as it lifts */
+.is-loading .rn-flip, .is-loading .rn-fade-up { animation-play-state: paused; }

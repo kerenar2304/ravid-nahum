@@ -331,3 +331,40 @@ export function Footer() {
     </footer>
   );
 }
+
+/* ---------- loader: the logo-mark tetris plays once, then fades away ---------- */
+export function Loader() {
+  const [state, setState] = useState<"on" | "leaving" | "off">(() => (reducedMotion() ? "off" : "on"));
+  useEffect(() => {
+    if (state === "off") { document.documentElement.classList.remove("is-loading"); return; }
+    document.documentElement.classList.add("is-loading");
+    document.documentElement.style.overflow = "hidden";
+    const fallback = window.setTimeout(() => setState("leaving"), 4500); // never block the site
+    return () => window.clearTimeout(fallback);
+  }, [state]);
+  useEffect(() => {
+    if (state !== "leaving") return;
+    document.documentElement.classList.remove("is-loading"); // hero animations start as the curtain lifts
+    document.documentElement.style.overflow = "";
+    const t = window.setTimeout(() => setState("off"), 700);
+    return () => window.clearTimeout(t);
+  }, [state]);
+  if (state === "off") return null;
+  return (
+    <div
+      aria-hidden="true"
+      className={cn("fixed inset-0 z-[100] bg-[#0c2e2e] transition-opacity duration-700", state === "leaving" && "pointer-events-none opacity-0")}
+    >
+      <video
+        className="h-full w-full object-cover"
+        src="/assets/loader.mp4"
+        muted
+        playsInline
+        autoPlay
+        preload="auto"
+        onEnded={() => setState("leaving")}
+        onError={() => setState("leaving")}
+      />
+    </div>
+  );
+}
