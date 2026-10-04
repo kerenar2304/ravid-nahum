@@ -70,23 +70,27 @@ function FramedPhoto({ p, className }: { p: Person; className?: string }) {
   );
 }
 
-/* ---------- the team as a building facade: everyone stands inside a deep window ---------- */
-const FACADE: Person[] = [NOA, DAFNA, YOAV, MAYA, OMER, RON]; // partners in the middle column
+/* ---------- the team in the windows of a facade: cut-out figures inside deep openings, breaking out of the frame ---------- */
+const WINDOWS: { p: Person; cut: string; shift: string }[] = [
+  { p: NOA, cut: "/assets/team-cut-noa.webp", shift: "left-[-14%]" },
+  { p: YOAV, cut: "/assets/team-cut-yoav.webp", shift: "left-[-22%]" },
+  { p: MAYA, cut: "/assets/team-cut-maya.webp", shift: "left-[-10%]" },
+  { p: RON, cut: "/assets/team-cut-ron.webp", shift: "left-[-24%]" },
+];
 
 function TeamFacade() {
   return (
-    <ul className="rn-facade mx-auto grid max-w-[1000px] grid-cols-2 gap-x-[6vw] gap-y-[clamp(36px,6vw,64px)] sm:grid-cols-3 lg:gap-x-[72px]">
-      {FACADE.map((p, i) => (
-        <li key={p.key} data-reveal style={{ ["--d" as string]: `${i * 110}ms` }} className="rn-window group">
-          <div className="relative aspect-[3/4] overflow-hidden bg-[#6d4a2f]">
-            <img src={p.img} alt={`${p.name}, ${p.role}`} loading="lazy" className="rn-window-photo absolute inset-0 h-full w-full object-cover object-top" />
-            {/* the depth of the opening: shadow from the top and the right, light on the opposite edges */}
-            <span aria-hidden="true" className="rn-window-depth pointer-events-none absolute inset-0" />
+    <ul className="grid grid-cols-2 gap-x-[8vw] gap-y-[clamp(90px,16vw,140px)] lg:grid-cols-4 lg:gap-x-[56px]">
+      {WINDOWS.map(({ p, cut, shift }, i) => (
+        <li key={p.key} data-reveal style={{ ["--d" as string]: `${i * 140}ms` }} className={cn("rn-window relative", i % 2 === 1 && "mt-[34%]")}>
+          {/* the opening */}
+          <div className="rn-window-hole relative aspect-[3/4]" />
+          {/* the figure stands in it and spills over the frame */}
+          <img src={cut} alt={`${p.name}, ${p.role}`} loading="lazy" className={cn("rn-window-figure pointer-events-none absolute top-[3%] z-10 w-[138%] max-w-none select-none", shift)} />
+          <div className="relative mt-[78%] text-stone">
+            <p className="t-3 font-normal">{p.name}</p>
+            <p className="t-4 text-stone/70">{p.role}</p>
           </div>
-          {/* the sill, then the name engraved on the wall */}
-          <span aria-hidden="true" className="-mx-2 block h-[7px] bg-[#cdc5ae] shadow-[0_8px_12px_rgba(4,42,43,.16)]" />
-          <p className={cn("mt-4 text-center", p.partner ? "t-3 font-normal" : "t-4 font-normal")}>{p.name}</p>
-          <p className="t-4 text-center text-petrol/65">{p.role}</p>
         </li>
       ))}
     </ul>
@@ -163,10 +167,10 @@ export default function StudioPage() {
         </section>
 
         {/* team: a facade of windows */}
-        <section aria-labelledby="team-h" className="rn-wall py-[clamp(64px,10vw,140px)]">
+        <section aria-labelledby="team-h" className="rn-wall pb-[clamp(90px,14vw,180px)] pt-[clamp(64px,10vw,140px)] text-stone">
           <div className="mx-auto px-[6vw] lg:w-[1325px] lg:px-[99px]">
             <h2 id="team-h" data-reveal="flip" className="t-2 text-center font-light"><FlipText text="הצוות" /></h2>
-            <p data-reveal className="t-4 mx-auto mt-3 max-w-[460px] text-center text-petrol/70">שישה אנשים, חזית אחת. כל אחד בחלון שלו, כולם באותו בניין.</p>
+            <p data-reveal className="t-4 mx-auto mt-3 max-w-[460px] text-center text-stone/70">ארבעה אנשים שמחזיקים את הקו יחד איתנו, כל אחד בחלון שלו, כולם באותו בניין.</p>
             <div className="mt-12 lg:mt-16"><TeamFacade /></div>
           </div>
         </section>
