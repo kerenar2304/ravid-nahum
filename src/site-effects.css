@@ -169,9 +169,14 @@
 @keyframes rn-grid-in { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .rn-grid-in { animation: none; } }
 
-/* studio page: the table is drawn as one line, then its centre line */
-.rn-table-line { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.8s cubic-bezier(.45, 0, .25, 1) .2s; }
-.rn-table-line-2 { transition-delay: 1.2s; }
-.rn-table.is-in .rn-table-line { stroke-dashoffset: 0; }
-.rn-tile { transition: opacity .3s; }
-@media (prefers-reduced-motion: reduce) { .rn-table-line { stroke-dashoffset: 0; transition: none; } }
+/* studio page: the team facade — a sunlit wall with deep window openings */
+.rn-wall { background: radial-gradient(120% 90% at 85% 0%, #ecebdf 0%, #e0e0cf 45%, #d3d1bd 100%); }
+.rn-window-depth {
+  box-shadow:
+    inset -18px 22px 26px rgba(4, 42, 43, .42),   /* shadow cast from the top-right edge of the opening */
+    inset 6px -6px 10px rgba(255, 250, 235, .18); /* light bouncing off the sill side */
+}
+.rn-window .rn-window-photo { clip-path: inset(100% 0 0 0); transition: clip-path 1.4s var(--ease) var(--d, 0ms), transform 1.6s var(--ease); }
+.rn-window.is-in .rn-window-photo { clip-path: inset(0 0 0 0); }
+.rn-window:hover .rn-window-photo { transform: scale(1.04); }
+@media (prefers-reduced-motion: reduce) { .rn-window .rn-window-photo { clip-path: none; } }
