@@ -89,10 +89,10 @@ function PartnerWindow({ p, side }: { p: Person; side: "start" | "end" }) {
   return (
     <div data-reveal className={cn("rn-window flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-[3vw] lg:gap-[32px]", side === "end" && "sm:flex-row-reverse")}>
       <div className={cn("min-w-0 text-stone sm:flex-1 sm:pb-[6%]", side === "end" ? "sm:text-left" : "sm:text-right")}>
-        <p className="t-4 text-stone/70">מאז <span className="font-['Num']">{t.since}</span></p>
-        <p className="t-2 mt-1 font-semibold leading-[1.02]">{p.name}</p>
-        <p className="t-4 whitespace-nowrap font-light">{p.role}</p>
-        <p className="t-4 mt-4 text-stone/85">{t.text}</p>
+        <p className="t-3 whitespace-nowrap font-semibold">{p.name}</p>
+        <p className="t-4 text-stone/75">{p.role}</p>
+        <p className="t-4 text-stone/60">מאז <span className="font-['Num']">{t.since}</span></p>
+        <p className="t-4 mt-3 max-w-[260px] text-stone/85 sm:inline-block">{t.text}</p>
       </div>
       <div className="rn-opening relative aspect-[3/4] w-full sm:w-[40%] sm:flex-none">
         <span aria-hidden="true" className="rn-room rn-room-terra absolute inset-0" />
@@ -112,13 +112,6 @@ function PartnerWindow({ p, side }: { p: Person; side: "start" | "end" }) {
 function TeamFacade() {
   return (
     <>
-      {/* partners floor */}
-      <div className="grid gap-14 sm:grid-cols-2 sm:gap-[8vw] lg:gap-[120px]">
-        <PartnerWindow p={DAFNA} side="start" />
-        <PartnerWindow p={OMER} side="end" />
-      </div>
-      {/* a clear band of wall between the floors */}
-      <div aria-hidden="true" className="h-[clamp(90px,14vw,180px)]" />
     <ul className="grid grid-cols-2 gap-x-[7vw] gap-y-[clamp(40px,8vw,64px)] lg:grid-cols-4 lg:gap-x-[64px]">
 
       {WINDOWS.map((w, i) => (
@@ -205,10 +198,21 @@ export default function StudioPage() {
         </section>
 
         {/* team: a facade of windows */}
+        {/* partners: their own terracotta wall */}
+        <section aria-labelledby="partners-h" className="rn-wall-terra pb-[clamp(90px,12vw,150px)] pt-[clamp(64px,10vw,130px)] text-stone">
+          <div className="mx-auto px-[6vw] lg:w-[1325px] lg:px-[99px]">
+            <h2 id="partners-h" data-reveal="flip" className="t-2 text-center font-light"><FlipText text="השותפים" /></h2>
+            <div className="mx-auto mt-12 grid max-w-[1000px] gap-14 sm:grid-cols-2 sm:gap-[8vw] lg:mt-16 lg:gap-[100px]">
+              <PartnerWindow p={DAFNA} side="start" />
+              <PartnerWindow p={OMER} side="end" />
+            </div>
+          </div>
+        </section>
+
         <section aria-labelledby="team-h" className="rn-wall pb-[clamp(90px,14vw,180px)] pt-[clamp(64px,10vw,140px)] text-stone">
           <div className="mx-auto px-[6vw] lg:w-[1325px] lg:px-[99px]">
             <h2 id="team-h" data-reveal="flip" className="t-2 text-center font-light"><FlipText text="הצוות" /></h2>
-            <p data-reveal className="t-4 mx-auto mt-3 max-w-[460px] text-center text-stone/70">שני שותפים וארבעה אנשים שמחזיקים איתם את הקו. כל אחד בחלון שלו, כולם באותו בניין.</p>
+            <p data-reveal className="t-4 mx-auto mt-3 max-w-[460px] text-center text-stone/70">ארבעה אנשים שמחזיקים איתנו את הקו. כל אחד בחלון שלו, כולם באותו בניין.</p>
             <div className="mt-12 lg:mt-16"><TeamFacade /></div>
           </div>
         </section>

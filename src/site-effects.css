@@ -200,3 +200,15 @@
 .rn-face-top.rn-face-terra   { background: linear-gradient(180deg, #5c3317, #74411d); }
 .rn-face-start.rn-face-terra { background: linear-gradient(90deg, #6b3c1b, #552f14); }
 .rn-face-end.rn-face-terra   { background: linear-gradient(90deg, #b97a48, #a56a3b); }
+/* partners' wall: terracotta plaster; their openings go deeper terracotta */
+.rn-wall-terra {
+  background-color: #a56332;
+  background-image:
+    radial-gradient(90% 70% at 85% 0%, rgba(255, 230, 200, .18), transparent 60%),
+    radial-gradient(120% 90% at 10% 100%, rgba(60, 25, 5, .3), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+}
+.rn-room-terra { background: linear-gradient(180deg, #4a2610 0%, #63341a 60%, #74401f 100%); }
+.rn-face-top.rn-face-terra   { background: linear-gradient(180deg, #3a1d0b, #4c2610); }
+.rn-face-start.rn-face-terra { background: linear-gradient(90deg, #4a2610, #3a1d0b); }
+.rn-face-end.rn-face-terra   { background: linear-gradient(90deg, #8a5229, #7a4723); }
