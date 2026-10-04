@@ -73,26 +73,30 @@ function FramedPhoto({ p, className }: { p: Person; className?: string }) {
 /* ---------- the team inside a facade. Every window is the same opening on one line:
    a plaster wall, a deep reveal (lintel, jambs), a stone sill, a dim room behind.
    The figure images share one frame: `sill` is where the sill line falls in the image. ---------- */
-type Win = { p: Person; img: string; scale: number; sill: number; x: number };
+type Win = { p: Person; img: string; scale: number; sill: number; x: number; seated: boolean };
 const WINDOWS: Win[] = [
-  { p: NOA, img: "/assets/team-win-noa.webp", scale: 1, sill: 0.91, x: 0 },
-  { p: YOAV, img: "/assets/team-win-yoav.webp", scale: 1.8, sill: 0.51, x: -40 },
-  { p: MAYA, img: "/assets/team-win-maya.webp", scale: 1.5, sill: 0.52, x: -40 },
-  { p: RON, img: "/assets/team-win-ron.webp", scale: 1, sill: 0.89, x: 0 },
+  { p: NOA, img: "/assets/team-win-noa.webp", scale: 0.85, sill: 0.91, x: 10, seated: false },
+  { p: YOAV, img: "/assets/team-win-yoav.webp", scale: 1.3, sill: 0.51, x: -15, seated: true },
+  { p: MAYA, img: "/assets/team-win-maya.webp", scale: 1.1, sill: 0.52, x: -5, seated: true },
+  { p: RON, img: "/assets/team-win-ron.webp", scale: 0.85, sill: 0.89, x: 5, seated: false },
 ];
 
 function TeamFacade() {
   return (
     <ul className="grid grid-cols-2 gap-x-[7vw] gap-y-[clamp(40px,8vw,64px)] lg:grid-cols-4 lg:gap-x-[64px]">
       {WINDOWS.map((w, i) => (
-        <li key={w.p.key} data-reveal style={{ ["--d" as string]: `${i * 140}ms` }} className="rn-window">
+        <li key={w.p.key} data-reveal style={{ ["--d" as string]: `${i * 140}ms` }} className="rn-window pb-[88%]">
+          <div className="mb-5 text-stone">
+            <p className="t-3 font-normal">{w.p.name}</p>
+            <p className="t-4 text-stone/70">{w.p.role}</p>
+          </div>
           <div className="rn-opening relative aspect-[3/4]">
             <span aria-hidden="true" className="rn-room absolute inset-0" />
             <span aria-hidden="true" className="rn-face rn-face-top absolute inset-0" />
             <span aria-hidden="true" className="rn-face rn-face-start absolute inset-0" />
             <span aria-hidden="true" className="rn-face rn-face-end absolute inset-0" />
             {/* figure: cut by the opening above the sill, legs may hang down over the wall */}
-            <div className="absolute inset-0 z-[2]" style={{ clipPath: "inset(0 0 -200% 0)" }}>
+            <div className="absolute inset-0 z-[2]" style={{ clipPath: w.seated ? "inset(0 0 -200% 0)" : "inset(0)" }}>
               <img
                 src={w.img}
                 alt={`${w.p.name}, ${w.p.role}`}
@@ -104,10 +108,6 @@ function TeamFacade() {
             </div>
             {/* stone sill: top, front face, cast shadow on the wall */}
             <span aria-hidden="true" className="rn-sill absolute -inset-x-[7%] top-full z-[1]" />
-          </div>
-          <div className="mt-[100%] text-stone">
-            <p className="t-3 font-normal">{w.p.name}</p>
-            <p className="t-4 text-stone/70">{w.p.role}</p>
           </div>
         </li>
       ))}
