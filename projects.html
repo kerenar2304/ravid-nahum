@@ -1493,7 +1493,7 @@ function TeamFacade() {
   return (
     <ul className="grid grid-cols-2 gap-x-[8vw] gap-y-[clamp(48px,10vw,90px)] lg:grid-cols-4 lg:gap-x-[56px]">
       {WINDOWS.map((w, i) => (
-        <li key={w.p.key} data-reveal style={{ ["--d" as string]: `${i * 140}ms` }} className={cn("rn-window", i % 2 === 1 && "mt-[24%]")}>
+        <li key={w.p.key} data-reveal style={{ ["--d" as string]: `${i * 140}ms` }} className="rn-window">
           <div className="relative aspect-[3/4]">
             {/* the opening, and the sill under it */}
             <div className="rn-window-hole absolute inset-0" />
@@ -1505,7 +1505,7 @@ function TeamFacade() {
               <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[22%] bg-gradient-to-b from-black/45 to-transparent" />
             </div>
           </div>
-          <div className={cn("text-stone", w.kind === "sit" ? "mt-[62%]" : "mt-8")}>
+          <div className="mt-[62%] text-stone">
             <p className="t-3 font-normal">{w.p.name}</p>
             <p className="t-4 text-stone/70">{w.p.role}</p>
           </div>
