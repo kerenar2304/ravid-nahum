@@ -2,6 +2,7 @@
 
 ## מה יש כאן
 - `src/pages/Projects.tsx` — עמוד הפרויקטים (נתיב `/projects`): קשת, סינון לפי סוג, גריד כרטיסים
+- `src/pages/Studio.tsx` — עמוד הסטודיו (נתיב `/studio`): מניפסט, מספרים, השותפים, איך אנחנו עובדים, הצוות. רשימת הצוות (`TEAM`) היא דמה להחלפה
 - `src/components/site/projects-data.tsx` — נתוני הפרויקטים וכרטיס הפרויקט, משותפים לדף הבית ולעמוד הפרויקטים
 - `src/pages/Index.tsx` — דף הבית (React + Tailwind)
 - `src/components/site/shared.tsx` — הדר, פוטר, אייקונים, פרטי קשר (`CONTACT`), נתיבים (`ROUTES`) ו-hooks לאפקטים

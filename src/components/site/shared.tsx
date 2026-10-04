@@ -9,8 +9,8 @@ export const cn = (...a: (string | false | null | undefined)[]) => a.filter(Bool
 export const ROUTES = {
   home: "/",
   projects: "/projects",
-  studio: "/#studio",
-  about: "/about",
+  studio: "/studio",
+  about: "/studio",
   contact: "/#contact",
   accessibility: "/accessibility",
   privacy: "/privacy",

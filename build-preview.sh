@@ -5,11 +5,12 @@ cd "$(dirname "$0")"
 
 bundle() {
   # all modules in one scope: imports dropped, exports unwrapped, routes mapped to the static files
-  cat src/components/site/shared.tsx src/components/site/projects-data.tsx src/pages/Index.tsx src/pages/Projects.tsx |
+  cat src/components/site/shared.tsx src/components/site/projects-data.tsx src/pages/Index.tsx src/pages/Projects.tsx src/pages/Studio.tsx |
     perl -0pe 's/^import[^;]*;\n//mg; s/^export default function (\w+)/function $1/mg; s/^export //mg' |
     sed -e 's#"/assets/#"public/assets/#g' \
         -e 's#projects: "/projects"#projects: "projects.html"#' \
         -e 's#home: "/"#home: "./"#' \
+        -e 's#: "/studio"#: "studio.html"#g' \
         -e 's#: "/\#\([a-z]*\)"#: "./\#\1"#g'
 }
 
@@ -72,4 +73,5 @@ echo "built $OUT"
 
 build preview.html Index
 build projects.html ProjectsPage
+build studio.html StudioPage
 cp preview.html index.html   # GitHub Pages entry point
