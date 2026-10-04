@@ -25,17 +25,6 @@ const YOAV: Person = { key: "yoav", name: "יואב כהן", role: "מעצב פ�
 const MAYA: Person = { key: "maya", name: "מאיה ברק", role: "הדמיות ותכנון", img: "/assets/team-maya_barak.webp" };
 const RON: Person = { key: "ron", name: "רון אלון", role: "ניהול פרויקטים ופיקוח", img: "/assets/team-ron_alon.webp" };
 
-const PARTNER_TEXT: Record<string, { since: string; text: string }> = {
-  dafna: { since: "2004", text: "יסדה את המשרד ומתכננת כל בית מבחוץ פנימה: מהמגרש, דרך הקירות, ועד החלון." },
-  omer: { since: "2016", text: "מעצב כל בית מבפנים החוצה: מהחומרים, דרך התאורה, ועד הידית." },
-};
-
-const PRINCIPLES = [
-  { n: "01", title: "מבחוץ פנימה", text: "מתחילים במגרש, באור ובכיווני הרוח. הבית נבנה סביב מה שכבר שם." },
-  { n: "02", title: "שולחן אחד", text: "אדריכלות ועיצוב פנים מתוכננים יחד, מהיום הראשון ועד מסירת המפתח." },
-  { n: "03", title: "קו אחד", text: "שפה אחת של חומרים, פרופורציות ופרטים, מהחזית ועד המטבח." },
-];
-
 /* a number that counts up once it scrolls into view */
 function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -82,39 +71,6 @@ const WINDOWS: Win[] = [
   { p: RON, img: "/assets/team-win-ron.webp", scale: 0.85, sill: 0.89, x: 5, seated: false },
 ];
 
-const PARTNER_IMG: Record<string, string> = { dafna: "/assets/team-win-dafna.webp", omer: "/assets/team-win-omer.webp" };
-
-/* a partner: the text toward the page edge, the window toward the centre */
-function PartnerText({ p, side }: { p: Person; side: "start" | "end" }) {
-  const t = PARTNER_TEXT[p.key];
-  return (
-    <div data-reveal className={cn("self-end text-stone lg:pb-[2%]", side === "end" && "lg:text-left")}>
-      <p className="t-3 whitespace-nowrap font-semibold">{p.name}</p>
-      <p className="t-4 text-stone/75">{p.role} · מאז <span className="font-['Num']">{t.since}</span></p>
-      <p className="t-4 mt-3 text-stone/85">{t.text}</p>
-    </div>
-  );
-}
-
-function PartnerOpening({ p }: { p: Person }) {
-  return (
-    <div data-reveal className="rn-window rn-partner">
-      <div className="rn-opening relative aspect-[3/4] w-full">
-        <span aria-hidden="true" className="rn-room rn-room-terra absolute inset-0" />
-        <span aria-hidden="true" className="rn-room-light absolute inset-0" />
-        <span aria-hidden="true" className="rn-face rn-face-top rn-face-terra absolute inset-0" />
-        <span aria-hidden="true" className="rn-face rn-face-start rn-face-terra absolute inset-0" />
-        <span aria-hidden="true" className="rn-face rn-face-end rn-face-terra absolute inset-0" />
-        <div className="absolute inset-0 z-[2]" style={{ clipPath: "inset(0)" }}>
-          <img src={PARTNER_IMG[p.key]} alt={`${p.name}, ${p.role}`} loading="lazy" className="rn-window-figure absolute max-w-none select-none" style={{ width: "100%", left: "0%", top: `${(1 - 0.92) * 100}%` }} />
-          <span aria-hidden="true" className="rn-lintel-shade pointer-events-none absolute inset-x-0 top-0 h-[22%] opacity-60" />
-        </div>
-        <span aria-hidden="true" className="rn-sill absolute -inset-x-[7%] top-full z-[1]" />
-      </div>
-    </div>
-  );
-}
-
 function TeamFacade() {
   return (
     <>
@@ -158,26 +114,14 @@ export default function StudioPage() {
     <div dir="rtl" lang="he" className="min-h-screen bg-stone font-arfilit text-petrol">
       <Header active="studio" />
       <main id="main">
-        {/* manifesto: the headline carries the line, like the home page */}
-        <section className="mx-auto px-[6vw] pb-[clamp(56px,9vw,120px)] pt-[clamp(48px,9vw,120px)] lg:w-[1325px] lg:px-[99px]">
+        {/* title */}
+        <section className="px-[6vw] pb-[clamp(40px,6vw,80px)] pt-[clamp(48px,8vw,110px)] text-center">
           <h1 data-reveal="flip" className="t-1 font-light">
-            <span className="flex items-center gap-[3vw] lg:gap-[40px]">
-              <FlipText text="שני קצוות," className="block whitespace-nowrap" />
-              <span data-reveal="rule" aria-hidden="true" className="mt-[.12em] block h-[2px] flex-1 bg-petrol lg:h-[3px]" style={{ ["--d" as string]: "500ms" }} />
-            </span>
-            <FlipText text="שולחן אחד" delay={160} className="block" />
+            <FlipText text="הסטודיו שלנו" />
           </h1>
-          <div className="mt-10 grid gap-6 border-t border-petrol/20 pt-8 sm:grid-cols-2 sm:gap-[5vw] lg:mt-14 lg:gap-[80px] lg:pt-10">
-            <p data-reveal className="t-3 font-light text-petrol/85">
-              רביד נחום הוא משרד אדריכלות ועיצוב פנים שנוסד ב־<span className="font-['Num']">2004</span>. אנחנו מתכננים כל בית מבחוץ פנימה ומבפנים החוצה, באותו חדר ובאותה שפה.
-            </p>
-            <p data-reveal style={{ ["--d" as string]: "120ms" }} className="t-3 font-light text-petrol/85">
-              המשרד קטן בכוונה. כל פרויקט עובר דרך שני השותפים, וכל החלטה, מגובה התקרה ועד גוון האבן, נבחנת מול הבית כולו.
-            </p>
-          </div>
         </section>
 
-        {/* numbers */}
+        {/* numbers — the last one is the wink */}
         <section aria-label="הסטודיו במספרים" className="border-y-[3px] border-petrol">
           <ul className="mx-auto grid grid-cols-2 lg:w-[1325px] lg:grid-cols-4">
             {STATS.map((s, i) => (
@@ -189,39 +133,29 @@ export default function StudioPage() {
           </ul>
         </section>
 
-        {/* how we work: one even grid, three equal columns between two lines */}
-        <section aria-labelledby="how-h" className="mx-auto px-[6vw] py-[clamp(64px,10vw,140px)] lg:w-[1325px] lg:px-[99px]">
-          <h2 id="how-h" data-reveal="flip" className="t-2 font-light"><FlipText text="איך אנחנו עובדים" /></h2>
-          <ol className="mt-10 grid border-y-[3px] border-petrol lg:mt-14 lg:grid-cols-3">
-            {PRINCIPLES.map((p, i) => (
-              <li key={p.n} data-reveal style={{ ["--d" as string]: `${i * 120}ms` }} className={cn("px-0 py-8 lg:px-[40px] lg:py-[44px]", i > 0 && "border-t border-petrol/20 lg:border-r lg:border-t-0")}>
-                <p className="t-4 font-['Num'] text-terra" dir="ltr" style={{ textAlign: "right" }}>{p.n}</p>
-                <h3 className="t-2 mt-2 font-light">{p.title}</h3>
-                <p className="t-4 mt-3 text-petrol/75">{p.text}</p>
-              </li>
-            ))}
-          </ol>
-        </section>
-
-        {/* team: a facade of windows */}
-        {/* partners: their own terracotta wall */}
-        <section aria-labelledby="partners-h" className="rn-wall-terra pb-[clamp(90px,12vw,150px)] pt-[clamp(64px,10vw,130px)] text-stone">
-          <div className="mx-auto px-[6vw] lg:w-[1325px] lg:px-[73px]">
-            <h2 id="partners-h" data-reveal="flip" className="t-2 text-center font-light"><FlipText text="השותפים" /></h2>
-            <div className="mt-12 grid grid-cols-2 gap-x-[5vw] gap-y-8 lg:mt-16 lg:grid-cols-[1fr_300px_300px_1fr] lg:gap-x-[40px]">
-              <div className="order-3 col-span-1 lg:order-none"><PartnerText p={DAFNA} side="start" /></div>
-              <div className="order-1 lg:order-none"><PartnerOpening p={DAFNA} /></div>
-              <div className="order-2 lg:order-none"><PartnerOpening p={OMER} /></div>
-              <div className="order-4 lg:order-none"><PartnerText p={OMER} side="end" /></div>
+        {/* who we are, then the partners standing on the line where the team's wall begins */}
+        <section aria-label="על הסטודיו" className="mx-auto px-[6vw] pt-[clamp(48px,8vw,110px)] lg:w-[1325px] lg:px-[99px]">
+          <p data-reveal className="t-4 mx-auto max-w-[620px] text-center text-petrol/85">
+            רביד נחום הוא משרד אדריכלות ועיצוב פנים שנוסד ב־<span className="font-['Num']">2004</span>. אנחנו מתכננים כל בית מבחוץ פנימה ומבפנים החוצה, באותו חדר ובאותה שפה. המשרד קטן בכוונה: כל פרויקט עובר דרך שני השותפים, וכל החלטה, מגובה התקרה ועד גוון האבן, נבחנת מול הבית כולו.
+          </p>
+          <div className="relative mt-[clamp(32px,5vw,64px)] grid grid-cols-[1fr_auto_1fr] items-end gap-[3vw]">
+            <div data-reveal className="justify-self-end pb-[clamp(24px,4vw,56px)] text-right">
+              <p className="t-3 font-semibold">דפנה רביד</p>
+              <p className="t-4 font-light">אדריכלית, שותפה מייסדת</p>
+            </div>
+            <div data-reveal className="w-[clamp(220px,40vw,460px)]"><img src="/assets/partners.webp" alt="דפנה רביד ועומר נחום, השותפים במשרד" loading="lazy" className="block w-full -scale-x-100" /></div>
+            <div data-reveal style={{ ["--d" as string]: "120ms" }} className="justify-self-start pb-[clamp(24px,4vw,56px)] text-right">
+              <p className="t-3 font-semibold">עומר נחום</p>
+              <p className="t-4 font-light">מעצב פנים, שותף</p>
             </div>
           </div>
         </section>
 
-        <section aria-labelledby="team-h" className="rn-wall pb-[clamp(90px,14vw,180px)] pt-[clamp(64px,10vw,140px)] text-stone">
+        {/* team: a facade of windows */}
+        <section aria-labelledby="team-h" className="rn-wall pb-[clamp(90px,14vw,180px)] pt-[clamp(56px,8vw,110px)] text-stone">
           <div className="mx-auto px-[6vw] lg:w-[1325px] lg:px-[99px]">
-            <h2 id="team-h" data-reveal="flip" className="t-2 text-center font-light"><FlipText text="הצוות" /></h2>
-            <p data-reveal className="t-4 mx-auto mt-3 max-w-[460px] text-center text-stone/70">ארבעה אנשים שמחזיקים איתנו את הקו. כל אחד בחלון שלו, כולם באותו בניין.</p>
-            <div className="mt-12 lg:mt-16"><TeamFacade /></div>
+            <h2 id="team-h" data-reveal="flip" className="t-1 text-center font-light"><FlipText text="הצוות" /></h2>
+            <div className="mt-[clamp(32px,5vw,64px)]"><TeamFacade /></div>
           </div>
         </section>
 
