@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 
 bundle() {
   # all modules in one scope: imports dropped, exports unwrapped, routes mapped to the static files
-  cat src/components/site/shared.tsx src/components/site/projects-data.tsx src/pages/Index.tsx src/pages/Projects.tsx src/pages/Studio.tsx |
+  cat src/components/site/shared.tsx src/components/site/projects-data.tsx src/components/site/contact.tsx src/pages/Index.tsx src/pages/Projects.tsx src/pages/Studio.tsx |
     perl -0pe 's/^import[^;]*;\n//mg; s/^export default function (\w+)/function $1/mg; s/^export //mg' |
     sed -e 's#"/assets/#"public/assets/#g' \
         -e 's#projects: "/projects"#projects: "projects.html"#' \

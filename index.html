@@ -256,6 +256,16 @@ body {
 .rn-face-top.rn-face-terra   { background: linear-gradient(180deg, #3a1d0b, #4c2610); }
 .rn-face-start.rn-face-terra { background: linear-gradient(90deg, #4a2610, #3a1d0b); }
 .rn-face-end.rn-face-terra   { background: linear-gradient(90deg, #8a5229, #7a4723); }
+/* partners: on hover the window grows a little and the room fills with the brand's light stone */
+.rn-partner .rn-opening { transition: transform .9s var(--ease); }
+.rn-partner:hover .rn-opening { transform: scale(1.035); }
+.rn-room-light { background: linear-gradient(180deg, #e9e8da 0%, #e0e0cf 60%, #d4d3bf 100%); opacity: 0; transition: opacity .9s var(--ease); }
+.rn-partner:hover .rn-room-light { opacity: 1; }
+.rn-partner .rn-face-terra { transition: opacity .9s var(--ease); }
+.rn-partner:hover .rn-face-terra { opacity: .55; }
+/* the team wall melts into the page colour below it, no seam */
+.rn-wall { position: relative; }
+.rn-wall::after { content: ""; position: absolute; inset: auto 0 0 0; height: 220px; background: linear-gradient(180deg, transparent, #e0e0cf); pointer-events: none; }
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
@@ -746,6 +756,60 @@ function ProjectCard({ p, className, delay = 0 }: { p: Project; className?: stri
     </a>
   );
 }
+
+/* Contact form, shared by the home page and the studio page */
+/* Clean and minimal: a heading on one side, three underlined fields and a quiet send on the other. */
+function Contact() {
+  const [sent, setSent] = useState(false);
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // TODO: connect to a form endpoint (e.g. Supabase / Resend) in Lovable
+    setSent(true);
+  };
+  const field = "rn-field block w-full border-0 border-b border-petrol/30 bg-transparent pb-3 pt-1 t-4 text-petrol placeholder:text-petrol/45";
+
+  return (
+    <section id="contact" aria-labelledby="contact-title" className="relative mx-auto mt-24 grid gap-12 px-[6vw] lg:mt-[170px] lg:w-[1133px] lg:grid-cols-2 lg:gap-[120px] lg:px-0">
+      <div data-reveal className="contents lg:block">
+        <h2 id="contact-title" className="t-2 whitespace-nowrap text-center lg:text-right font-light leading-[1.05] text-petrol lg:whitespace-normal">בואו נתחיל<br className="hidden lg:block" /> מקו אחד</h2>
+        <p className="t-4 order-last mt-0 lg:order-none lg:mt-6 leading-[1.6] text-petrol/75">
+          <a href={CONTACT.phoneHref} className="rn-link">{CONTACT.phone}</a>
+          <br />
+          <a href={`mailto:${CONTACT.email}`} className="rn-link">{CONTACT.email}</a>
+        </p>
+      </div>
+
+      {sent ? (
+        <p role="status" data-reveal className="t-3 self-end font-light text-petrol">תודה, נחזור אליך בקרוב.</p>
+      ) : (
+        <form data-reveal style={{ ["--d" as string]: "120ms" }} onSubmit={onSubmit} className="flex flex-col gap-8 lg:pt-3">
+          <div>
+            <label className="sr-only" htmlFor="c-name">שם</label>
+            <input id="c-name" name="name" required autoComplete="name" placeholder="שם" className={field} />
+          </div>
+          <div>
+            <label className="sr-only" htmlFor="c-phone">טלפון</label>
+            <input id="c-phone" name="phone" type="tel" dir="rtl" required autoComplete="tel" inputMode="tel" placeholder="טלפון" className={cn(field, "text-right")} />
+          </div>
+          <div>
+            <label className="sr-only" htmlFor="c-msg">על מה נדבר?</label>
+            <input id="c-msg" name="message" placeholder="על מה נדבר?" className={field} />
+          </div>
+          <div className="flex items-center justify-between gap-6">
+            <label className="t-4 flex items-center gap-2 text-petrol/65">
+              <input type="checkbox" name="consent" required className="h-4 w-4 accent-[#a56332]" />
+              <span>מאשר/ת את <a href={ROUTES.privacy} className="underline underline-offset-4">מדיניות הפרטיות</a></span>
+            </label>
+            <button type="submit" className="t-4 rn-send-link group flex items-center gap-3 text-petrol">
+              <span className="rn-link">שליחה</span>
+              <ArrowIcon className="h-[22px] w-[22px] -rotate-45 transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1" />
+            </button>
+          </div>
+        </form>
+      )}
+    </section>
+  );
+}
+
 
 /* ===============================================================
    Ravid Nahum — Home
@@ -1280,59 +1344,6 @@ function TerraArch() {
   );
 }
 
-/* ------------------------------------------------------------- CONTACT */
-/* Clean and minimal: a heading on one side, three underlined fields and a quiet send on the other. */
-function Contact() {
-  const [sent, setSent] = useState(false);
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // TODO: connect to a form endpoint (e.g. Supabase / Resend) in Lovable
-    setSent(true);
-  };
-  const field = "rn-field block w-full border-0 border-b border-petrol/30 bg-transparent pb-3 pt-1 t-4 text-petrol placeholder:text-petrol/45";
-
-  return (
-    <section id="contact" aria-labelledby="contact-title" className="relative mx-auto mt-24 grid gap-12 px-[6vw] lg:mt-[170px] lg:w-[1133px] lg:grid-cols-2 lg:gap-[120px] lg:px-0">
-      <div data-reveal className="contents lg:block">
-        <h2 id="contact-title" className="t-2 whitespace-nowrap text-center lg:text-right font-light leading-[1.05] text-petrol lg:whitespace-normal">בואו נתחיל<br className="hidden lg:block" /> מקו אחד</h2>
-        <p className="t-4 order-last mt-0 lg:order-none lg:mt-6 leading-[1.6] text-petrol/75">
-          <a href={CONTACT.phoneHref} className="rn-link">{CONTACT.phone}</a>
-          <br />
-          <a href={`mailto:${CONTACT.email}`} className="rn-link">{CONTACT.email}</a>
-        </p>
-      </div>
-
-      {sent ? (
-        <p role="status" data-reveal className="t-3 self-end font-light text-petrol">תודה, נחזור אליך בקרוב.</p>
-      ) : (
-        <form data-reveal style={d(120)} onSubmit={onSubmit} className="flex flex-col gap-8 lg:pt-3">
-          <div>
-            <label className="sr-only" htmlFor="c-name">שם</label>
-            <input id="c-name" name="name" required autoComplete="name" placeholder="שם" className={field} />
-          </div>
-          <div>
-            <label className="sr-only" htmlFor="c-phone">טלפון</label>
-            <input id="c-phone" name="phone" type="tel" dir="rtl" required autoComplete="tel" inputMode="tel" placeholder="טלפון" className={cn(field, "text-right")} />
-          </div>
-          <div>
-            <label className="sr-only" htmlFor="c-msg">על מה נדבר?</label>
-            <input id="c-msg" name="message" placeholder="על מה נדבר?" className={field} />
-          </div>
-          <div className="flex items-center justify-between gap-6">
-            <label className="t-4 flex items-center gap-2 text-petrol/65">
-              <input type="checkbox" name="consent" required className="h-4 w-4 accent-[#a56332]" />
-              <span>מאשר/ת את <a href={ROUTES.privacy} className="underline underline-offset-4">מדיניות הפרטיות</a></span>
-            </label>
-            <button type="submit" className="t-4 rn-send-link group flex items-center gap-3 text-petrol">
-              <span className="rn-link">שליחה</span>
-              <ArrowIcon className="h-[22px] w-[22px] -rotate-45 transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1" />
-            </button>
-          </div>
-        </form>
-      )}
-    </section>
-  );
-}
-
 /* ---------------------------------------------------------------- PAGE */
 function Index() {
   useReveal();
@@ -1521,19 +1532,24 @@ const WINDOWS: Win[] = [
 
 const PARTNER_IMG: Record<string, string> = { dafna: "public/assets/team-win-dafna.webp", omer: "public/assets/team-win-omer.webp" };
 
-/* a partner: same window, terracotta room, the text beside it on the outer side */
-function PartnerWindow({ p, side }: { p: Person; side: "start" | "end" }) {
+/* a partner: the text toward the page edge, the window toward the centre */
+function PartnerText({ p, side }: { p: Person; side: "start" | "end" }) {
   const t = PARTNER_TEXT[p.key];
   return (
-    <div data-reveal className={cn("rn-window flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-[3vw] lg:gap-[32px]", side === "end" && "sm:flex-row-reverse")}>
-      <div className={cn("min-w-0 text-stone sm:flex-1 sm:pb-[6%]", side === "end" ? "sm:text-left" : "sm:text-right")}>
-        <p className="t-3 whitespace-nowrap font-semibold">{p.name}</p>
-        <p className="t-4 text-stone/75">{p.role}</p>
-        <p className="t-4 text-stone/60">מאז <span className="font-['Num']">{t.since}</span></p>
-        <p className="t-4 mt-3 max-w-[260px] text-stone/85 sm:inline-block">{t.text}</p>
-      </div>
-      <div className="rn-opening relative aspect-[3/4] w-full sm:w-[40%] sm:flex-none">
+    <div data-reveal className={cn("self-end text-stone lg:pb-[2%]", side === "end" && "lg:text-left")}>
+      <p className="t-3 whitespace-nowrap font-semibold">{p.name}</p>
+      <p className="t-4 text-stone/75">{p.role} · מאז <span className="font-['Num']">{t.since}</span></p>
+      <p className="t-4 mt-3 text-stone/85">{t.text}</p>
+    </div>
+  );
+}
+
+function PartnerOpening({ p }: { p: Person }) {
+  return (
+    <div data-reveal className="rn-window rn-partner">
+      <div className="rn-opening relative aspect-[3/4] w-full">
         <span aria-hidden="true" className="rn-room rn-room-terra absolute inset-0" />
+        <span aria-hidden="true" className="rn-room-light absolute inset-0" />
         <span aria-hidden="true" className="rn-face rn-face-top rn-face-terra absolute inset-0" />
         <span aria-hidden="true" className="rn-face rn-face-start rn-face-terra absolute inset-0" />
         <span aria-hidden="true" className="rn-face rn-face-end rn-face-terra absolute inset-0" />
@@ -1638,11 +1654,13 @@ function StudioPage() {
         {/* team: a facade of windows */}
         {/* partners: their own terracotta wall */}
         <section aria-labelledby="partners-h" className="rn-wall-terra pb-[clamp(90px,12vw,150px)] pt-[clamp(64px,10vw,130px)] text-stone">
-          <div className="mx-auto px-[6vw] lg:w-[1325px] lg:px-[99px]">
+          <div className="mx-auto px-[6vw] lg:w-[1325px] lg:px-[73px]">
             <h2 id="partners-h" data-reveal="flip" className="t-2 text-center font-light"><FlipText text="השותפים" /></h2>
-            <div className="mx-auto mt-12 grid max-w-[1000px] gap-14 sm:grid-cols-2 sm:gap-[8vw] lg:mt-16 lg:gap-[100px]">
-              <PartnerWindow p={DAFNA} side="start" />
-              <PartnerWindow p={OMER} side="end" />
+            <div className="mt-12 grid grid-cols-2 gap-x-[5vw] gap-y-8 lg:mt-16 lg:grid-cols-[1fr_300px_300px_1fr] lg:gap-x-[40px]">
+              <div className="order-3 col-span-1 lg:order-none"><PartnerText p={DAFNA} side="start" /></div>
+              <div className="order-1 lg:order-none"><PartnerOpening p={DAFNA} /></div>
+              <div className="order-2 lg:order-none"><PartnerOpening p={OMER} /></div>
+              <div className="order-4 lg:order-none"><PartnerText p={OMER} side="end" /></div>
             </div>
           </div>
         </section>
@@ -1655,14 +1673,8 @@ function StudioPage() {
           </div>
         </section>
 
-        {/* call to action */}
-        <section className="bg-petrol py-[clamp(64px,10vw,130px)] text-center text-stone">
-          <p data-reveal className="t-2 mx-auto max-w-[760px] px-[6vw] font-light">רוצים לשבת איתנו ליד השולחן?</p>
-          <a href={ROUTES.contact} className="group t-3 mt-8 inline-flex items-center gap-3 border border-stone px-8 py-3 transition-colors hover:bg-stone hover:text-petrol">
-            בואו נתחיל מקו אחד
-            <ArrowIcon className="h-[1em] w-[1em] -rotate-45 transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1" />
-          </a>
-        </section>
+        {/* contact: the same form as the home page */}
+        <div className="pb-[clamp(64px,10vw,130px)]"><Contact /></div>
       </main>
       <Footer />
     </div>

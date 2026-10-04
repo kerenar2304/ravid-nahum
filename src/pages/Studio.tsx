@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowIcon, FlipText, Footer, Header, ROUTES, cn, reducedMotion, useReveal } from "@/components/site/shared";
+import { FlipText, Footer, Header, cn, reducedMotion, useReveal } from "@/components/site/shared";
+import { Contact } from "@/components/site/contact";
 
 /* ===============================================================
    Ravid Nahum — Studio
@@ -83,19 +84,24 @@ const WINDOWS: Win[] = [
 
 const PARTNER_IMG: Record<string, string> = { dafna: "/assets/team-win-dafna.webp", omer: "/assets/team-win-omer.webp" };
 
-/* a partner: same window, terracotta room, the text beside it on the outer side */
-function PartnerWindow({ p, side }: { p: Person; side: "start" | "end" }) {
+/* a partner: the text toward the page edge, the window toward the centre */
+function PartnerText({ p, side }: { p: Person; side: "start" | "end" }) {
   const t = PARTNER_TEXT[p.key];
   return (
-    <div data-reveal className={cn("rn-window flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-[3vw] lg:gap-[32px]", side === "end" && "sm:flex-row-reverse")}>
-      <div className={cn("min-w-0 text-stone sm:flex-1 sm:pb-[6%]", side === "end" ? "sm:text-left" : "sm:text-right")}>
-        <p className="t-3 whitespace-nowrap font-semibold">{p.name}</p>
-        <p className="t-4 text-stone/75">{p.role}</p>
-        <p className="t-4 text-stone/60">מאז <span className="font-['Num']">{t.since}</span></p>
-        <p className="t-4 mt-3 max-w-[260px] text-stone/85 sm:inline-block">{t.text}</p>
-      </div>
-      <div className="rn-opening relative aspect-[3/4] w-full sm:w-[40%] sm:flex-none">
+    <div data-reveal className={cn("self-end text-stone lg:pb-[2%]", side === "end" && "lg:text-left")}>
+      <p className="t-3 whitespace-nowrap font-semibold">{p.name}</p>
+      <p className="t-4 text-stone/75">{p.role} · מאז <span className="font-['Num']">{t.since}</span></p>
+      <p className="t-4 mt-3 text-stone/85">{t.text}</p>
+    </div>
+  );
+}
+
+function PartnerOpening({ p }: { p: Person }) {
+  return (
+    <div data-reveal className="rn-window rn-partner">
+      <div className="rn-opening relative aspect-[3/4] w-full">
         <span aria-hidden="true" className="rn-room rn-room-terra absolute inset-0" />
+        <span aria-hidden="true" className="rn-room-light absolute inset-0" />
         <span aria-hidden="true" className="rn-face rn-face-top rn-face-terra absolute inset-0" />
         <span aria-hidden="true" className="rn-face rn-face-start rn-face-terra absolute inset-0" />
         <span aria-hidden="true" className="rn-face rn-face-end rn-face-terra absolute inset-0" />
@@ -200,11 +206,13 @@ export default function StudioPage() {
         {/* team: a facade of windows */}
         {/* partners: their own terracotta wall */}
         <section aria-labelledby="partners-h" className="rn-wall-terra pb-[clamp(90px,12vw,150px)] pt-[clamp(64px,10vw,130px)] text-stone">
-          <div className="mx-auto px-[6vw] lg:w-[1325px] lg:px-[99px]">
+          <div className="mx-auto px-[6vw] lg:w-[1325px] lg:px-[73px]">
             <h2 id="partners-h" data-reveal="flip" className="t-2 text-center font-light"><FlipText text="השותפים" /></h2>
-            <div className="mx-auto mt-12 grid max-w-[1000px] gap-14 sm:grid-cols-2 sm:gap-[8vw] lg:mt-16 lg:gap-[100px]">
-              <PartnerWindow p={DAFNA} side="start" />
-              <PartnerWindow p={OMER} side="end" />
+            <div className="mt-12 grid grid-cols-2 gap-x-[5vw] gap-y-8 lg:mt-16 lg:grid-cols-[1fr_300px_300px_1fr] lg:gap-x-[40px]">
+              <div className="order-3 col-span-1 lg:order-none"><PartnerText p={DAFNA} side="start" /></div>
+              <div className="order-1 lg:order-none"><PartnerOpening p={DAFNA} /></div>
+              <div className="order-2 lg:order-none"><PartnerOpening p={OMER} /></div>
+              <div className="order-4 lg:order-none"><PartnerText p={OMER} side="end" /></div>
             </div>
           </div>
         </section>
@@ -217,14 +225,8 @@ export default function StudioPage() {
           </div>
         </section>
 
-        {/* call to action */}
-        <section className="bg-petrol py-[clamp(64px,10vw,130px)] text-center text-stone">
-          <p data-reveal className="t-2 mx-auto max-w-[760px] px-[6vw] font-light">רוצים לשבת איתנו ליד השולחן?</p>
-          <a href={ROUTES.contact} className="group t-3 mt-8 inline-flex items-center gap-3 border border-stone px-8 py-3 transition-colors hover:bg-stone hover:text-petrol">
-            בואו נתחיל מקו אחד
-            <ArrowIcon className="h-[1em] w-[1em] -rotate-45 transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1" />
-          </a>
-        </section>
+        {/* contact: the same form as the home page */}
+        <div className="pb-[clamp(64px,10vw,130px)]"><Contact /></div>
       </main>
       <Footer />
     </div>

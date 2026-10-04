@@ -212,3 +212,13 @@
 .rn-face-top.rn-face-terra   { background: linear-gradient(180deg, #3a1d0b, #4c2610); }
 .rn-face-start.rn-face-terra { background: linear-gradient(90deg, #4a2610, #3a1d0b); }
 .rn-face-end.rn-face-terra   { background: linear-gradient(90deg, #8a5229, #7a4723); }
+/* partners: on hover the window grows a little and the room fills with the brand's light stone */
+.rn-partner .rn-opening { transition: transform .9s var(--ease); }
+.rn-partner:hover .rn-opening { transform: scale(1.035); }
+.rn-room-light { background: linear-gradient(180deg, #e9e8da 0%, #e0e0cf 60%, #d4d3bf 100%); opacity: 0; transition: opacity .9s var(--ease); }
+.rn-partner:hover .rn-room-light { opacity: 1; }
+.rn-partner .rn-face-terra { transition: opacity .9s var(--ease); }
+.rn-partner:hover .rn-face-terra { opacity: .55; }
+/* the team wall melts into the page colour below it, no seam */
+.rn-wall { position: relative; }
+.rn-wall::after { content: ""; position: absolute; inset: auto 0 0 0; height: 220px; background: linear-gradient(180deg, transparent, #e0e0cf); pointer-events: none; }
