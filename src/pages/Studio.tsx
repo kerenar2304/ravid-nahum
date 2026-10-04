@@ -70,34 +70,42 @@ function FramedPhoto({ p, className }: { p: Person; className?: string }) {
   );
 }
 
-/* ---------- the team inside a facade: everyone is behind the wall.
-   "upper" figures stand inside and are cut off by the window frame;
-   "sit" figures sit on the sill with their legs hanging out over the wall. ---------- */
-type Win = { p: Person; img: string; kind: "upper" | "sit"; top: string; left: string; width: string };
+/* ---------- the team inside a facade. Every window is the same opening on one line:
+   a plaster wall, a deep reveal (lintel, jambs), a stone sill, a dim room behind.
+   The figure images share one frame: `sill` is where the sill line falls in the image. ---------- */
+type Win = { p: Person; img: string; scale: number; sill: number; x: number };
 const WINDOWS: Win[] = [
-  { p: NOA, img: "/assets/team-cut-noa.webp", kind: "upper", top: "19%", left: "-30%", width: "160%" },
-  { p: YOAV, img: "/assets/team-sit-yoav.webp", kind: "sit", top: "28%", left: "-12.5%", width: "125%" },
-  { p: MAYA, img: "/assets/team-sit-maya.webp", kind: "sit", top: "34%", left: "-32%", width: "125%" },
-  { p: RON, img: "/assets/team-cut-ron.webp", kind: "upper", top: "19%", left: "-30%", width: "160%" },
+  { p: NOA, img: "/assets/team-win-noa.webp", scale: 1, sill: 0.91, x: 0 },
+  { p: YOAV, img: "/assets/team-win-yoav.webp", scale: 1.8, sill: 0.51, x: -40 },
+  { p: MAYA, img: "/assets/team-win-maya.webp", scale: 1.5, sill: 0.52, x: -40 },
+  { p: RON, img: "/assets/team-win-ron.webp", scale: 1, sill: 0.89, x: 0 },
 ];
 
 function TeamFacade() {
   return (
-    <ul className="grid grid-cols-2 gap-x-[8vw] gap-y-[clamp(48px,10vw,90px)] lg:grid-cols-4 lg:gap-x-[56px]">
+    <ul className="grid grid-cols-2 gap-x-[7vw] gap-y-[clamp(40px,8vw,64px)] lg:grid-cols-4 lg:gap-x-[64px]">
       {WINDOWS.map((w, i) => (
         <li key={w.p.key} data-reveal style={{ ["--d" as string]: `${i * 140}ms` }} className="rn-window">
-          <div className="relative aspect-[3/4]">
-            {/* the opening, and the sill under it */}
-            <div className="rn-window-hole absolute inset-0" />
-            <span aria-hidden="true" className="absolute -inset-x-[6%] top-full h-[7px] bg-[#164748] shadow-[0_8px_12px_rgba(0,0,0,.35)]" />
-            {/* the figure: clipped by the frame on top and sides; seated legs may hang below the sill */}
-            <div className="absolute inset-0" style={{ clipPath: w.kind === "upper" ? "inset(0)" : "inset(0 0 -300% 0)" }}>
-              <img src={w.img} alt={`${w.p.name}, ${w.p.role}`} loading="lazy" className="rn-window-figure absolute max-w-none select-none" style={{ top: w.top, left: w.left, width: w.width }} />
-              {/* shade from the lintel, so the figure sits inside the depth of the wall */}
-              <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[22%] bg-gradient-to-b from-black/45 to-transparent" />
+          <div className="rn-opening relative aspect-[3/4]">
+            <span aria-hidden="true" className="rn-room absolute inset-0" />
+            <span aria-hidden="true" className="rn-face rn-face-top absolute inset-0" />
+            <span aria-hidden="true" className="rn-face rn-face-start absolute inset-0" />
+            <span aria-hidden="true" className="rn-face rn-face-end absolute inset-0" />
+            {/* figure: cut by the opening above the sill, legs may hang down over the wall */}
+            <div className="absolute inset-0 z-[2]" style={{ clipPath: "inset(0 0 -200% 0)" }}>
+              <img
+                src={w.img}
+                alt={`${w.p.name}, ${w.p.role}`}
+                loading="lazy"
+                className="rn-window-figure absolute max-w-none select-none"
+                style={{ width: `${w.scale * 100}%`, left: `${w.x}%`, top: `${(1 - w.sill * w.scale) * 100}%` }}
+              />
+              <span aria-hidden="true" className="rn-lintel-shade pointer-events-none absolute inset-x-0 top-0 h-[26%]" />
             </div>
+            {/* stone sill: top, front face, cast shadow on the wall */}
+            <span aria-hidden="true" className="rn-sill absolute -inset-x-[7%] top-full z-[1]" />
           </div>
-          <div className="mt-[62%] text-stone">
+          <div className="mt-[100%] text-stone">
             <p className="t-3 font-normal">{w.p.name}</p>
             <p className="t-4 text-stone/70">{w.p.role}</p>
           </div>

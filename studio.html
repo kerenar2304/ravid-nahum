@@ -212,19 +212,31 @@ body {
 @keyframes rn-grid-in { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .rn-grid-in { animation: none; } }
 
-/* studio page: the team facade — a petrol wall with deep openings, figures stepping out of them */
-.rn-wall { background: radial-gradient(110% 80% at 80% 0%, #124142 0%, #0b3334 45%, #072829 100%); }
-.rn-window-hole {
-  background: linear-gradient(160deg, #021a1b 0%, #04292a 70%, #0a3637 100%);
-  box-shadow:
-    inset -16px 20px 26px rgba(0, 0, 0, .55),   /* depth: shadow from the top-right edge */
-    inset 4px -4px 8px rgba(224, 224, 207, .06),
-    0 1px 0 rgba(224, 224, 207, .08);           /* faint lit lip on the frame */
+/* studio page: the team facade — a plaster wall with real window openings */
+.rn-wall {
+  background-color: #0e3a3a;
+  background-image:
+    radial-gradient(90% 70% at 85% 0%, rgba(255, 236, 205, .16), transparent 60%),
+    radial-gradient(120% 90% at 10% 100%, rgba(0, 0, 0, .35), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
 }
-.rn-window-figure { filter: drop-shadow(-8px 12px 12px rgba(0, 0, 0, .4)); }
-.rn-window .rn-window-figure { opacity: 0; transform: translateY(8%); transition: opacity 1.1s var(--ease) var(--d, 0ms), transform 1.4s var(--ease) var(--d, 0ms); }
+/* the room behind the opening: dim, warmer toward the floor */
+.rn-room { background: linear-gradient(180deg, #031b1c 0%, #062a2a 55%, #0d3333 100%); }
+/* the reveal: four bevelled faces between the wall plane and the inner plane (depth ≈ 9%) */
+.rn-face-top   { clip-path: polygon(0 0, 100% 0, 91% 7%, 9% 7%);        background: linear-gradient(180deg, #021515, #052223); }
+.rn-face-start { clip-path: polygon(100% 0, 100% 100%, 91% 100%, 91% 7%); background: linear-gradient(90deg, #04201f, #021515); } /* right jamb: in shade */
+.rn-face-end   { clip-path: polygon(0 0, 9% 7%, 9% 100%, 0 100%);         background: linear-gradient(90deg, #1d4f4d, #123f3e); } /* left jamb: catches the light */
+.rn-lintel-shade { background: linear-gradient(180deg, rgba(0, 0, 0, .55), transparent); }
+.rn-window-figure { filter: drop-shadow(-6px 10px 10px rgba(0, 0, 0, .45)); }
+/* the stone sill */
+.rn-sill {
+  height: clamp(8px, 2.6%, 14px);
+  background: linear-gradient(180deg, #d9d2bf 0%, #c9c0a9 35%, #a39a83 36%, #8f8771 100%);
+  box-shadow: 0 10px 14px -4px rgba(0, 0, 0, .55), 0 2px 0 rgba(0, 0, 0, .25);
+}
+.rn-window .rn-window-figure { opacity: 0; transform: translateY(6%); transition: opacity 1.1s var(--ease) var(--d, 0ms), transform 1.4s var(--ease) var(--d, 0ms); }
 .rn-window.is-in .rn-window-figure { opacity: 1; transform: none; }
-.rn-window:hover .rn-window-hole { box-shadow: inset -16px 20px 26px rgba(0,0,0,.55), inset 0 0 60px rgba(214,170,120,.18); }
+.rn-window:hover .rn-room { background: linear-gradient(180deg, #2a2a1c 0%, #3a3524 55%, #463e2a 100%); transition: background 1s; }
 @media (prefers-reduced-motion: reduce) { .rn-window .rn-window-figure { opacity: 1; transform: none; } }
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
@@ -1478,34 +1490,42 @@ function FramedPhoto({ p, className }: { p: Person; className?: string }) {
   );
 }
 
-/* ---------- the team inside a facade: everyone is behind the wall.
-   "upper" figures stand inside and are cut off by the window frame;
-   "sit" figures sit on the sill with their legs hanging out over the wall. ---------- */
-type Win = { p: Person; img: string; kind: "upper" | "sit"; top: string; left: string; width: string };
+/* ---------- the team inside a facade. Every window is the same opening on one line:
+   a plaster wall, a deep reveal (lintel, jambs), a stone sill, a dim room behind.
+   The figure images share one frame: `sill` is where the sill line falls in the image. ---------- */
+type Win = { p: Person; img: string; scale: number; sill: number; x: number };
 const WINDOWS: Win[] = [
-  { p: NOA, img: "public/assets/team-cut-noa.webp", kind: "upper", top: "19%", left: "-30%", width: "160%" },
-  { p: YOAV, img: "public/assets/team-sit-yoav.webp", kind: "sit", top: "28%", left: "-12.5%", width: "125%" },
-  { p: MAYA, img: "public/assets/team-sit-maya.webp", kind: "sit", top: "34%", left: "-32%", width: "125%" },
-  { p: RON, img: "public/assets/team-cut-ron.webp", kind: "upper", top: "19%", left: "-30%", width: "160%" },
+  { p: NOA, img: "public/assets/team-win-noa.webp", scale: 1, sill: 0.91, x: 0 },
+  { p: YOAV, img: "public/assets/team-win-yoav.webp", scale: 1.8, sill: 0.51, x: -40 },
+  { p: MAYA, img: "public/assets/team-win-maya.webp", scale: 1.5, sill: 0.52, x: -40 },
+  { p: RON, img: "public/assets/team-win-ron.webp", scale: 1, sill: 0.89, x: 0 },
 ];
 
 function TeamFacade() {
   return (
-    <ul className="grid grid-cols-2 gap-x-[8vw] gap-y-[clamp(48px,10vw,90px)] lg:grid-cols-4 lg:gap-x-[56px]">
+    <ul className="grid grid-cols-2 gap-x-[7vw] gap-y-[clamp(40px,8vw,64px)] lg:grid-cols-4 lg:gap-x-[64px]">
       {WINDOWS.map((w, i) => (
         <li key={w.p.key} data-reveal style={{ ["--d" as string]: `${i * 140}ms` }} className="rn-window">
-          <div className="relative aspect-[3/4]">
-            {/* the opening, and the sill under it */}
-            <div className="rn-window-hole absolute inset-0" />
-            <span aria-hidden="true" className="absolute -inset-x-[6%] top-full h-[7px] bg-[#164748] shadow-[0_8px_12px_rgba(0,0,0,.35)]" />
-            {/* the figure: clipped by the frame on top and sides; seated legs may hang below the sill */}
-            <div className="absolute inset-0" style={{ clipPath: w.kind === "upper" ? "inset(0)" : "inset(0 0 -300% 0)" }}>
-              <img src={w.img} alt={`${w.p.name}, ${w.p.role}`} loading="lazy" className="rn-window-figure absolute max-w-none select-none" style={{ top: w.top, left: w.left, width: w.width }} />
-              {/* shade from the lintel, so the figure sits inside the depth of the wall */}
-              <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[22%] bg-gradient-to-b from-black/45 to-transparent" />
+          <div className="rn-opening relative aspect-[3/4]">
+            <span aria-hidden="true" className="rn-room absolute inset-0" />
+            <span aria-hidden="true" className="rn-face rn-face-top absolute inset-0" />
+            <span aria-hidden="true" className="rn-face rn-face-start absolute inset-0" />
+            <span aria-hidden="true" className="rn-face rn-face-end absolute inset-0" />
+            {/* figure: cut by the opening above the sill, legs may hang down over the wall */}
+            <div className="absolute inset-0 z-[2]" style={{ clipPath: "inset(0 0 -200% 0)" }}>
+              <img
+                src={w.img}
+                alt={`${w.p.name}, ${w.p.role}`}
+                loading="lazy"
+                className="rn-window-figure absolute max-w-none select-none"
+                style={{ width: `${w.scale * 100}%`, left: `${w.x}%`, top: `${(1 - w.sill * w.scale) * 100}%` }}
+              />
+              <span aria-hidden="true" className="rn-lintel-shade pointer-events-none absolute inset-x-0 top-0 h-[26%]" />
             </div>
+            {/* stone sill: top, front face, cast shadow on the wall */}
+            <span aria-hidden="true" className="rn-sill absolute -inset-x-[7%] top-full z-[1]" />
           </div>
-          <div className="mt-[62%] text-stone">
+          <div className="mt-[100%] text-stone">
             <p className="t-3 font-normal">{w.p.name}</p>
             <p className="t-4 text-stone/70">{w.p.role}</p>
           </div>
