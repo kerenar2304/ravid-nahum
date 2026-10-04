@@ -1505,6 +1505,24 @@ const WINDOWS: Win[] = [
 function TeamFacade() {
   return (
     <ul className="grid grid-cols-2 gap-x-[7vw] gap-y-[clamp(40px,8vw,64px)] lg:grid-cols-4 lg:gap-x-[64px]">
+      <li aria-hidden="true" className="hidden lg:block" />
+      {[DAFNA, OMER].map((p, i) => (
+        <li key={p.key} data-reveal style={{ ["--d" as string]: `${i * 140}ms` }} className="rn-window pb-[12%]">
+          <div className="mb-5 text-stone">
+            <p className="t-3 font-semibold">{p.name}</p>
+            <p className="t-4 whitespace-nowrap text-stone/70">{p.role}</p>
+          </div>
+          <div className="rn-opening relative aspect-[3/4]">
+            <img src={p.img} alt={`${p.name}, ${p.role}`} loading="lazy" className="rn-window-figure absolute inset-0 h-full w-full object-cover object-top" />
+            <span aria-hidden="true" className="rn-face rn-face-top absolute inset-0 z-[2]" />
+            <span aria-hidden="true" className="rn-face rn-face-start absolute inset-0 z-[2]" />
+            <span aria-hidden="true" className="rn-face rn-face-end absolute inset-0 z-[2]" />
+            <span aria-hidden="true" className="rn-lintel-shade pointer-events-none absolute inset-x-0 top-0 z-[2] h-[26%]" />
+            <span aria-hidden="true" className="rn-sill absolute -inset-x-[7%] top-full z-[1]" />
+          </div>
+        </li>
+      ))}
+      <li aria-hidden="true" className="hidden lg:block" />
       {WINDOWS.map((w, i) => (
         <li key={w.p.key} data-reveal style={{ ["--d" as string]: `${i * 140}ms` }} className="rn-window pb-[88%]">
           <div className="mb-5 text-stone">
@@ -1573,24 +1591,6 @@ function StudioPage() {
           </ul>
         </section>
 
-        {/* partners: two equal framed portraits */}
-        <section aria-labelledby="partners-h" className="mt-[clamp(64px,10vw,140px)] bg-terra py-[clamp(56px,8vw,110px)] text-stone">
-          <div className="mx-auto px-[6vw] lg:w-[1325px] lg:px-[99px]">
-            <h2 id="partners-h" data-reveal="flip" className="t-2 font-light"><FlipText text="השותפים" /></h2>
-            <div className="mt-10 grid gap-14 sm:grid-cols-2 sm:gap-[6vw] lg:mt-14 lg:gap-[90px]">
-              {[DAFNA, OMER].map((p, i) => (
-                <article key={p.key} data-reveal style={{ ["--d" as string]: `${i * 140}ms` }}>
-                  <FramedPhoto p={p} className="text-stone" />
-                  <p className="t-4 mt-8 text-stone/70">מאז <span className="font-['Num']">{PARTNER_TEXT[p.key].since}</span></p>
-                  <h3 className="t-2 mt-1 whitespace-nowrap font-semibold">{p.name}</h3>
-                  <p className="t-3s font-light">{p.role}</p>
-                  <p className="t-4 mt-4 text-stone/85">{PARTNER_TEXT[p.key].text}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* how we work: one even grid, three equal columns between two lines */}
         <section aria-labelledby="how-h" className="mx-auto px-[6vw] py-[clamp(64px,10vw,140px)] lg:w-[1325px] lg:px-[99px]">
           <h2 id="how-h" data-reveal="flip" className="t-2 font-light"><FlipText text="איך אנחנו עובדים" /></h2>
@@ -1609,7 +1609,7 @@ function StudioPage() {
         <section aria-labelledby="team-h" className="rn-wall pb-[clamp(90px,14vw,180px)] pt-[clamp(64px,10vw,140px)] text-stone">
           <div className="mx-auto px-[6vw] lg:w-[1325px] lg:px-[99px]">
             <h2 id="team-h" data-reveal="flip" className="t-2 text-center font-light"><FlipText text="הצוות" /></h2>
-            <p data-reveal className="t-4 mx-auto mt-3 max-w-[460px] text-center text-stone/70">ארבעה אנשים שמחזיקים את הקו יחד איתנו, כל אחד בחלון שלו, כולם באותו בניין.</p>
+            <p data-reveal className="t-4 mx-auto mt-3 max-w-[460px] text-center text-stone/70">שני שותפים וארבעה אנשים שמחזיקים איתם את הקו. כל אחד בחלון שלו, כולם באותו בניין.</p>
             <div className="mt-12 lg:mt-16"><TeamFacade /></div>
           </div>
         </section>
