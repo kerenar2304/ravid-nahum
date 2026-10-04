@@ -81,27 +81,46 @@ const WINDOWS: Win[] = [
   { p: RON, img: "/assets/team-win-ron.webp", scale: 0.85, sill: 0.89, x: 5, seated: false },
 ];
 
+const PARTNER_IMG: Record<string, string> = { dafna: "/assets/team-win-dafna.webp", omer: "/assets/team-win-omer.webp" };
+
+/* a partner: same window, terracotta room, the text beside it on the outer side */
+function PartnerWindow({ p, side }: { p: Person; side: "start" | "end" }) {
+  const t = PARTNER_TEXT[p.key];
+  return (
+    <div data-reveal className={cn("rn-window flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-[3vw] lg:gap-[32px]", side === "end" && "sm:flex-row-reverse")}>
+      <div className={cn("min-w-0 text-stone sm:flex-1 sm:pb-[6%]", side === "end" ? "sm:text-left" : "sm:text-right")}>
+        <p className="t-4 text-stone/70">מאז <span className="font-['Num']">{t.since}</span></p>
+        <p className="t-2 mt-1 font-semibold leading-[1.02]">{p.name}</p>
+        <p className="t-4 whitespace-nowrap font-light">{p.role}</p>
+        <p className="t-4 mt-4 text-stone/85">{t.text}</p>
+      </div>
+      <div className="rn-opening relative aspect-[3/4] w-full sm:w-[40%] sm:flex-none">
+        <span aria-hidden="true" className="rn-room rn-room-terra absolute inset-0" />
+        <span aria-hidden="true" className="rn-face rn-face-top rn-face-terra absolute inset-0" />
+        <span aria-hidden="true" className="rn-face rn-face-start rn-face-terra absolute inset-0" />
+        <span aria-hidden="true" className="rn-face rn-face-end rn-face-terra absolute inset-0" />
+        <div className="absolute inset-0 z-[2]" style={{ clipPath: "inset(0)" }}>
+          <img src={PARTNER_IMG[p.key]} alt={`${p.name}, ${p.role}`} loading="lazy" className="rn-window-figure absolute max-w-none select-none" style={{ width: "100%", left: "0%", top: `${(1 - 0.92) * 100}%` }} />
+          <span aria-hidden="true" className="rn-lintel-shade pointer-events-none absolute inset-x-0 top-0 h-[22%] opacity-60" />
+        </div>
+        <span aria-hidden="true" className="rn-sill absolute -inset-x-[7%] top-full z-[1]" />
+      </div>
+    </div>
+  );
+}
+
 function TeamFacade() {
   return (
+    <>
+      {/* partners floor */}
+      <div className="grid gap-14 sm:grid-cols-2 sm:gap-[8vw] lg:gap-[120px]">
+        <PartnerWindow p={DAFNA} side="start" />
+        <PartnerWindow p={OMER} side="end" />
+      </div>
+      {/* a clear band of wall between the floors */}
+      <div aria-hidden="true" className="h-[clamp(90px,14vw,180px)]" />
     <ul className="grid grid-cols-2 gap-x-[7vw] gap-y-[clamp(40px,8vw,64px)] lg:grid-cols-4 lg:gap-x-[64px]">
-      <li aria-hidden="true" className="hidden lg:block" />
-      {[DAFNA, OMER].map((p, i) => (
-        <li key={p.key} data-reveal style={{ ["--d" as string]: `${i * 140}ms` }} className="rn-window pb-[12%]">
-          <div className="mb-5 text-stone">
-            <p className="t-3 font-semibold">{p.name}</p>
-            <p className="t-4 whitespace-nowrap text-stone/70">{p.role}</p>
-          </div>
-          <div className="rn-opening relative aspect-[3/4]">
-            <img src={p.img} alt={`${p.name}, ${p.role}`} loading="lazy" className="rn-window-figure absolute inset-0 h-full w-full object-cover object-top" />
-            <span aria-hidden="true" className="rn-face rn-face-top absolute inset-0 z-[2]" />
-            <span aria-hidden="true" className="rn-face rn-face-start absolute inset-0 z-[2]" />
-            <span aria-hidden="true" className="rn-face rn-face-end absolute inset-0 z-[2]" />
-            <span aria-hidden="true" className="rn-lintel-shade pointer-events-none absolute inset-x-0 top-0 z-[2] h-[26%]" />
-            <span aria-hidden="true" className="rn-sill absolute -inset-x-[7%] top-full z-[1]" />
-          </div>
-        </li>
-      ))}
-      <li aria-hidden="true" className="hidden lg:block" />
+
       {WINDOWS.map((w, i) => (
         <li key={w.p.key} data-reveal style={{ ["--d" as string]: `${i * 140}ms` }} className="rn-window pb-[88%]">
           <div className="mb-5 text-stone">
@@ -130,6 +149,7 @@ function TeamFacade() {
         </li>
       ))}
     </ul>
+    </>
   );
 }
 

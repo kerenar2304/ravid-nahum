@@ -195,3 +195,8 @@
 .rn-window.is-in .rn-window-figure { opacity: 1; transform: none; }
 .rn-window:hover .rn-room { background: linear-gradient(180deg, #2a2a1c 0%, #3a3524 55%, #463e2a 100%); transition: background 1s; }
 @media (prefers-reduced-motion: reduce) { .rn-window .rn-window-figure { opacity: 1; transform: none; } }
+/* partners' windows: a terracotta room */
+.rn-room-terra { background: linear-gradient(180deg, #8a4f26 0%, #a56332 60%, #b06c39 100%); }
+.rn-face-top.rn-face-terra   { background: linear-gradient(180deg, #5c3317, #74411d); }
+.rn-face-start.rn-face-terra { background: linear-gradient(90deg, #6b3c1b, #552f14); }
+.rn-face-end.rn-face-terra   { background: linear-gradient(90deg, #b97a48, #a56a3b); }
