@@ -4,6 +4,9 @@ import { ROUTES, cn } from "@/components/site/shared";
 /* Projects: data + the "poster" card shared by the home page and the projects page */
 export type Project = { slug: string; name: string; meta: string; text: string; exterior: string; interior: string; kind: "private" | "apartment" | "commercial"; year: string };
 
+/* one page per project */
+export const projectHref = (slug: string) => "/projects/" + slug;
+
 export const PROJECTS: Project[] = [
   {
     slug: "moshav",
@@ -62,7 +65,7 @@ export function ProjectCard({ p, className, delay = 0 }: { p: Project; className
   const [type, place] = p.meta.split(" · ");
   return (
     <a
-      href={ROUTES.projects}
+      href={projectHref(p.slug)}
       data-reveal="unveil"
       style={{ ["--d" as string]: `${delay}ms` } as CSSProperties}
       aria-label={`${p.name} — ${p.meta}`}
