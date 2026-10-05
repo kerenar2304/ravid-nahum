@@ -287,9 +287,9 @@ export function Header({ active = "home" }: { active?: string }) {
 /* ---------- footer ---------- */
 const FOOT_ICON = "flex h-[40px] w-[40px] items-center justify-center text-stone transition-opacity hover:opacity-70";
 
-export function Footer() {
+export function Footer({ flush = false }: { flush?: boolean }) {
   return (
-    <footer className="relative mt-20 overflow-hidden bg-petrol text-stone lg:mt-[144px]">
+    <footer className={cn("relative overflow-hidden bg-petrol text-stone", flush ? "border-t border-stone/15" : "mt-20 lg:mt-[144px]")}>
       <div className="mx-auto flex flex-row-reverse items-start justify-between gap-6 px-[6vw] pt-14 lg:w-[1325px] lg:px-[73px] lg:pt-[72px]">
         {/* brand, legal links, contact icons */}
         <div className="text-left">

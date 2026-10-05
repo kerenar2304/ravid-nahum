@@ -152,17 +152,19 @@ export default function StudioPage() {
         </section>
 
         {/* team: a facade of windows */}
-        <section aria-labelledby="team-h" className="rn-wall pb-[clamp(90px,14vw,180px)] pt-[clamp(56px,8vw,110px)] text-stone">
+        <section aria-labelledby="team-h" className="rn-wall pb-[clamp(72px,10vw,130px)] pt-[clamp(56px,8vw,110px)] text-stone">
           <div className="mx-auto px-[6vw] lg:w-[1325px] lg:px-[99px]">
             <h2 id="team-h" data-reveal="flip" className="t-1 text-center font-light"><FlipText text="הצוות" /></h2>
             <div className="mt-[clamp(32px,5vw,64px)]"><TeamFacade /></div>
           </div>
+          {/* the same wall carries the contact form down to the footer: one thin line, no fade */}
+          <div className="mx-auto mt-[clamp(24px,4vw,56px)] px-[6vw] lg:w-[1325px] lg:px-[99px]">
+            <span data-reveal="rule" aria-hidden="true" className="block h-[2px] w-full bg-stone/40" />
+          </div>
+          <div className="pt-[clamp(56px,8vw,110px)]"><Contact dark /></div>
         </section>
-
-        {/* contact: the same form as the home page */}
-        <div className="pb-[clamp(64px,10vw,130px)]"><Contact /></div>
       </main>
-      <Footer />
+      <Footer flush />
     </div>
   );
 }

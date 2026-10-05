@@ -237,9 +237,6 @@ body {
 .rn-window.is-in .rn-window-figure { opacity: 1; transform: none; }
 .rn-window:hover .rn-room { background: linear-gradient(180deg, #2a2a1c 0%, #3a3524 55%, #463e2a 100%); transition: background 1s; }
 @media (prefers-reduced-motion: reduce) { .rn-window .rn-window-figure { opacity: 1; transform: none; } }
-/* the team wall melts into the page colour below it, no seam */
-.rn-wall { position: relative; }
-.rn-wall::after { content: ""; position: absolute; inset: auto 0 0 0; height: 220px; background: linear-gradient(180deg, transparent, #e0e0cf); pointer-events: none; }
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
@@ -537,9 +534,9 @@ function Header({ active = "home" }: { active?: string }) {
 /* ---------- footer ---------- */
 const FOOT_ICON = "flex h-[40px] w-[40px] items-center justify-center text-stone transition-opacity hover:opacity-70";
 
-function Footer() {
+function Footer({ flush = false }: { flush?: boolean }) {
   return (
-    <footer className="relative mt-20 overflow-hidden bg-petrol text-stone lg:mt-[144px]">
+    <footer className={cn("relative overflow-hidden bg-petrol text-stone", flush ? "border-t border-stone/15" : "mt-20 lg:mt-[144px]")}>
       <div className="mx-auto flex flex-row-reverse items-start justify-between gap-6 px-[6vw] pt-14 lg:w-[1325px] lg:px-[73px] lg:pt-[72px]">
         {/* brand, legal links, contact icons */}
         <div className="text-left">
@@ -733,19 +730,22 @@ function ProjectCard({ p, className, delay = 0 }: { p: Project; className?: stri
 
 /* Contact form, shared by the home page and the studio page */
 /* Clean and minimal: a heading on one side, three underlined fields and a quiet send on the other. */
-function Contact() {
+function Contact({ dark = false }: { dark?: boolean }) {
+  // dark: the same form set on the petrol wall (studio page), so the wall runs on into the footer
+  const ink = dark ? "text-stone" : "text-petrol";
+  const soft = dark ? "text-stone/70" : "text-petrol/75";
   const [sent, setSent] = useState(false);
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // TODO: connect to a form endpoint (e.g. Supabase / Resend) in Lovable
     setSent(true);
   };
-  const field = "rn-field block w-full border-0 border-b border-petrol/30 bg-transparent pb-3 pt-1 t-4 text-petrol placeholder:text-petrol/45";
+  const field = cn("rn-field block w-full border-0 border-b bg-transparent pb-3 pt-1 t-4", dark ? "border-stone/30 text-stone placeholder:text-stone/50" : "border-petrol/30 text-petrol placeholder:text-petrol/45");
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="relative mx-auto mt-24 grid gap-12 px-[6vw] lg:mt-[170px] lg:w-[1133px] lg:grid-cols-2 lg:gap-[120px] lg:px-0">
+    <section id="contact" aria-labelledby="contact-title" className={cn("relative mx-auto grid gap-12 px-[6vw] lg:w-[1133px] lg:grid-cols-2 lg:gap-[120px] lg:px-0", dark ? "mt-0" : "mt-24 lg:mt-[170px]")}>
       <div data-reveal className="contents lg:block">
-        <h2 id="contact-title" className="t-2 whitespace-nowrap text-center lg:text-right font-light leading-[1.05] text-petrol lg:whitespace-normal">בואו נתחיל<br className="hidden lg:block" /> מקו אחד</h2>
-        <p className="t-4 order-last mt-0 lg:order-none lg:mt-6 leading-[1.6] text-petrol/75">
+        <h2 id="contact-title" className={cn("t-2 whitespace-nowrap text-center lg:text-right font-light leading-[1.05] lg:whitespace-normal", ink)}>בואו נתחיל<br className="hidden lg:block" /> מקו אחד</h2>
+        <p className={cn("t-4 order-last mt-0 lg:order-none lg:mt-6 leading-[1.6]", soft)}>
           <a href={CONTACT.phoneHref} className="rn-link">{CONTACT.phone}</a>
           <br />
           <a href={`mailto:${CONTACT.email}`} className="rn-link">{CONTACT.email}</a>
@@ -753,7 +753,7 @@ function Contact() {
       </div>
 
       {sent ? (
-        <p role="status" data-reveal className="t-3 self-end font-light text-petrol">תודה, נחזור אליך בקרוב.</p>
+        <p role="status" data-reveal className={cn("t-3 self-end font-light", ink)}>תודה, נחזור אליך בקרוב.</p>
       ) : (
         <form data-reveal style={{ ["--d" as string]: "120ms" }} onSubmit={onSubmit} className="flex flex-col gap-8 lg:pt-3">
           <div>
@@ -769,11 +769,11 @@ function Contact() {
             <input id="c-msg" name="message" placeholder="על מה נדבר?" className={field} />
           </div>
           <div className="flex items-center justify-between gap-6">
-            <label className="t-4 flex items-center gap-2 text-petrol/65">
+            <label className={cn("t-4 flex items-center gap-2", soft)}>
               <input type="checkbox" name="consent" required className="h-4 w-4 accent-[#a56332]" />
               <span>מאשר/ת את <a href={ROUTES.privacy} className="underline underline-offset-4">מדיניות הפרטיות</a></span>
             </label>
-            <button type="submit" className="t-4 rn-send-link group flex items-center gap-3 text-petrol">
+            <button type="submit" className={cn("t-4 rn-send-link group flex items-center gap-3", ink)}>
               <span className="rn-link">שליחה</span>
               <ArrowIcon className="h-[22px] w-[22px] -rotate-45 transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1" />
             </button>
@@ -1574,17 +1574,19 @@ function StudioPage() {
         </section>
 
         {/* team: a facade of windows */}
-        <section aria-labelledby="team-h" className="rn-wall pb-[clamp(90px,14vw,180px)] pt-[clamp(56px,8vw,110px)] text-stone">
+        <section aria-labelledby="team-h" className="rn-wall pb-[clamp(72px,10vw,130px)] pt-[clamp(56px,8vw,110px)] text-stone">
           <div className="mx-auto px-[6vw] lg:w-[1325px] lg:px-[99px]">
             <h2 id="team-h" data-reveal="flip" className="t-1 text-center font-light"><FlipText text="הצוות" /></h2>
             <div className="mt-[clamp(32px,5vw,64px)]"><TeamFacade /></div>
           </div>
+          {/* the same wall carries the contact form down to the footer: one thin line, no fade */}
+          <div className="mx-auto mt-[clamp(24px,4vw,56px)] px-[6vw] lg:w-[1325px] lg:px-[99px]">
+            <span data-reveal="rule" aria-hidden="true" className="block h-[2px] w-full bg-stone/40" />
+          </div>
+          <div className="pt-[clamp(56px,8vw,110px)]"><Contact dark /></div>
         </section>
-
-        {/* contact: the same form as the home page */}
-        <div className="pb-[clamp(64px,10vw,130px)]"><Contact /></div>
       </main>
-      <Footer />
+      <Footer flush />
     </div>
   );
 }
