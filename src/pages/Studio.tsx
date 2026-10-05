@@ -138,13 +138,13 @@ export default function StudioPage() {
           <p data-reveal className="t-4 mx-auto max-w-[620px] text-center text-petrol/85">
             רביד נחום הוא משרד אדריכלות ועיצוב פנים שנוסד ב־<span className="font-['Num']">2004</span>. אנחנו מתכננים כל בית מבחוץ פנימה ומבפנים החוצה, באותו חדר ובאותה שפה. המשרד קטן בכוונה: כל פרויקט עובר דרך שני השותפים, וכל החלטה, מגובה התקרה ועד גוון האבן, נבחנת מול הבית כולו.
           </p>
-          <div className="relative mt-[clamp(32px,5vw,64px)] grid grid-cols-2 items-end gap-x-[4vw] sm:grid-cols-[1fr_auto_1fr] sm:gap-[3vw]">
-            <div data-reveal className="order-1 self-start justify-self-start pb-6 text-right sm:order-none sm:self-end sm:justify-self-end sm:pb-[clamp(24px,4vw,56px)] sm:pt-0">
+          <div className="relative mt-[clamp(32px,5vw,64px)] grid grid-cols-[1fr_auto_1fr] items-start gap-x-[3vw] sm:items-end">
+            <div data-reveal className="justify-self-end pt-[9vw] text-right sm:pb-[clamp(24px,4vw,56px)] sm:pt-0">
               <p className="t-3 font-semibold">דפנה רביד</p>
               <p className="t-4 font-light">אדריכלית, שותפה מייסדת</p>
             </div>
-            <div data-reveal className="order-3 col-span-2 mx-auto w-[min(78vw,420px)] sm:order-none sm:col-span-1 sm:w-[clamp(240px,40vw,460px)]"><img src="/assets/partners.webp" alt="דפנה רביד ועומר נחום, השותפים במשרד" loading="lazy" className="block w-full -scale-x-100" /></div>
-            <div data-reveal style={{ ["--d" as string]: "120ms" }} className="order-2 self-start justify-self-end pb-6 text-left sm:order-none sm:self-end sm:justify-self-start sm:pb-[clamp(24px,4vw,56px)] sm:pt-0 sm:text-right">
+            <div data-reveal className="w-[46vw] sm:w-[clamp(240px,40vw,460px)]"><img src="/assets/partners.webp" alt="דפנה רביד ועומר נחום, השותפים במשרד" loading="lazy" className="block w-full -scale-x-100" /></div>
+            <div data-reveal style={{ ["--d" as string]: "120ms" }} className="justify-self-start pt-[9vw] text-right sm:pb-[clamp(24px,4vw,56px)] sm:pt-0">
               <p className="t-3 font-semibold">עומר נחום</p>
               <p className="t-4 font-light">מעצב פנים, שותף</p>
             </div>
