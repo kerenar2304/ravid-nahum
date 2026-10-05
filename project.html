@@ -237,6 +237,14 @@ body {
 .rn-room::after { content: ""; position: absolute; inset: 0; background: #e0e0cf; opacity: 0; transition: opacity .8s var(--ease); }
 .rn-window:hover .rn-room::after { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .rn-window .rn-window-figure { opacity: 1; transform: none; } }
+
+/* loader: each tetris piece falls from above and lands with a small settle */
+.rn-piece { transform: translateY(-1100px); opacity: 0; animation: rn-drop .62s cubic-bezier(.55, 0, .85, .35) forwards; }
+@keyframes rn-drop {
+  0%   { transform: translateY(-1100px); opacity: 1; }
+  82%  { transform: translateY(6px); opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
+}
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
@@ -579,15 +587,27 @@ function Footer({ flush = false }: { flush?: boolean }) {
   );
 }
 
-/* ---------- loader: the logo-mark tetris plays once, then fades away ---------- */
+/* ---------- loader: the logo mark plays tetris — four pieces drop into a 4×4 block, then the curtain lifts.
+   Drawn as vector (the exact logo mark), so it stays sharp at any size. ---------- */
+const MARK_D = "M135.379,133.544l-.045,432.867,429.333.044V133.588l-429.288-.044ZM537.216,528.632c6.477-7.292,11.732-15.31,16.579-25.321l.091,52.183h-52.409c13.544-6.16,25.729-15.266,35.74-26.862ZM533.094,144.55l20.746-.181v318.718l-174.306-318.536h153.56ZM146.204,144.506l205.018.044,13.952-.226v369.813l-29.308-25.774-45.751-45.479c-19.07-18.935-41.221-39.864-65.818-52.681l61.741-.228c21.29-.091,41.493-11.641,54.041-30.983,13.091-20.158,15.356-46.205,5.889-67.947-11.279-25.774-35.65-41.494-63.825-41.087h-135.939v-105.453ZM146.25,260.83h140.877c30.349,2.176,53.768,27.679,53.768,58.255v1.042c-.588,33.248-25.865,59.113-57.664,59.113h-137.026l.045-118.409ZM146.25,555.494l-.045-165.384,34.834.046c10.963-.407,21.698,1.902,32.751,7.067,27.994,13.001,50.915,35.738,73.066,57.799l40.995,40.724c10.826,10.736,21.743,20.338,34.336,30.258,16.941,13.229,33.158,23.012,48.967,29.49H146.25ZM435.704,551.825c-11.687-2.581-23.011-6.93-35.695-13.724-9.603-5.209-14.858-8.29-23.872-14.994l.045-363.788,173.989,318.806c-.498,5.3-1.631,10.057-3.579,14.857-18.255,45.298-63.87,69.489-110.889,58.843Z";
+/* [row, col] cells of each piece, in the order they fall */
+const PIECES: [number, number][][] = [
+  [[3, 0], [3, 1], [3, 2], [3, 3]],   // I
+  [[0, 0], [1, 0], [2, 0], [2, 1]],   // L
+  [[1, 2], [1, 3], [2, 2], [2, 3]],   // O
+  [[0, 1], [0, 2], [0, 3], [1, 1]],   // J
+];
+const CELL = 100, GAP = 10, STEP = CELL + GAP; // in viewBox units
+
 function Loader() {
   const [state, setState] = useState<"on" | "leaving" | "off">(() => (reducedMotion() ? "off" : "on"));
   useEffect(() => {
     if (state === "off") { document.documentElement.classList.remove("is-loading"); return; }
+    if (state !== "on") return;
     document.documentElement.classList.add("is-loading");
     document.documentElement.style.overflow = "hidden";
-    const fallback = window.setTimeout(() => setState("leaving"), 4500); // never block the site
-    return () => window.clearTimeout(fallback);
+    const done = window.setTimeout(() => setState("leaving"), 2900); // pieces land by ~2.1s, a short hold, then lift
+    return () => window.clearTimeout(done);
   }, [state]);
   useEffect(() => {
     if (state !== "leaving") return;
@@ -597,24 +617,30 @@ function Loader() {
     return () => window.clearTimeout(t);
   }, [state]);
   if (state === "off") return null;
+  const size = 4 * STEP - GAP;
   return (
     <div
       aria-hidden="true"
-      className={cn("fixed inset-0 z-[100] bg-[#0c2e2e] transition-opacity duration-700", state === "leaving" && "pointer-events-none opacity-0")}
+      className={cn("fixed inset-0 z-[100] flex items-center justify-center bg-[#0c2e2e] transition-opacity duration-700", state === "leaving" && "pointer-events-none opacity-0")}
     >
-      <video
-        className="h-full w-full object-cover"
-        src="public/assets/loader.mp4"
-        muted
-        playsInline
-        autoPlay
-        preload="auto"
-        onEnded={() => setState("leaving")}
-        onError={() => setState("leaving")}
-      />
+      <svg viewBox={`0 0 ${size} ${size}`} className="h-[clamp(150px,26vmin,260px)] w-auto overflow-visible" shapeRendering="geometricPrecision">
+        <defs>
+          <symbol id="rn-mark" viewBox="135.3 133.5 429.4 433">
+            <path d={MARK_D} fill="#e0e0cf" />
+          </symbol>
+        </defs>
+        {PIECES.map((cells, i) => (
+          <g key={i} className="rn-piece" style={{ animationDelay: `${120 + i * 480}ms` }}>
+            {cells.map(([r, c]) => (
+              <use key={`${r}-${c}`} href="#rn-mark" x={c * STEP} y={r * STEP} width={CELL} height={CELL} />
+            ))}
+          </g>
+        ))}
+      </svg>
     </div>
   );
 }
+
 
 /* ---------- animated headline text ---------- */
 /* Letters turn on their vertical axis like shutter slats: in on load, out on scroll */

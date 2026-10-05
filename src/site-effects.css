@@ -194,3 +194,11 @@
 .rn-room::after { content: ""; position: absolute; inset: 0; background: #e0e0cf; opacity: 0; transition: opacity .8s var(--ease); }
 .rn-window:hover .rn-room::after { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .rn-window .rn-window-figure { opacity: 1; transform: none; } }
+
+/* loader: each tetris piece falls from above and lands with a small settle */
+.rn-piece { transform: translateY(-1100px); opacity: 0; animation: rn-drop .62s cubic-bezier(.55, 0, .85, .35) forwards; }
+@keyframes rn-drop {
+  0%   { transform: translateY(-1100px); opacity: 1; }
+  82%  { transform: translateY(6px); opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
+}
