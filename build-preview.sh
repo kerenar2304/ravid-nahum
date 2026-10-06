@@ -79,6 +79,7 @@ build studio.html StudioPage
 build project.html ProjectPage
 build contact.html ContactPage
 build 404.html NotFound
-# GitHub Pages serves 404.html for any missing path, so its links must resolve from the site root
-sed -i 's#<head>#<head>\n<base href="/ravid-nahum/" />#' 404.html
+# 404.html is served for any missing path, so its links must resolve from the site root
+# (/ravid-nahum/ on GitHub Pages, / on Vercel or any other host)
+sed -i 's#<head>#<head>\n<script>document.write(\x27<base href="\x27+(location.hostname.endsWith("github.io")?"/ravid-nahum/":"/")+\x27" />\x27)</script>#' 404.html
 cp preview.html index.html   # GitHub Pages entry point
