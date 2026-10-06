@@ -1,37 +1,90 @@
-/* PREVIEW-ONLY font inspector: add ?fonts to the address. Hover any text to see its font, size and weight. Not part of the site. */
+/* PREVIEW-ONLY font inspector: add ?fonts to the address.
+   Every text on screen gets a small fixed label right above it: font · weight · size · scale level.
+   Not part of the site. */
 (function () {
   if (!/[?&]fonts\b/.test(location.search)) return;
-  var tip = document.createElement("div");
-  tip.style.cssText = "position:fixed;z-index:10000;pointer-events:none;background:#042a2b;color:#e0e0cf;font:12px/1.5 system-ui,sans-serif;padding:6px 9px;border-radius:6px;box-shadow:0 4px 14px rgba(0,0,0,.3);direction:ltr;white-space:nowrap;display:none";
-  var badge = document.createElement("div");
-  badge.textContent = "מצב בדיקת פונטים · רחפי מעל טקסט";
-  badge.style.cssText = "position:fixed;z-index:10000;left:10px;bottom:10px;background:#a56332;color:#fff;font:13px system-ui,sans-serif;padding:6px 12px;border-radius:20px";
-  document.body.appendChild(tip); document.body.appendChild(badge);
-  var last = null;
-  var names = { 300: "Light", 400: "Regular", 600: "SemiBold" };
+
+  var NAMES = { 300: "Light", 400: "Regular", 600: "SemiBold" };
   function fontName(cs) {
-    var fam = cs.fontFamily.replace(/"/g, "").split(",").map(function (s) { return s.trim(); }).filter(function (f) { return f !== "Num"; })[0];
+    var fam = cs.fontFamily.replace(/"/g, "").split(",").map(function (s) { return s.trim(); })
+      .filter(function (f) { return f !== "Num"; })[0];
+    if (!fam) return "Montserrat (ספרות)";
     var w = parseInt(cs.fontWeight, 10);
     if (fam === "Leon Product") return "Leon Product " + (w >= 600 ? "Bold" : "Regular");
     if (fam === "Leon") return "Leon " + (w >= 600 ? "Bold" : w >= 400 ? "Regular" : "Thin");
-    return fam + " " + (names[w] || w);
+    return fam + " " + (NAMES[w] || w);
   }
-  function scale(el) {
-    var c = el.closest('[class*="t-1"],[class*="t-2"],[class*="t-3"],[class*="t-4"]');
-    if (!c) return "";
-    var m = c.className.match(/\bt-(1|2|3s|3|4)\b/);
-    return m ? "  ·  רמה t-" + m[1] : "";
+  function level(el) {
+    var c = el.closest('[class*="t-"]');
+    var m = c && String(c.className).match(/\bt-(1|2|3s|3|4)\b/);
+    return m ? " · t-" + m[1] : "";
   }
-  document.addEventListener("mousemove", function (e) {
-    var el = document.elementFromPoint(e.clientX, e.clientY);
-    if (!el || !el.textContent || !el.textContent.trim() || el === tip || el === badge) { tip.style.display = "none"; return; }
-    if (last && last !== el) last.style.outline = "";
-    last = el; el.style.outline = "1px dashed #a56332";
-    var cs = getComputedStyle(el), z = parseFloat(getComputedStyle(document.documentElement).zoom || "1") || 1;
-    var px = parseFloat(cs.fontSize);
-    tip.textContent = fontName(cs) + "  ·  " + Math.round(px) + "px" + (z !== 1 ? " (on screen ≈" + Math.round(px * z) + "px)" : "") + scale(el);
-    tip.style.display = "block";
-    var x = Math.min(e.clientX + 14, innerWidth - tip.offsetWidth - 8), y = e.clientY + 18;
-    tip.style.left = x + "px"; tip.style.top = (y + tip.offsetHeight > innerHeight ? e.clientY - tip.offsetHeight - 10 : y) + "px";
-  }, { passive: true });
+  /* the element that directly holds visible text */
+  function textHolders() {
+    var out = [], seen = new Set();
+    var walk = document.createTreeWalker(document.getElementById("root") || document.body, NodeFilter.SHOW_TEXT);
+    var n;
+    while ((n = walk.nextNode())) {
+      if (!n.nodeValue.trim()) continue;
+      var el = n.parentElement;
+      if (!el || seen.has(el) || el.closest("[data-fi]")) continue;
+      // letters split for animation: label the whole word/line, not each letter
+      var flip = el.closest(".rn-flip");
+      if (flip) el = flip.parentElement.closest("span[aria-label]") || flip.parentElement;
+      if (seen.has(el)) continue;
+      seen.add(el);
+      out.push(el);
+    }
+    return out;
+  }
+
+  var layer = document.createElement("div");
+  layer.setAttribute("data-fi", "");
+  layer.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:10000";
+  var badge = document.createElement("div");
+  badge.setAttribute("data-fi", "");
+  badge.textContent = "מצב בדיקת פונטים";
+  badge.style.cssText = "position:fixed;z-index:10001;left:10px;bottom:10px;background:#a56332;color:#fff;font:13px system-ui,sans-serif;padding:6px 12px;border-radius:20px;pointer-events:none";
+  document.body.appendChild(layer);
+  document.body.appendChild(badge);
+
+  var labels = new Map();
+  function labelFor(el) {
+    var l = labels.get(el);
+    if (!l) {
+      l = document.createElement("span");
+      l.style.cssText = "position:absolute;background:#042a2b;color:#e0e0cf;font:600 10px/1.4 system-ui,sans-serif;padding:1px 5px;border-radius:3px;white-space:nowrap;direction:ltr;box-shadow:0 1px 4px rgba(0,0,0,.25)";
+      layer.appendChild(l);
+      labels.set(el, l);
+    }
+    return l;
+  }
+
+  var raf = 0, holders = [];
+  function paint() {
+    raf = 0;
+    var vh = layer.getBoundingClientRect().height || innerHeight;
+    holders.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      var l = labels.get(el);
+      var visible = r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < vh;
+      var cs = visible && getComputedStyle(el);
+      if (!visible || cs.visibility === "hidden" || parseFloat(cs.opacity) === 0) { if (l) l.style.display = "none"; return; }
+      l = labelFor(el);
+      l.textContent = fontName(cs) + " · " + Math.round(parseFloat(cs.fontSize)) + "px" + level(el);
+      l.style.display = "block";
+      // right edge of the text (Hebrew starts on the right), just above its first line
+      var lw = l.offsetWidth;
+      l.style.left = Math.max(2, Math.min(r.right - lw, layer.clientWidth - lw - 2)) + "px";
+      l.style.top = Math.max(2, r.top - 15) + "px";
+    });
+  }
+  function req() { if (!raf) raf = requestAnimationFrame(paint); }
+  function scan() { holders = textHolders(); req(); }
+
+  setTimeout(scan, 600);
+  setTimeout(scan, 2500); // after the entrance animations
+  setInterval(scan, 4000); // pages that change (filters, form sent)
+  addEventListener("scroll", req, { passive: true });
+  addEventListener("resize", req);
 })();
