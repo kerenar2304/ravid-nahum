@@ -53,7 +53,7 @@
     var l = labels.get(el);
     if (!l) {
       l = document.createElement("span");
-      l.style.cssText = "position:absolute;background:#042a2b;color:#e0e0cf;font:600 10px/1.4 system-ui,sans-serif;padding:1px 5px;border-radius:3px;white-space:nowrap;direction:ltr;box-shadow:0 1px 4px rgba(0,0,0,.25)";
+      l.style.cssText = "position:absolute;left:0;top:0;will-change:transform;background:#042a2b;color:#e0e0cf;font:600 10px/1.4 system-ui,sans-serif;padding:1px 5px;border-radius:3px;white-space:nowrap;direction:ltr;box-shadow:0 1px 4px rgba(0,0,0,.25)";
       layer.appendChild(l);
       labels.set(el, l);
     }
@@ -61,30 +61,37 @@
   }
 
   var raf = 0, holders = [];
+  // labels are written once per scan; scrolling only moves them (read all rects first, then write) so the page stays smooth
+  function scan() {
+    holders = textHolders();
+    holders.forEach(function (el) {
+      var cs = getComputedStyle(el);
+      var l = labelFor(el);
+      l.textContent = fontName(cs) + " · " + Math.round(parseFloat(cs.fontSize)) + "px" + level(el);
+      l.dataset.hide = cs.visibility === "hidden" || parseFloat(cs.opacity) === 0 ? "1" : "";
+      l.style.display = "block";
+      l.dataset.w = String(l.offsetWidth);
+    });
+    req();
+  }
   function paint() {
     raf = 0;
-    var vh = layer.getBoundingClientRect().height || innerHeight;
-    holders.forEach(function (el) {
-      var r = el.getBoundingClientRect();
-      var l = labels.get(el);
-      var visible = r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < vh;
-      var cs = visible && getComputedStyle(el);
-      if (!visible || cs.visibility === "hidden" || parseFloat(cs.opacity) === 0) { if (l) l.style.display = "none"; return; }
-      l = labelFor(el);
-      l.textContent = fontName(cs) + " · " + Math.round(parseFloat(cs.fontSize)) + "px" + level(el);
-      l.style.display = "block";
-      // right edge of the text (Hebrew starts on the right), just above its first line
-      var lw = l.offsetWidth;
-      l.style.left = Math.max(2, Math.min(r.right - lw, layer.clientWidth - lw - 2)) + "px";
-      l.style.top = Math.max(2, r.top - 15) + "px";
+    var vh = innerHeight * 2, vw = layer.clientWidth;
+    var rects = holders.map(function (el) { return el.getBoundingClientRect(); });
+    holders.forEach(function (el, i) {
+      var r = rects[i], l = labels.get(el);
+      if (!l) return;
+      var on = !l.dataset.hide && r.width > 0 && r.bottom > 0 && r.top < vh;
+      l.style.display = on ? "block" : "none";
+      if (!on) return;
+      var lw = +l.dataset.w || 120;
+      l.style.transform = "translate(" + Math.max(2, Math.min(r.right - lw, vw - lw - 2)) + "px," + Math.max(2, r.top - 15) + "px)";
     });
   }
   function req() { if (!raf) raf = requestAnimationFrame(paint); }
-  function scan() { holders = textHolders(); req(); }
 
   setTimeout(scan, 600);
   setTimeout(scan, 2500); // after the entrance animations
-  setInterval(scan, 4000); // pages that change (filters, form sent)
   addEventListener("scroll", req, { passive: true });
   addEventListener("resize", req);
 })();
