@@ -34,7 +34,7 @@ cat <<'HEAD'
 <script>
 tailwind.config = { theme: { extend: {
   colors: { petrol: "hsl(var(--petrol) / <alpha-value>)", terra: "hsl(var(--terra) / <alpha-value>)", stone: "hsl(var(--stone) / <alpha-value>)" },
-  fontFamily: { arfilit: ['"Num"', '"Leon Product"', "system-ui", "sans-serif"] }
+  fontFamily: { arfilit: ['"Num"', '"Arfilit"', "system-ui", "sans-serif"] }
 } } };
 </script>
 <style>

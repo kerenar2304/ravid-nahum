@@ -10,7 +10,7 @@
 <script>
 tailwind.config = { theme: { extend: {
   colors: { petrol: "hsl(var(--petrol) / <alpha-value>)", terra: "hsl(var(--terra) / <alpha-value>)", stone: "hsl(var(--stone) / <alpha-value>)" },
-  fontFamily: { arfilit: ['"Num"', '"Leon Product"', "system-ui", "sans-serif"] }
+  fontFamily: { arfilit: ['"Num"', '"Arfilit"', "system-ui", "sans-serif"] }
 } } };
 </script>
 <style>
@@ -18,18 +18,10 @@ tailwind.config = { theme: { extend: {
 
 /* Ravid Nahum — brand fonts */
 @font-face { font-family: "Num"; src: url("public/fonts/montserrat-latin-400-normal.woff2") format("woff2"); unicode-range: U+0030-0039; font-display: swap; }
-/* Arfilit (headings and the header) */
+@font-face { font-family: "Arfilit"; src: url("public/fonts/Arfilit-ExtraLight.otf") format("opentype"); font-weight: 200; font-display: swap; }
 @font-face { font-family: "Arfilit"; src: url("public/fonts/Arfilit-Light.otf") format("opentype"); font-weight: 300; font-display: swap; }
 @font-face { font-family: "Arfilit"; src: url("public/fonts/Arfilit-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
 @font-face { font-family: "Arfilit"; src: url("public/fonts/Arfilit-SemiBold.otf") format("opentype"); font-weight: 600; font-display: swap; }
-/* Leon (a few chosen lines): light → Thin, regular → Regular, semibold → Bold */
-@font-face { font-family: "Leon"; src: url("public/fonts/Leon-Thin.otf") format("opentype"); font-weight: 300; font-display: swap; }
-@font-face { font-family: "Leon"; src: url("public/fonts/Leon-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Leon"; src: url("public/fonts/Leon-Bold.otf") format("opentype"); font-weight: 600; font-display: swap; }
-/* Leon Product (running text): light and regular → Regular (readable at small sizes), semibold → Bold */
-@font-face { font-family: "Leon Product"; src: url("public/fonts/Leon-ProductRegular.otf") format("opentype"); font-weight: 300; font-display: swap; }
-@font-face { font-family: "Leon Product"; src: url("public/fonts/Leon-ProductRegular.otf") format("opentype"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Leon Product"; src: url("public/fonts/Leon-ProductBold.otf") format("opentype"); font-weight: 600; font-display: swap; }
 
 :root {
   /* brand tokens (HSL) */
@@ -45,7 +37,7 @@ body {
   margin: 0;
   background: #e0e0cf;
   color: #042a2b;
-  font-family: "Num", "Leon Product", system-ui, sans-serif;
+  font-family: "Num", "Arfilit", system-ui, sans-serif;
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -254,10 +246,6 @@ body {
   82%  { transform: translateY(6px); opacity: 1; }
   100% { transform: translateY(0); opacity: 1; }
 }
-
-/* headings and the header stay in Arfilit; running text is Leon Product */
-.t-1, .t-2, .rn-header, .rn-arf { font-family: "Num", "Arfilit", system-ui, sans-serif; }
-.rn-leon.rn-leon { font-family: "Num", "Leon", system-ui, sans-serif; }
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
@@ -782,7 +770,7 @@ function ProjectCard({ p, className, delay = 0 }: { p: Project; className?: stri
           <span className="relative mt-[2.6cqh] block flex-1 overflow-hidden rounded-t-full">
             <img src={p.exterior} alt={`${p.name}, מבט מבחוץ`} loading="lazy" className="rn-card-arch absolute inset-0 h-full w-full object-cover" />
           </span>
-          <span className="mt-[3cqh] rn-arf block text-center t-3 font-normal leading-[1.15]">{p.name}</span>
+          <span className="mt-[3cqh] block text-center t-3 font-normal leading-[1.15]">{p.name}</span>
           <span className="mx-auto mt-[1.6cqh] block max-w-[92%] text-center t-4 leading-[1.5] opacity-85">{p.text}</span>
         </span>
       </span>
@@ -948,7 +936,7 @@ function Statement() {
       <p
         data-reveal
         style={d(300)}
-        className="rn-arf t-3 mt-8 text-center font-light leading-[1.6] text-petrol lg:absolute lg:left-[163.5px] lg:top-[276px] lg:mt-0 lg:w-[998px] lg:whitespace-nowrap lg:leading-[43px]"
+        className="t-3 mt-8 text-center font-light leading-[1.6] text-petrol lg:absolute lg:left-[163.5px] lg:top-[276px] lg:mt-0 lg:w-[998px] lg:whitespace-nowrap lg:leading-[43px]"
       >
         כדי שכל חלל ייבנה בשפה אחת, בלי פער בין התוכנית לבין החיים שבתוכו.
       </p>
@@ -994,7 +982,7 @@ function Projects() {
 
         <p
           data-reveal
-          className="rn-leon t-2 order-last mt-16 px-[6vw] font-light leading-[1.2] text-stone lg:absolute lg:left-[calc(50%-576.5px)] lg:top-[1855px] lg:order-none lg:mt-0 lg:w-[602px] lg:px-0 lg:text-left lg:leading-[48px]"
+          className="t-2 order-last mt-16 px-[6vw] font-light leading-[1.2] text-stone lg:absolute lg:left-[calc(50%-576.5px)] lg:top-[1855px] lg:order-none lg:mt-0 lg:w-[602px] lg:px-0 lg:text-left lg:leading-[48px]"
         >
           מהמגרש ועד ידית הדלת, כל החלטה בבית עוברת דרך אותו שולחן.
         </p>
@@ -1245,7 +1233,7 @@ function Partners() {
           {/* Dafna — right side, text leans toward the centre */}
           <div data-reveal className="text-right lg:absolute lg:left-[941px] lg:top-[195px] lg:w-[321px]">
             <p className="t-2 whitespace-nowrap font-semibold leading-[1.1] lg:h-[56px] lg:leading-[48px]">דפנה רביד</p>
-            <p className="rn-arf t-3s mt-1 font-light leading-[1.35] lg:mt-0 lg:leading-[48px]">אדריכלית,<br className="hidden lg:block" /> שותפה מייסדת</p>
+            <p className="t-3s mt-1 font-light leading-[1.35] lg:mt-0 lg:leading-[48px]">אדריכלית,<br className="hidden lg:block" /> שותפה מייסדת</p>
             <p data-reveal style={d(200)} className="t-3s mt-4 font-light leading-[1.7] lg:absolute lg:font-normal lg:top-[384px] lg:mt-0 lg:w-[321px] lg:leading-[1.75]">
               <Year>2004</Year>
               <span className="block">יסדה את המשרד ומתכננת כל בית מבחוץ פנימה: מהמגרש, דרך הקירות, ועד החלון.</span>
@@ -1254,7 +1242,7 @@ function Partners() {
           {/* Omer — left side */}
           <div data-reveal style={d(120)} className="border-t border-stone/30 pt-9 text-right lg:absolute lg:left-[63px] lg:top-[195px] lg:w-[323px] lg:border-0 lg:pt-0">
             <p className="t-2 whitespace-nowrap font-semibold leading-[1.1] lg:h-[56px] lg:leading-[48px]">עומר נחום</p>
-            <p className="rn-arf t-3s mt-1 font-light leading-[1.35] lg:mt-0 lg:leading-[48px]">מעצב פנים,<br className="hidden lg:block" /> שותף</p>
+            <p className="t-3s mt-1 font-light leading-[1.35] lg:mt-0 lg:leading-[48px]">מעצב פנים,<br className="hidden lg:block" /> שותף</p>
             <p data-reveal style={d(320)} className="t-3s mt-4 font-light leading-[1.7] lg:absolute lg:font-normal lg:right-0 lg:top-[384px] lg:mt-0 lg:w-[321px] lg:leading-[1.75]">
               <Year>2016</Year>
               <span className="block">שותף במשרד ומעצב כל בית מבפנים החוצה: מהחומרים, דרך התאורה, ועד הידית.</span>
@@ -1627,12 +1615,12 @@ function StudioPage() {
           <div className="relative mt-[clamp(32px,5vw,64px)] grid grid-cols-[1fr_auto_1fr] items-start gap-x-[3vw] sm:items-end">
             <div data-reveal className="justify-self-end pt-[9vw] text-right sm:pb-[clamp(24px,4vw,56px)] sm:pt-0">
               <p className="t-3 font-semibold">דפנה רביד</p>
-              <p className="rn-arf t-4 font-light">אדריכלית, שותפה מייסדת</p>
+              <p className="t-4 font-light">אדריכלית, שותפה מייסדת</p>
             </div>
             <div data-reveal className="w-[46vw] sm:w-[clamp(240px,40vw,460px)]"><img src="public/assets/partners.webp" alt="דפנה רביד ועומר נחום, השותפים במשרד" loading="lazy" className="block w-full -scale-x-100" /></div>
             <div data-reveal style={{ ["--d" as string]: "120ms" }} className="justify-self-start pt-[9vw] text-right sm:pb-[clamp(24px,4vw,56px)] sm:pt-0">
               <p className="t-3 font-semibold">עומר נחום</p>
-              <p className="rn-arf t-4 font-light">מעצב פנים, שותף</p>
+              <p className="t-4 font-light">מעצב פנים, שותף</p>
             </div>
           </div>
         </section>

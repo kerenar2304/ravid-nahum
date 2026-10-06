@@ -107,7 +107,7 @@ function Statement() {
       <p
         data-reveal
         style={d(300)}
-        className="rn-arf t-3 mt-8 text-center font-light leading-[1.6] text-petrol lg:absolute lg:left-[163.5px] lg:top-[276px] lg:mt-0 lg:w-[998px] lg:whitespace-nowrap lg:leading-[43px]"
+        className="t-3 mt-8 text-center font-light leading-[1.6] text-petrol lg:absolute lg:left-[163.5px] lg:top-[276px] lg:mt-0 lg:w-[998px] lg:whitespace-nowrap lg:leading-[43px]"
       >
         כדי שכל חלל ייבנה בשפה אחת, בלי פער בין התוכנית לבין החיים שבתוכו.
       </p>
@@ -153,7 +153,7 @@ function Projects() {
 
         <p
           data-reveal
-          className="rn-leon t-2 order-last mt-16 px-[6vw] font-light leading-[1.2] text-stone lg:absolute lg:left-[calc(50%-576.5px)] lg:top-[1855px] lg:order-none lg:mt-0 lg:w-[602px] lg:px-0 lg:text-left lg:leading-[48px]"
+          className="t-2 order-last mt-16 px-[6vw] font-light leading-[1.2] text-stone lg:absolute lg:left-[calc(50%-576.5px)] lg:top-[1855px] lg:order-none lg:mt-0 lg:w-[602px] lg:px-0 lg:text-left lg:leading-[48px]"
         >
           מהמגרש ועד ידית הדלת, כל החלטה בבית עוברת דרך אותו שולחן.
         </p>
@@ -404,7 +404,7 @@ function Partners() {
           {/* Dafna — right side, text leans toward the centre */}
           <div data-reveal className="text-right lg:absolute lg:left-[941px] lg:top-[195px] lg:w-[321px]">
             <p className="t-2 whitespace-nowrap font-semibold leading-[1.1] lg:h-[56px] lg:leading-[48px]">דפנה רביד</p>
-            <p className="rn-arf t-3s mt-1 font-light leading-[1.35] lg:mt-0 lg:leading-[48px]">אדריכלית,<br className="hidden lg:block" /> שותפה מייסדת</p>
+            <p className="t-3s mt-1 font-light leading-[1.35] lg:mt-0 lg:leading-[48px]">אדריכלית,<br className="hidden lg:block" /> שותפה מייסדת</p>
             <p data-reveal style={d(200)} className="t-3s mt-4 font-light leading-[1.7] lg:absolute lg:font-normal lg:top-[384px] lg:mt-0 lg:w-[321px] lg:leading-[1.75]">
               <Year>2004</Year>
               <span className="block">יסדה את המשרד ומתכננת כל בית מבחוץ פנימה: מהמגרש, דרך הקירות, ועד החלון.</span>
@@ -413,7 +413,7 @@ function Partners() {
           {/* Omer — left side */}
           <div data-reveal style={d(120)} className="border-t border-stone/30 pt-9 text-right lg:absolute lg:left-[63px] lg:top-[195px] lg:w-[323px] lg:border-0 lg:pt-0">
             <p className="t-2 whitespace-nowrap font-semibold leading-[1.1] lg:h-[56px] lg:leading-[48px]">עומר נחום</p>
-            <p className="rn-arf t-3s mt-1 font-light leading-[1.35] lg:mt-0 lg:leading-[48px]">מעצב פנים,<br className="hidden lg:block" /> שותף</p>
+            <p className="t-3s mt-1 font-light leading-[1.35] lg:mt-0 lg:leading-[48px]">מעצב פנים,<br className="hidden lg:block" /> שותף</p>
             <p data-reveal style={d(320)} className="t-3s mt-4 font-light leading-[1.7] lg:absolute lg:font-normal lg:right-0 lg:top-[384px] lg:mt-0 lg:w-[321px] lg:leading-[1.75]">
               <Year>2016</Year>
               <span className="block">שותף במשרד ומעצב כל בית מבפנים החוצה: מהחומרים, דרך התאורה, ועד הידית.</span>

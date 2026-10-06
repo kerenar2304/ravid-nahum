@@ -6,6 +6,6 @@ export const ravidNahumTheme = {
     stone: "hsl(var(--stone) / <alpha-value>)",   // #e0e0cf
   },
   fontFamily: {
-    arfilit: ['"Num"', '"Leon Product"', "system-ui", "sans-serif"],
+    arfilit: ['"Num"', '"Arfilit"', "system-ui", "sans-serif"],
   },
 };

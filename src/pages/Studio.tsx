@@ -142,12 +142,12 @@ export default function StudioPage() {
           <div className="relative mt-[clamp(32px,5vw,64px)] grid grid-cols-[1fr_auto_1fr] items-start gap-x-[3vw] sm:items-end">
             <div data-reveal className="justify-self-end pt-[9vw] text-right sm:pb-[clamp(24px,4vw,56px)] sm:pt-0">
               <p className="t-3 font-semibold">דפנה רביד</p>
-              <p className="rn-arf t-4 font-light">אדריכלית, שותפה מייסדת</p>
+              <p className="t-4 font-light">אדריכלית, שותפה מייסדת</p>
             </div>
             <div data-reveal className="w-[46vw] sm:w-[clamp(240px,40vw,460px)]"><img src="/assets/partners.webp" alt="דפנה רביד ועומר נחום, השותפים במשרד" loading="lazy" className="block w-full -scale-x-100" /></div>
             <div data-reveal style={{ ["--d" as string]: "120ms" }} className="justify-self-start pt-[9vw] text-right sm:pb-[clamp(24px,4vw,56px)] sm:pt-0">
               <p className="t-3 font-semibold">עומר נחום</p>
-              <p className="rn-arf t-4 font-light">מעצב פנים, שותף</p>
+              <p className="t-4 font-light">מעצב פנים, שותף</p>
             </div>
           </div>
         </section>
