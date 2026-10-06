@@ -202,3 +202,14 @@
   82%  { transform: translateY(6px); opacity: 1; }
   100% { transform: translateY(0); opacity: 1; }
 }
+
+/* footer credit: the designer's logo painted in the site's light colour */
+.rn-credit-logo {
+  aspect-ratio: 638 / 180;
+  -webkit-mask: url("/assets/keren-logo.png") center / contain no-repeat;
+          mask: url("/assets/keren-logo.png") center / contain no-repeat;
+}
+
+/* 404: the words arrive once the pieces have landed */
+.rn-404-text { opacity: 0; animation: rn-fade-up 1s var(--ease) 2.1s both; }
+@media (prefers-reduced-motion: reduce) { .rn-404-text { animation: none; opacity: 1; } }

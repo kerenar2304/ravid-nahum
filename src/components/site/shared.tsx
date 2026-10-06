@@ -11,7 +11,7 @@ export const ROUTES = {
   projects: "/projects",
   studio: "/studio",
   about: "/studio",
-  contact: "/#contact",
+  contact: "/contact",
   accessibility: "/accessibility",
   privacy: "/privacy",
   terms: "/terms",
@@ -322,9 +322,9 @@ export function Footer({ flush = false }: { flush?: boolean }) {
         <div data-reveal="rule" className="h-[2px] w-full bg-stone" aria-hidden="true" />
         <div className="t-4 mt-6 flex flex-col items-center gap-4 text-center lg:flex-row lg:items-center lg:justify-between lg:text-right">
           <p>כל הזכויות שמורות © {new Date().getFullYear()} רביד נחום אדריכלות ועיצוב פנים</p>
-          <a href="https://www.instagram.com/keren.arlihman" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 opacity-90 hover:opacity-100">
+          <a href="https://kerenarlih.co.il/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 opacity-90 transition-opacity hover:opacity-100">
             <span>עיצוב ופיתוח האתר:</span>
-            <img src="/assets/keren-logo.png" alt="Keren Arlihman — Graphic Designer" className="h-[34px] w-auto lg:h-[38px]" />
+            <span role="img" aria-label="Keren Arlihman — Graphic Designer" className="rn-credit-logo block h-[34px] bg-stone lg:h-[38px]" />
           </a>
         </div>
       </div>
@@ -358,6 +358,27 @@ function loaderWanted() {
   }
 }
 
+/* the four pieces landing into a 4×4 block of the logo mark (loader and 404) */
+export function TetrisMark({ className, delay = 120 }: { className?: string; delay?: number }) {
+  const size = 4 * STEP - GAP;
+  return (
+    <svg viewBox={`0 0 ${size} ${size}`} className={cn("overflow-visible", className)} shapeRendering="geometricPrecision" aria-hidden="true">
+      <defs>
+        <symbol id="rn-mark" viewBox="135.3 133.5 429.4 433">
+          <path d={MARK_D} fill="#e0e0cf" />
+        </symbol>
+      </defs>
+      {PIECES.map((cells, i) => (
+        <g key={i} className="rn-piece" style={{ animationDelay: `${delay + i * 480}ms` }}>
+          {cells.map(([r, c]) => (
+            <use key={`${r}-${c}`} href="#rn-mark" x={c * STEP} y={r * STEP} width={CELL} height={CELL} />
+          ))}
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 export function Loader() {
   const [state, setState] = useState<"on" | "leaving" | "off">(() => (loaderWanted() ? "on" : "off"));
   useEffect(() => {
@@ -376,26 +397,12 @@ export function Loader() {
     return () => window.clearTimeout(t);
   }, [state]);
   if (state === "off") return null;
-  const size = 4 * STEP - GAP;
   return (
     <div
       aria-hidden="true"
       className={cn("fixed inset-0 z-[100] flex items-center justify-center bg-[#0c2e2e] transition-opacity duration-700", state === "leaving" && "pointer-events-none opacity-0")}
     >
-      <svg viewBox={`0 0 ${size} ${size}`} className="h-[clamp(150px,26vmin,260px)] w-auto overflow-visible" shapeRendering="geometricPrecision">
-        <defs>
-          <symbol id="rn-mark" viewBox="135.3 133.5 429.4 433">
-            <path d={MARK_D} fill="#e0e0cf" />
-          </symbol>
-        </defs>
-        {PIECES.map((cells, i) => (
-          <g key={i} className="rn-piece" style={{ animationDelay: `${120 + i * 480}ms` }}>
-            {cells.map(([r, c]) => (
-              <use key={`${r}-${c}`} href="#rn-mark" x={c * STEP} y={r * STEP} width={CELL} height={CELL} />
-            ))}
-          </g>
-        ))}
-      </svg>
+      <TetrisMark className="h-[clamp(150px,26vmin,260px)] w-auto" />
     </div>
   );
 }

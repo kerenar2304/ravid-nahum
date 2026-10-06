@@ -5,11 +5,12 @@ cd "$(dirname "$0")"
 
 bundle() {
   # all modules in one scope: imports dropped, exports unwrapped, routes mapped to the static files
-  cat src/components/site/shared.tsx src/components/site/projects-data.tsx src/components/site/contact.tsx src/pages/Index.tsx src/pages/Projects.tsx src/pages/Studio.tsx src/pages/Project.tsx |
+  cat src/components/site/shared.tsx src/components/site/projects-data.tsx src/components/site/contact.tsx src/pages/Index.tsx src/pages/Projects.tsx src/pages/Studio.tsx src/pages/Project.tsx src/pages/ContactPage.tsx src/pages/NotFound.tsx |
     perl -0pe 's/^import[^;]*;\n//mg; s/^export default function (\w+)/function $1/mg; s/^export //mg' |
     sed -e 's#"/assets/#"public/assets/#g' \
         -e 's#projects: "/projects"#projects: "projects.html"#' \
         -e 's#home: "/"#home: "./"#' \
+        -e 's#contact: "/contact"#contact: "contact.html"#' \
         -e 's#: "/studio"#: "studio.html"#g' \
         -e 's#"/projects/" + slug#"project.html?slug=" + slug#' \
         -e 's#: "/\#\([a-z]*\)"#: "./\#\1"#g'
@@ -76,4 +77,8 @@ build preview.html Index
 build projects.html ProjectsPage
 build studio.html StudioPage
 build project.html ProjectPage
+build contact.html ContactPage
+build 404.html NotFound
+# GitHub Pages serves 404.html for any missing path, so its links must resolve from the site root
+sed -i 's#<head>#<head>\n<base href="/ravid-nahum/" />#' 404.html
 cp preview.html index.html   # GitHub Pages entry point

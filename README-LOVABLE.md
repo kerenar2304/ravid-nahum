@@ -4,6 +4,8 @@
 - `src/pages/Projects.tsx` — עמוד הפרויקטים (נתיב `/projects`): קשת, סינון לפי סוג, גריד כרטיסים
 - `src/pages/Studio.tsx` — עמוד הסטודיו (נתיב `/studio`): מניפסט, מספרים, השותפים, איך אנחנו עובדים, הצוות. רשימת הצוות (`TEAM`) היא דמה להחלפה
 - `src/pages/Project.tsx` — עמוד פרויקט (נתיב `/projects/:slug`): חוץ, חלון קשת שנפתח פנימה, פנים, הפרויקט הבא. הפרויקט נבחר לפי הכתובת (`currentProject`); ב-react-router אפשר להחליף ל-`useParams`
+- `src/pages/ContactPage.tsx` — עמוד צור קשר (נתיב `/contact`): כותרת עם הקו, שורת מסר, שורת פרטים (טלפון, וואטסאפ, מייל, הסטודיו) והטופס
+- `src/pages/NotFound.tsx` — עמוד 404 (נתיב `*`): הטטריס של הלוגו נבנה, שורה קצרה וכפתור חזרה לדף הבית
 - `src/components/site/projects-data.tsx` — נתוני הפרויקטים וכרטיס הפרויקט, משותפים לדף הבית ולעמוד הפרויקטים
 - `src/pages/Index.tsx` — דף הבית (React + Tailwind)
 - `src/components/site/shared.tsx` — הדר, פוטר, אייקונים, פרטי קשר (`CONTACT`), נתיבים (`ROUTES`) ו-hooks לאפקטים

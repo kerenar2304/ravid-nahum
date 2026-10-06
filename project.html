@@ -246,6 +246,17 @@ body {
   82%  { transform: translateY(6px); opacity: 1; }
   100% { transform: translateY(0); opacity: 1; }
 }
+
+/* footer credit: the designer's logo painted in the site's light colour */
+.rn-credit-logo {
+  aspect-ratio: 638 / 180;
+  -webkit-mask: url("public/assets/keren-logo.png") center / contain no-repeat;
+          mask: url("public/assets/keren-logo.png") center / contain no-repeat;
+}
+
+/* 404: the words arrive once the pieces have landed */
+.rn-404-text { opacity: 0; animation: rn-fade-up 1s var(--ease) 2.1s both; }
+@media (prefers-reduced-motion: reduce) { .rn-404-text { animation: none; opacity: 1; } }
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
@@ -267,7 +278,7 @@ const ROUTES = {
   projects: "projects.html",
   studio: "studio.html",
   about: "studio.html",
-  contact: "./#contact",
+  contact: "contact.html",
   accessibility: "/accessibility",
   privacy: "/privacy",
   terms: "/terms",
@@ -578,9 +589,9 @@ function Footer({ flush = false }: { flush?: boolean }) {
         <div data-reveal="rule" className="h-[2px] w-full bg-stone" aria-hidden="true" />
         <div className="t-4 mt-6 flex flex-col items-center gap-4 text-center lg:flex-row lg:items-center lg:justify-between lg:text-right">
           <p>כל הזכויות שמורות © {new Date().getFullYear()} רביד נחום אדריכלות ועיצוב פנים</p>
-          <a href="https://www.instagram.com/keren.arlihman" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 opacity-90 hover:opacity-100">
+          <a href="https://kerenarlih.co.il/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 opacity-90 transition-opacity hover:opacity-100">
             <span>עיצוב ופיתוח האתר:</span>
-            <img src="public/assets/keren-logo.png" alt="Keren Arlihman — Graphic Designer" className="h-[34px] w-auto lg:h-[38px]" />
+            <span role="img" aria-label="Keren Arlihman — Graphic Designer" className="rn-credit-logo block h-[34px] bg-stone lg:h-[38px]" />
           </a>
         </div>
       </div>
@@ -614,6 +625,27 @@ function loaderWanted() {
   }
 }
 
+/* the four pieces landing into a 4×4 block of the logo mark (loader and 404) */
+function TetrisMark({ className, delay = 120 }: { className?: string; delay?: number }) {
+  const size = 4 * STEP - GAP;
+  return (
+    <svg viewBox={`0 0 ${size} ${size}`} className={cn("overflow-visible", className)} shapeRendering="geometricPrecision" aria-hidden="true">
+      <defs>
+        <symbol id="rn-mark" viewBox="135.3 133.5 429.4 433">
+          <path d={MARK_D} fill="#e0e0cf" />
+        </symbol>
+      </defs>
+      {PIECES.map((cells, i) => (
+        <g key={i} className="rn-piece" style={{ animationDelay: `${delay + i * 480}ms` }}>
+          {cells.map(([r, c]) => (
+            <use key={`${r}-${c}`} href="#rn-mark" x={c * STEP} y={r * STEP} width={CELL} height={CELL} />
+          ))}
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 function Loader() {
   const [state, setState] = useState<"on" | "leaving" | "off">(() => (loaderWanted() ? "on" : "off"));
   useEffect(() => {
@@ -632,26 +664,12 @@ function Loader() {
     return () => window.clearTimeout(t);
   }, [state]);
   if (state === "off") return null;
-  const size = 4 * STEP - GAP;
   return (
     <div
       aria-hidden="true"
       className={cn("fixed inset-0 z-[100] flex items-center justify-center bg-[#0c2e2e] transition-opacity duration-700", state === "leaving" && "pointer-events-none opacity-0")}
     >
-      <svg viewBox={`0 0 ${size} ${size}`} className="h-[clamp(150px,26vmin,260px)] w-auto overflow-visible" shapeRendering="geometricPrecision">
-        <defs>
-          <symbol id="rn-mark" viewBox="135.3 133.5 429.4 433">
-            <path d={MARK_D} fill="#e0e0cf" />
-          </symbol>
-        </defs>
-        {PIECES.map((cells, i) => (
-          <g key={i} className="rn-piece" style={{ animationDelay: `${120 + i * 480}ms` }}>
-            {cells.map(([r, c]) => (
-              <use key={`${r}-${c}`} href="#rn-mark" x={c * STEP} y={r * STEP} width={CELL} height={CELL} />
-            ))}
-          </g>
-        ))}
-      </svg>
+      <TetrisMark className="h-[clamp(150px,26vmin,260px)] w-auto" />
     </div>
   );
 }
@@ -1780,6 +1798,89 @@ function ProjectPage() {
         <div className="pb-[clamp(40px,6vw,80px)]"><Contact /></div>
       </main>
       <Footer />
+    </div>
+  );
+}
+
+/* ===============================================================
+   Ravid Nahum — Contact
+   A headline that carries the line, one sentence, the details in an
+   even row between rules, then the same form as the home page.
+   =============================================================== */
+
+const DETAILS = [
+  { label: "טלפון", value: CONTACT.phone, href: CONTACT.phoneHref, Icon: LinePhone, ltr: true },
+  { label: "וואטסאפ", value: "שלחו הודעה", href: CONTACT.whatsappHref, Icon: LineWhatsapp, external: true },
+  { label: "מייל", value: CONTACT.email, href: `mailto:${CONTACT.email}`, Icon: MailIcon, ltr: true },
+  { label: "הסטודיו", value: CONTACT.address, href: CONTACT.mapsHref, Icon: PinIcon, external: true },
+];
+
+function ContactPage() {
+  useReveal();
+  return (
+    <div dir="rtl" lang="he" className="min-h-screen bg-stone font-arfilit text-petrol">
+      <Loader />
+      <Header active="contact" />
+      <main id="main">
+        {/* headline with the line, like the home page */}
+        <section className="mx-auto px-[6vw] pb-[clamp(40px,6vw,80px)] pt-[clamp(48px,9vw,120px)] lg:w-[1325px] lg:px-[99px]">
+          <h1 data-reveal="flip" className="t-1 font-light">
+            <span className="flex items-center gap-[3vw] lg:gap-[40px]">
+              <FlipText text="כל בית" className="block whitespace-nowrap" />
+              <span data-reveal="rule" aria-hidden="true" className="mt-[.12em] block h-[2px] flex-1 bg-petrol lg:h-[3px]" style={{ ["--d" as string]: "500ms" }} />
+            </span>
+            <FlipText text="מתחיל בשיחה" delay={160} className="block" />
+          </h1>
+          <p data-reveal style={{ ["--d" as string]: "200ms" }} className="t-3 mt-8 max-w-[560px] font-light text-petrol/80">
+            מגרש ריק, בית ישן או חלל שמבקש שינוי. ספרו לנו מה יש לכם, ואנחנו נחזור עם הקו הראשון.
+          </p>
+        </section>
+
+        {/* the details, one even row between two lines */}
+        <section aria-label="פרטי התקשרות" className="border-y-[3px] border-petrol">
+          <ul className="mx-auto grid grid-cols-2 lg:w-[1325px] lg:grid-cols-4">
+            {DETAILS.map(({ label, value, href, Icon, ltr, external }, i) => (
+              <li key={label} className={i % 2 === 0 ? "border-l border-petrol/20" : i === 1 ? "lg:border-l lg:border-petrol/20" : ""}>
+                <a
+                  href={href}
+                  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  className={"group flex h-full flex-col items-center gap-2 py-[clamp(24px,4vw,48px)] text-center transition-colors hover:bg-petrol hover:text-stone " + (i < 2 ? "border-b border-petrol/20 lg:border-b-0" : "")}
+                >
+                  <Icon className="h-[26px] w-[26px] text-terra transition-colors group-hover:text-stone" />
+                  <span className="t-4 text-petrol/60 transition-colors group-hover:text-stone/70">{label}</span>
+                  <span className="t-4" dir={ltr ? "ltr" : undefined}>{value}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <div className="pb-[clamp(40px,6vw,80px)]"><Contact /></div>
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+/* ===============================================================
+   Ravid Nahum — 404
+   The tetris of the logo mark lands, a short line, and the way home.
+   =============================================================== */
+
+function NotFound() {
+  useFluidScale();
+  return (
+    <div dir="rtl" lang="he" className="fixed inset-0 flex flex-col items-center overflow-auto justify-center gap-[clamp(28px,5vh,48px)] bg-[#0c2e2e] px-[6vw] text-center font-arfilit text-stone">
+      <TetrisMark className="h-[clamp(140px,24vmin,240px)] w-auto" />
+      <div className="rn-404-text">
+        <p className="t-4 font-['Num'] tracking-[.3em] text-stone/60" dir="ltr">404</p>
+        <h1 className="t-2 mt-3 font-light">החלק הזה עוד לא נבנה</h1>
+        <p className="t-4 mt-3 text-stone/70">העמוד שחיפשתם לא נמצא, אבל הבית עומד במקומו.</p>
+      </div>
+      <a href={ROUTES.home} className="rn-404-text group t-4 inline-flex items-center gap-3 border border-stone px-8 py-3 transition-colors hover:bg-stone hover:text-petrol">
+        חזרה לדף הבית
+        <ArrowIcon className="h-[1.2em] w-[1.2em] -rotate-45 transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1" />
+      </a>
     </div>
   );
 }
