@@ -1,13 +1,13 @@
 import { useRef } from "react";
 import { ArrowIcon, FlipText, Footer, Header, ROUTES, clamp01, cn, easeOut, reducedMotion, useReveal, useScrollFrame, viewport } from "@/components/site/shared";
-import { PROJECTS, projectHref, type Project } from "@/components/site/projects-data";
+import { PROJECTS, projectHref, shots, type Project } from "@/components/site/projects-data";
 import { Contact } from "@/components/site/contact";
 
 /* ===============================================================
    Ravid Nahum — a single project
    The story runs from outside to inside: the exterior first,
    then an arched window opens in the facade onto the interior.
-   (Until more photos arrive, each image is reused with a different crop.)
+
    =============================================================== */
 
 /* which project: /projects/<slug> in the app, ?slug=<slug> in the static preview */
@@ -32,6 +32,7 @@ function Shot({ src, alt, pos = "50% 50%", className }: { src: string; alt: stri
 
 /* the threshold: an arched window opens in the exterior and grows until the interior fills the screen */
 function Threshold({ p }: { p: Project }) {
+  const s = shots(p.slug);
   const wrapRef = useRef<HTMLDivElement>(null);
   const winRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLParagraphElement>(null);
@@ -51,10 +52,10 @@ function Threshold({ p }: { p: Project }) {
   return (
     <section ref={wrapRef} aria-label="מבחוץ פנימה" className="relative" style={{ height: "calc(230vh / var(--z))" }}>
       <div className="sticky top-0 overflow-hidden" style={{ height: "calc(100vh / var(--z))" }}>
-        <img src={p.exterior} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "50% 40%" }} />
+        <img src={s.extHero} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
         <span aria-hidden="true" className="absolute inset-0 bg-petrol/35" />
         <div ref={winRef} className="absolute inset-0" style={{ clipPath: "inset(40% 33% 10% 33% round 200px 200px 0 0)" }}>
-          <img src={p.interior} alt={`${p.name}, מבט מבפנים`} className="absolute inset-0 h-full w-full object-cover" />
+          <img src={s.intHero} alt={`${p.name}, מבט מבפנים`} className="absolute inset-0 h-full w-full object-cover" />
         </div>
         <p ref={labelRef} className="t-2 absolute inset-x-0 top-[14%] text-center font-light text-stone">מבחוץ פנימה</p>
       </div>
@@ -67,6 +68,7 @@ export default function ProjectPage() {
   const p = currentProject();
   const [type, place] = p.meta.split(" · ");
   const next = PROJECTS[(PROJECTS.indexOf(p) + 1) % PROJECTS.length];
+  const s = shots(p.slug);
 
   return (
     <div dir="rtl" lang="he" className="min-h-screen bg-stone font-arfilit text-petrol">
@@ -74,7 +76,7 @@ export default function ProjectPage() {
       <main id="main">
         {/* the exterior, full screen, with the name */}
         <section className="relative overflow-hidden" style={{ height: "calc(88vh / var(--z))" }}>
-          <img src={p.exterior} alt={`${p.name}, מבט מבחוץ`} fetchPriority="high" className="rn-fade-up absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "50% 45%" }} />
+          <img src={s.extHero} alt={`${p.name}, מבט מבחוץ`} fetchPriority="high" className="rn-fade-up absolute inset-0 h-full w-full object-cover" />
           <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-petrol/75 via-petrol/10 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 mx-auto px-[6vw] pb-[clamp(32px,5vw,64px)] text-stone lg:w-[1325px] lg:px-[99px]">
             <a href={ROUTES.projects} className="t-4 rn-link text-stone/80">כל הפרויקטים</a>
@@ -101,9 +103,9 @@ export default function ProjectPage() {
         <section aria-labelledby="out-h" className="mx-auto px-[4vw] lg:w-[1325px] lg:px-[73px]">
           <h2 id="out-h" data-reveal="flip" className="t-2 mb-[clamp(24px,4vw,48px)] font-light"><FlipText text="מבחוץ" /></h2>
           <div className="grid grid-cols-2 gap-[clamp(10px,2vw,24px)]">
-            <Shot src={p.exterior} alt={`${p.name}, החזית`} pos="50% 50%" className="col-span-2 aspect-[16/9]" />
-            <Shot src={p.exterior} alt={`${p.name}, פרט מהחזית`} pos="20% 60%" className="aspect-[4/5]" />
-            <Shot src={p.exterior} alt={`${p.name}, פרט מהגינה`} pos="85% 80%" className="mt-[18%] aspect-[4/5]" />
+            <Shot src={s.extHero} alt={`${p.name}, החזית`} className="col-span-2 aspect-[16/9]" />
+            <Shot src={s.ext1} alt={`${p.name}, פרט מהחזית`} className="aspect-[4/5]" />
+            <Shot src={s.ext2} alt={`${p.name}, פרט מבחוץ`} className="mt-[18%] aspect-[4/5]" />
           </div>
         </section>
 
@@ -114,9 +116,9 @@ export default function ProjectPage() {
         <section aria-labelledby="in-h" className="mx-auto px-[4vw] pt-[clamp(64px,10vw,140px)] lg:w-[1325px] lg:px-[73px]">
           <h2 id="in-h" data-reveal="flip" className="t-2 mb-[clamp(24px,4vw,48px)] font-light"><FlipText text="מבפנים" /></h2>
           <div className="grid grid-cols-2 gap-[clamp(10px,2vw,24px)]">
-            <Shot src={p.interior} alt={`${p.name}, החלל המרכזי`} pos="50% 50%" className="aspect-[4/5]" />
-            <Shot src={p.interior} alt={`${p.name}, פרט מהחלל`} pos="80% 40%" className="mt-[18%] aspect-[4/5]" />
-            <Shot src={p.interior} alt={`${p.name}, מבט כללי`} pos="30% 60%" className="col-span-2 aspect-[16/9]" />
+            <Shot src={s.int1} alt={`${p.name}, פרט מבפנים`} className="aspect-[4/5]" />
+            <Shot src={s.int2} alt={`${p.name}, פרט נוסף מבפנים`} className="mt-[18%] aspect-[4/5]" />
+            <Shot src={s.intWide} alt={`${p.name}, מבט כללי`} className="col-span-2 aspect-[16/9]" />
           </div>
         </section>
 
@@ -129,7 +131,7 @@ export default function ProjectPage() {
             </span>
             <span className="flex items-center gap-[clamp(16px,3vw,40px)]">
               <span className="relative block aspect-[4/3] w-[clamp(96px,16vw,220px)] overflow-hidden rounded-t-full">
-                <img src={next.exterior} alt="" aria-hidden="true" loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] [transition-timing-function:var(--ease)] group-hover:scale-[1.06]" />
+                <img src={shots(next.slug).extHero} alt="" aria-hidden="true" loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] [transition-timing-function:var(--ease)] group-hover:scale-[1.06]" />
               </span>
               <ArrowIcon className="h-[clamp(24px,3vw,40px)] w-[clamp(24px,3vw,40px)] transition-transform duration-500 group-hover:-translate-x-2" />
             </span>

@@ -4,6 +4,12 @@ import { ROUTES, cn } from "@/components/site/shared";
 /* Projects: data + the "poster" card shared by the home page and the projects page */
 export type Project = { slug: string; name: string; meta: string; text: string; exterior: string; interior: string; kind: "private" | "apartment" | "commercial"; year: string };
 
+/* the seven photos of each project page (public/assets/p-<slug>-<role>.webp) */
+export const shots = (slug: string) => {
+  const f = (role: string) => "/assets/p-" + slug + "-" + role + ".webp";
+  return { extHero: f("exthero"), ext1: f("ext1"), ext2: f("ext2"), intHero: f("inthero"), int1: f("int1"), int2: f("int2"), intWide: f("intwide") };
+};
+
 /* one page per project */
 export const projectHref = (slug: string) => "/projects/" + slug;
 
