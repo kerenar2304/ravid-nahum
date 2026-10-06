@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowIcon, FlipText, Footer, Header, ROUTES, cn, useReveal } from "@/components/site/shared";
+import { ArrowIcon, FlipText, Footer, Header, Loader, ROUTES, cn, useReveal } from "@/components/site/shared";
 import { PROJECTS, ProjectCard, type Project } from "@/components/site/projects-data";
 
 /* ===============================================================
@@ -23,6 +23,7 @@ export default function ProjectsPage() {
 
   return (
     <div dir="rtl" lang="he" className="min-h-screen bg-stone font-arfilit text-petrol">
+      <Loader />
       <Header active="projects" />
       <main id="main">
         {/* the arch, then the grid on terracotta */}

@@ -344,8 +344,22 @@ const PIECES: [number, number][][] = [
 ];
 const CELL = 100, GAP = 10, STEP = CELL + GAP; // in viewBox units
 
+/* plays when the site is entered or reloaded, not when moving between its pages */
+function loaderWanted() {
+  if (reducedMotion()) return false;
+  try {
+    const nav = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
+    const reload = nav?.type === "reload";
+    const seen = sessionStorage.getItem("rn-entered") === "1";
+    sessionStorage.setItem("rn-entered", "1");
+    return reload || !seen;
+  } catch {
+    return true;
+  }
+}
+
 export function Loader() {
-  const [state, setState] = useState<"on" | "leaving" | "off">(() => (reducedMotion() ? "off" : "on"));
+  const [state, setState] = useState<"on" | "leaving" | "off">(() => (loaderWanted() ? "on" : "off"));
   useEffect(() => {
     if (state === "off") { document.documentElement.classList.remove("is-loading"); return; }
     if (state !== "on") return;

@@ -26,7 +26,7 @@ cat <<'HEAD'
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 HEAD
-[ "$ROOT" = "Index" ] && echo '<script>(function(){if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("is-loading")})()</script>'
+echo '<script>(function(){if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("is-loading")})()</script>'
 cat <<'HEAD'
 <script>(function(){var r=document.documentElement,w=r.clientWidth||innerWidth,D=1325,z=w<1024?1:w<=D?w/D:Math.min(1.6,1+(w/D-1)*0.6);if(z!==1)r.style.zoom=z.toFixed(4);r.style.setProperty("--z",z.toFixed(4))})()</script>
 <title>רביד נחום | אדריכלות ועיצוב פנים</title>

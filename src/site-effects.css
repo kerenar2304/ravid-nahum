@@ -204,4 +204,5 @@
 }
 
 /* headings and the header stay in Arfilit; running text is Leon Product */
-.t-1, .t-2, .rn-header { font-family: "Num", "Arfilit", system-ui, sans-serif; }
+.t-1, .t-2, .rn-header, .rn-arf { font-family: "Num", "Arfilit", system-ui, sans-serif; }
+.rn-leon.rn-leon { font-family: "Num", "Leon", system-ui, sans-serif; }

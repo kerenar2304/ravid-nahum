@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { FlipText, Footer, Header, cn, reducedMotion, useReveal } from "@/components/site/shared";
+import { FlipText, Footer, Header, Loader, cn, reducedMotion, useReveal } from "@/components/site/shared";
 import { Contact } from "@/components/site/contact";
 
 /* ===============================================================
@@ -112,6 +112,7 @@ export default function StudioPage() {
   useReveal();
   return (
     <div dir="rtl" lang="he" className="min-h-screen bg-stone font-arfilit text-petrol">
+      <Loader />
       <Header active="studio" />
       <main id="main">
         {/* title */}
@@ -141,12 +142,12 @@ export default function StudioPage() {
           <div className="relative mt-[clamp(32px,5vw,64px)] grid grid-cols-[1fr_auto_1fr] items-start gap-x-[3vw] sm:items-end">
             <div data-reveal className="justify-self-end pt-[9vw] text-right sm:pb-[clamp(24px,4vw,56px)] sm:pt-0">
               <p className="t-3 font-semibold">דפנה רביד</p>
-              <p className="t-4 font-light">אדריכלית, שותפה מייסדת</p>
+              <p className="rn-arf t-4 font-light">אדריכלית, שותפה מייסדת</p>
             </div>
             <div data-reveal className="w-[46vw] sm:w-[clamp(240px,40vw,460px)]"><img src="/assets/partners.webp" alt="דפנה רביד ועומר נחום, השותפים במשרד" loading="lazy" className="block w-full -scale-x-100" /></div>
             <div data-reveal style={{ ["--d" as string]: "120ms" }} className="justify-self-start pt-[9vw] text-right sm:pb-[clamp(24px,4vw,56px)] sm:pt-0">
               <p className="t-3 font-semibold">עומר נחום</p>
-              <p className="t-4 font-light">מעצב פנים, שותף</p>
+              <p className="rn-arf t-4 font-light">מעצב פנים, שותף</p>
             </div>
           </div>
         </section>

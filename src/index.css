@@ -10,6 +10,10 @@
 @font-face { font-family: "Arfilit"; src: url("/fonts/Arfilit-Light.otf") format("opentype"); font-weight: 300; font-display: swap; }
 @font-face { font-family: "Arfilit"; src: url("/fonts/Arfilit-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
 @font-face { font-family: "Arfilit"; src: url("/fonts/Arfilit-SemiBold.otf") format("opentype"); font-weight: 600; font-display: swap; }
+/* Leon (a few chosen lines): light → Thin, regular → Regular, semibold → Bold */
+@font-face { font-family: "Leon"; src: url("/fonts/Leon-Thin.otf") format("opentype"); font-weight: 300; font-display: swap; }
+@font-face { font-family: "Leon"; src: url("/fonts/Leon-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Leon"; src: url("/fonts/Leon-Bold.otf") format("opentype"); font-weight: 600; font-display: swap; }
 /* Leon Product (running text): light and regular → Regular (readable at small sizes), semibold → Bold */
 @font-face { font-family: "Leon Product"; src: url("/fonts/Leon-ProductRegular.otf") format("opentype"); font-weight: 300; font-display: swap; }
 @font-face { font-family: "Leon Product"; src: url("/fonts/Leon-ProductRegular.otf") format("opentype"); font-weight: 400; font-display: swap; }

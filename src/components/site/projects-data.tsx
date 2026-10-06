@@ -87,7 +87,7 @@ export function ProjectCard({ p, className, delay = 0 }: { p: Project; className
           <span className="relative mt-[2.6cqh] block flex-1 overflow-hidden rounded-t-full">
             <img src={p.exterior} alt={`${p.name}, מבט מבחוץ`} loading="lazy" className="rn-card-arch absolute inset-0 h-full w-full object-cover" />
           </span>
-          <span className="mt-[3cqh] block text-center t-3 font-normal leading-[1.15]">{p.name}</span>
+          <span className="mt-[3cqh] rn-arf block text-center t-3 font-normal leading-[1.15]">{p.name}</span>
           <span className="mx-auto mt-[1.6cqh] block max-w-[92%] text-center t-4 leading-[1.5] opacity-85">{p.text}</span>
         </span>
       </span>

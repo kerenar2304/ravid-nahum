@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ArrowIcon, FlipText, Footer, Header, ROUTES, clamp01, cn, easeOut, reducedMotion, useReveal, useScrollFrame, viewport } from "@/components/site/shared";
+import { ArrowIcon, FlipText, Footer, Header, Loader, ROUTES, clamp01, cn, easeOut, reducedMotion, useReveal, useScrollFrame, viewport } from "@/components/site/shared";
 import { PROJECTS, projectHref, shots, type Project } from "@/components/site/projects-data";
 import { Contact } from "@/components/site/contact";
 
@@ -72,6 +72,7 @@ export default function ProjectPage() {
 
   return (
     <div dir="rtl" lang="he" className="min-h-screen bg-stone font-arfilit text-petrol">
+      <Loader />
       <Header active="projects" />
       <main id="main">
         {/* the exterior, full screen, with the name */}
