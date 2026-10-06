@@ -10,7 +10,7 @@
 <script>
 tailwind.config = { theme: { extend: {
   colors: { petrol: "hsl(var(--petrol) / <alpha-value>)", terra: "hsl(var(--terra) / <alpha-value>)", stone: "hsl(var(--stone) / <alpha-value>)" },
-  fontFamily: { arfilit: ['"Num"', '"Arfilit"', "system-ui", "sans-serif"] }
+  fontFamily: { arfilit: ['"Num"', '"Leon Product"', "system-ui", "sans-serif"] }
 } } };
 </script>
 <style>
@@ -18,10 +18,14 @@ tailwind.config = { theme: { extend: {
 
 /* Ravid Nahum — brand fonts */
 @font-face { font-family: "Num"; src: url("public/fonts/montserrat-latin-400-normal.woff2") format("woff2"); unicode-range: U+0030-0039; font-display: swap; }
-@font-face { font-family: "Arfilit"; src: url("public/fonts/Arfilit-ExtraLight.otf") format("opentype"); font-weight: 200; font-display: swap; }
-@font-face { font-family: "Arfilit"; src: url("public/fonts/Arfilit-Light.otf") format("opentype"); font-weight: 300; font-display: swap; }
-@font-face { font-family: "Arfilit"; src: url("public/fonts/Arfilit-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Arfilit"; src: url("public/fonts/Arfilit-SemiBold.otf") format("opentype"); font-weight: 600; font-display: swap; }
+/* Leon (headings, t-1 and t-2): light → Thin, regular → Regular, semibold → Bold */
+@font-face { font-family: "Leon"; src: url("public/fonts/Leon-Thin.otf") format("opentype"); font-weight: 300; font-display: swap; }
+@font-face { font-family: "Leon"; src: url("public/fonts/Leon-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Leon"; src: url("public/fonts/Leon-Bold.otf") format("opentype"); font-weight: 600; font-display: swap; }
+/* Leon Product (running text): light and regular → Regular (readable at small sizes), semibold → Bold */
+@font-face { font-family: "Leon Product"; src: url("public/fonts/Leon-ProductRegular.otf") format("opentype"); font-weight: 300; font-display: swap; }
+@font-face { font-family: "Leon Product"; src: url("public/fonts/Leon-ProductRegular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Leon Product"; src: url("public/fonts/Leon-ProductBold.otf") format("opentype"); font-weight: 600; font-display: swap; }
 
 :root {
   /* brand tokens (HSL) */
@@ -37,7 +41,7 @@ body {
   margin: 0;
   background: #e0e0cf;
   color: #042a2b;
-  font-family: "Num", "Arfilit", system-ui, sans-serif;
+  font-family: "Num", "Leon Product", system-ui, sans-serif;
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -246,6 +250,9 @@ body {
   82%  { transform: translateY(6px); opacity: 1; }
   100% { transform: translateY(0); opacity: 1; }
 }
+
+/* headings in Leon, running text in Leon Product */
+.t-1, .t-2 { font-family: "Num", "Leon", system-ui, sans-serif; }
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>

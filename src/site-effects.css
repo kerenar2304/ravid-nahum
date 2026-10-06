@@ -202,3 +202,6 @@
   82%  { transform: translateY(6px); opacity: 1; }
   100% { transform: translateY(0); opacity: 1; }
 }
+
+/* headings in Leon, running text in Leon Product */
+.t-1, .t-2 { font-family: "Num", "Leon", system-ui, sans-serif; }
