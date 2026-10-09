@@ -1022,12 +1022,7 @@ function Projects() {
           aria-label="לכל הפרויקטים" className="rn-circle relative order-last mx-6 mt-8 flex self-end lg:self-auto h-[132px] w-[132px] items-center justify-center rounded-full bg-stone text-petrol lg:absolute lg:left-[calc(50%-576.5px)] lg:top-[2191px] lg:order-none lg:mx-0 lg:mt-0 lg:h-[157px] lg:w-[157px]"
         >
           <svg viewBox="0 0 160 160" aria-hidden="true" className="rn-ring absolute inset-0 h-full w-full">
-            {/* one glyph per even step around the circle: identical spacing in every browser */}
-            <g fill="currentColor" fontSize="14" textAnchor="middle" style={LTR_SVG_TEXT}>
-              {[...RING_TEXT].map((ch, i, all) => (
-                <text key={i} x="80" y="25" transform={`rotate(${(i * 360) / all.length} 80 80)`}>{ch}</text>
-              ))}
-            </g>
+            <RingText text={RING_TEXT} />
           </svg>
           <span className="rn-ring-arrow relative block"><ArrowIcon className="h-[54px] w-[54px] -rotate-45 lg:h-[62px] lg:w-[62px]" strokeWidth={1.1} /></span>
         </a>
@@ -1291,7 +1286,7 @@ function Partners() {
           <img src="public/assets/partners.webp" alt="דפנה רביד ועומר נחום, השותפים במשרד" loading="lazy" className="block h-full w-full -scale-x-100 object-cover" />
         </div>
         <a href={ROUTES.about} className="t-3 rn-tab group relative z-10 order-last mx-auto mt-14 flex lg:order-none h-[clamp(64px,14vw,110px)] w-[94%] items-end justify-center gap-2 whitespace-nowrap rounded-t-[clamp(64px,14vw,110px)] bg-stone pb-[12px] text-petrol lg:absolute lg:bottom-0 lg:left-[calc(50%-320.5px)] lg:mt-0 lg:h-[80px] lg:w-[641px] lg:rounded-t-[80px] lg:pb-[8px]">
-          <span className="rn-link">לקריאה נוספת על הסטודיו</span>
+          <span className="rn-link"><span className="lg:hidden">על הסטודיו</span><span className="hidden lg:inline">לקריאה נוספת על הסטודיו</span></span>
           <span className="block transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1"><ArrowIcon className="h-[1.2em] w-[1.2em] -rotate-45" /></span>
         </a>
       </div>
@@ -1323,6 +1318,34 @@ function CoveredLayer({ children }: { children: ReactNode }) {
 const ARCH_TEXT = "בתים שנבנו בשפה אחת · מבחוץ פנימה · ומבפנים החוצה";
 const ARCH_TEXT_SHORT = "מבחוץ פנימה · ומבפנים החוצה";
 const RING_TEXT = visualRtl("לכל הפרויקטים · לכל הפרויקטים · ");
+
+// Letters placed one by one around the circle, each advanced by its real width and the
+// leftover length shared evenly: natural spacing, and no textPath for Safari to misdraw.
+function RingText({ text, size = 16.5, r = 56 }: { text: string; size?: number; r?: number }) {
+  const ref = useRef<SVGGElement>(null);
+  const chars = [...text];
+  const [angles, setAngles] = useState(() => chars.map((_, i) => (i * 360) / chars.length));
+  useEffect(() => {
+    const measure = () => {
+      const ctx = document.createElement("canvas").getContext("2d");
+      if (!ctx || !ref.current) return;
+      ctx.font = `${size}px ${getComputedStyle(ref.current).fontFamily}`;
+      const w = chars.map((c) => ctx.measureText(c).width);
+      const gap = (2 * Math.PI * r - w.reduce((a, b) => a + b, 0)) / chars.length;
+      let run = 0;
+      setAngles(w.map((cw) => { const mid = run + cw / 2; run += cw + gap; return (mid / (2 * Math.PI * r)) * 360; }));
+    };
+    measure();
+    document.fonts?.ready.then(measure);
+  }, [text, size, r]);
+  return (
+    <g ref={ref} fill="currentColor" fontSize={size} textAnchor="middle" style={LTR_SVG_TEXT}>
+      {chars.map((ch, i) => (
+        <text key={i} x="80" y={80 - r} transform={`rotate(${angles[i]} 80 80)`}>{ch}</text>
+      ))}
+    </g>
+  );
+}
 
 function TerraArch() {
   const ref = useRef<HTMLDivElement>(null);
