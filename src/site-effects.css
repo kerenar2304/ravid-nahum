@@ -155,6 +155,7 @@
 .t-3s { font-size: clamp(15px, calc(15px + 6 * (100vw - 390px) / 634), 21px); line-height: 1.6; }  /* lead that steps down to body on phones */
 /* headline lines that must never touch the screen edge between phone and desktop */
 @media (min-width: 640px) and (max-width: 1023px) { .t-1.rn-fit { font-size: min(68px, 8.4vw); } }
+@media (max-width: 1023px) { .t-1.rn-fit-line { font-size: min(clamp(46px, calc(46px + 22 * (100vw - 390px) / 634), 68px), 10.4vw); } }  /* keeps a no-wrap display line inside a phone */
 @media (min-width: 1024px) {
   .t-1 { font-size: 90px; } .t-2 { font-size: 56px; } .t-3 { font-size: 24px; } .t-4 { font-size: 17px; } .t-3s { font-size: 24px; }
 }

@@ -169,10 +169,12 @@ function Projects() {
           aria-label="לכל הפרויקטים" className="rn-circle relative order-last mx-6 mt-8 flex self-end lg:self-auto h-[132px] w-[132px] items-center justify-center rounded-full bg-stone text-petrol lg:absolute lg:left-[calc(50%-576.5px)] lg:top-[2191px] lg:order-none lg:mx-0 lg:mt-0 lg:h-[157px] lg:w-[157px]"
         >
           <svg viewBox="0 0 160 160" aria-hidden="true" className="rn-ring absolute inset-0 h-full w-full">
-            <path id="ring-path" d="M 20 80 A 60 60 0 1 1 140 80 A 60 60 0 1 1 20 80" fill="none" />
-            <text fill="currentColor" fontSize="14" letterSpacing="1" style={LTR_SVG_TEXT}>
-              <textPath href="#ring-path" startOffset="50%" textAnchor="middle" textLength="360" lengthAdjust="spacing">{visualRtl("לכל הפרויקטים · לכל הפרויקטים ·")}</textPath>
-            </text>
+            {/* one glyph per even step around the circle: identical spacing in every browser */}
+            <g fill="currentColor" fontSize="14" textAnchor="middle" style={LTR_SVG_TEXT}>
+              {[...RING_TEXT].map((ch, i, all) => (
+                <text key={i} x="80" y="25" transform={`rotate(${(i * 360) / all.length} 80 80)`}>{ch}</text>
+              ))}
+            </g>
           </svg>
           <span className="rn-ring-arrow relative block"><ArrowIcon className="h-[54px] w-[54px] -rotate-45 lg:h-[62px] lg:w-[62px]" strokeWidth={1.1} /></span>
         </a>
@@ -308,8 +310,8 @@ function Stages() {
       <div ref={wrapRef} className="relative" style={{ height: `calc(100vh / var(--z) * ${1 + STAGES.length * 0.4})` }}>
         <div ref={stickRef} className="sticky top-0 flex flex-col justify-center overflow-hidden" style={{ height: "calc(100vh / var(--z))" }}>
           <div className="mx-auto w-full px-[6vw] lg:w-[1325px] lg:px-[99px]">
-            <h2 id="stages-title" data-reveal="flip" className="t-1 font-light leading-[1.05] lg:leading-[80px]">
-              <FlipText text="ארבעה שלבים," className="block" />{" "}
+            <h2 id="stages-title" data-reveal="flip" className="t-1 rn-fit-line font-light leading-[1.05] lg:leading-[80px]">
+              <FlipText text="ארבעה שלבים," className="block whitespace-nowrap" />{" "}
               <FlipText text="משרד אחד" delay={140} className="block" />
             </h2>
           </div>
@@ -467,6 +469,7 @@ function CoveredLayer({ children }: { children: ReactNode }) {
 /* ------------------------------------------------- TERRA (arch wrapper) */
 const ARCH_TEXT = "בתים שנבנו בשפה אחת · מבחוץ פנימה · ומבפנים החוצה";
 const ARCH_TEXT_SHORT = "מבחוץ פנימה · ומבפנים החוצה";
+const RING_TEXT = visualRtl("לכל הפרויקטים · לכל הפרויקטים · ");
 
 function TerraArch() {
   const ref = useRef<HTMLDivElement>(null);
