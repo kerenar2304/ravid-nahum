@@ -28,7 +28,7 @@ export default function ProjectsPage() {
       <main id="main">
         {/* the arch, then the grid on terracotta */}
         <section aria-label="רשימת הפרויקטים" className="relative">
-          <div className="relative mt-[clamp(24px,5vw,64px)] flex min-h-[clamp(320px,50vw,662px)] w-full flex-col items-center justify-end rounded-t-[50%_100%] bg-terra px-[6vw] pb-[4%] text-center text-stone">
+          <div className="relative mt-[clamp(24px,5vw,64px)] flex min-h-[clamp(320px,50vw,662px)] w-full flex-col items-center justify-end rounded-t-[50%_clamp(190px,30vw,300px)] bg-terra px-[6vw] pb-[4%] pt-[clamp(150px,22vw,220px)] lg:rounded-t-[50%_100%] lg:pt-0 text-center text-stone">
             <p data-reveal className="t-4 tracking-[.25em] text-stone/80">תיק עבודות</p>
             <h1 data-reveal="flip" className="t-1 mt-3 font-light">
               <FlipText text="פרויקטים" className="block" />

@@ -107,6 +107,10 @@ export function useReveal(deps: unknown[] = []) {
 }
 
 export const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+// Safari ignores RTL on SVG <textPath>, so curved Hebrew is stored in visual order
+// and drawn left-to-right with bidi-override: the same result in every browser.
+export const visualRtl = (s: string) => [...s].reverse().join("");
+export const LTR_SVG_TEXT = { direction: "ltr", unicodeBidi: "bidi-override" } as const;
 export const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 
 /* ---------- icons ---------- */

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode, type CSSProperties, type FormEvent, type MouseEvent } from "react";
 import {
   ArrowIcon, CONTACT, FlipText, Footer, Header, Loader, MailIcon, PhoneIcon, PinIcon, ROUTES,
-  clamp01, cn, easeOut, reducedMotion, useReveal, useScrollFrame, viewport,
+  LTR_SVG_TEXT, clamp01, cn, easeOut, reducedMotion, useReveal, useScrollFrame, viewport, visualRtl,
 } from "@/components/site/shared";
 import { PROJECTS, ProjectCard } from "@/components/site/projects-data";
 import { Contact } from "@/components/site/contact";
@@ -170,8 +170,8 @@ function Projects() {
         >
           <svg viewBox="0 0 160 160" aria-hidden="true" className="rn-ring absolute inset-0 h-full w-full">
             <path id="ring-path" d="M 20 80 A 60 60 0 1 1 140 80 A 60 60 0 1 1 20 80" fill="none" />
-            <text fill="currentColor" fontSize="14" direction="rtl" letterSpacing="1">
-              <textPath href="#ring-path" startOffset="50%" textAnchor="middle" textLength="360" lengthAdjust="spacing">לכל הפרויקטים · לכל הפרויקטים ·</textPath>
+            <text fill="currentColor" fontSize="14" letterSpacing="1" style={LTR_SVG_TEXT}>
+              <textPath href="#ring-path" startOffset="50%" textAnchor="middle" textLength="360" lengthAdjust="spacing">{visualRtl("לכל הפרויקטים · לכל הפרויקטים ·")}</textPath>
             </text>
           </svg>
           <span className="rn-ring-arrow relative block"><ArrowIcon className="h-[54px] w-[54px] -rotate-45 lg:h-[62px] lg:w-[62px]" strokeWidth={1.1} /></span>
@@ -501,7 +501,7 @@ function TerraArch() {
       text.style.opacity = String(clamp01(p * 1.6));
       // never longer than the rim: shorter phrase on narrow screens, then shrink to fit
       const tp = text.firstElementChild as SVGTextPathElement | null;
-      const phrase = W < 640 ? ARCH_TEXT_SHORT : ARCH_TEXT;
+      const phrase = visualRtl(W < 640 ? ARCH_TEXT_SHORT : ARCH_TEXT);
       if (tp && tp.textContent !== phrase) tp.textContent = phrase;
       const room = path.getTotalLength() * 0.92, used = text.getComputedTextLength();
       if (used > room && used > 0) text.style.fontSize = `${fs * room / used}px`;
@@ -528,8 +528,8 @@ function TerraArch() {
     <div ref={ref} className="relative z-10 mt-[55vh] bg-terra lg:mt-[calc(153px+38vh/var(--z))]" style={{ clipPath: "inset(0 round 50vw 50vw 0 0)" }}>
       <svg ref={svgRef} aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 w-full overflow-visible">
         <path ref={pathRef} id="arch-text-path" fill="none" />
-        <text ref={textRef} fill="#e0e0cf" className="font-light" direction="rtl">
-          <textPath href="#arch-text-path" startOffset="50%" textAnchor="middle">{ARCH_TEXT}</textPath>
+        <text ref={textRef} fill="#e0e0cf" className="font-light" style={LTR_SVG_TEXT}>
+          <textPath href="#arch-text-path" startOffset="50%" textAnchor="middle">{visualRtl(ARCH_TEXT)}</textPath>
         </text>
       </svg>
       <Projects />
